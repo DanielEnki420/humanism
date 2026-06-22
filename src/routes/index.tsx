@@ -308,3 +308,58 @@ function Index() {
     </div>
   );
 }
+
+type Principle = (typeof principles)[number];
+
+function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) {
+  const [open, setOpen] = useState(false);
+  const panelId = `principle-${title.replace(/\s+/g, "-").toLowerCase()}`;
+  return (
+    <article className="group relative bg-card p-8 transition-colors hover:bg-card/70">
+      <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
+        <Icon className="h-5 w-5" strokeWidth={1.5} />
+      </div>
+      <h3 className="font-serif text-xl font-medium">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
+
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-primary transition-opacity hover:opacity-70"
+      >
+        <span>{open ? "Weniger anzeigen" : "Mehr erfahren"}</span>
+        <Plus
+          className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+          strokeWidth={2}
+        />
+      </button>
+
+      <div
+        id={panelId}
+        className={`grid transition-all duration-300 ease-out ${
+          open ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <ul className="space-y-2 border-l border-primary/20 pl-4 text-sm text-foreground/80">
+            {points.map((pt) => (
+              <li key={pt} className="leading-relaxed">
+                {pt}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-5 rounded-lg bg-secondary/60 p-4">
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+              Beispiel
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">
+              {example}
+            </p>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
