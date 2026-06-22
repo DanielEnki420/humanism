@@ -153,25 +153,95 @@ function SourceNote({ label, text }: { label: string; text: string }) {
   );
 }
 
+// Sektions-IDs in Nav-Reihenfolge – auch für den Scroll-Spy.
+const NAV_SECTION_IDS = [
+  "was-ist",
+  "prinzipien",
+  "wissenschaft",
+  "geschichte",
+  "daten",
+  "faq",
+] as const;
+
+/** Setzt/aktualisiert ein <meta name>-Tag im <head>. */
+function setMetaTag(name: string, content: string) {
+  let el = document.head.querySelector(`meta[name="${name}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("name", name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+/** Pflegt hreflang-Alternates + Canonical zur Laufzeit (domain-unabhängig über origin). */
+function updateAlternateLinks(lang: Lang) {
+  const base = window.location.origin + window.location.pathname;
+  const href = (l: Lang) => (l === "de" ? base : `${base}?lang=${l}`);
+  document.head.querySelectorAll("link[data-i18n]").forEach((n) => n.remove());
+  const add = (rel: string, linkHref: string, hreflang?: string) => {
+    const l = document.createElement("link");
+    l.setAttribute("rel", rel);
+    if (hreflang) l.setAttribute("hreflang", hreflang);
+    l.setAttribute("href", linkHref);
+    l.setAttribute("data-i18n", "");
+    document.head.appendChild(l);
+  };
+  LANGUAGES.forEach((l) => add("alternate", href(l), l));
+  add("alternate", href("de"), "x-default");
+  add("canonical", href(lang));
+}
+
 function Index() {
   const [lang, setLang] = useState<Lang>("de");
   const [dark, setDark] = useState(false);
+  const [activeId, setActiveId] = useState<string>("");
   const t = translations[lang];
 
-  // Gespeicherte Einstellungen nach dem Mount übernehmen (vermeidet Hydration-Mismatch).
+  // Sprache aus ?lang oder localStorage übernehmen (vermeidet Hydration-Mismatch).
   useEffect(() => {
-    const savedLang = (localStorage.getItem("lang") ||
-      document.documentElement.lang) as Lang;
-    if (LANGUAGES.includes(savedLang)) setLang(savedLang);
+    const q = new URLSearchParams(window.location.search).get("lang") as Lang | null;
+    const saved = localStorage.getItem("lang") as Lang | null;
+    const initial =
+      q && LANGUAGES.includes(q)
+        ? q
+        : saved && LANGUAGES.includes(saved)
+          ? saved
+          : "de";
+    if (initial !== "de") setLang(initial);
     setDark(document.documentElement.classList.contains("dark"));
   }, []);
 
-  // Sprache überall synchron halten.
+  // Sprache überall synchron halten: <html lang>, Titel, Description, URL, hreflang/canonical.
   useEffect(() => {
+    const tr = translations[lang];
     document.documentElement.lang = lang;
-    document.title = translations[lang].meta.title;
+    document.title = tr.meta.title;
+    setMetaTag("description", tr.meta.description);
     localStorage.setItem("lang", lang);
+    const url = new URL(window.location.href);
+    if (lang === "de") url.searchParams.delete("lang");
+    else url.searchParams.set("lang", lang);
+    window.history.replaceState(null, "", url);
+    updateAlternateLinks(lang);
   }, [lang]);
+
+  // Scroll-Spy: aktiven Abschnitt für die Navigation bestimmen.
+  useEffect(() => {
+    const els = NAV_SECTION_IDS.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveId(e.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   const toggleTheme = () => {
     setDark((prev) => {
@@ -216,13 +286,28 @@ function Index() {
             <span>Humanitas</span>
           </a>
           <div className="flex items-center gap-4 lg:gap-6">
-            <nav className="hidden gap-7 text-sm text-muted-foreground lg:flex">
-              <a href="#was-ist" className="transition-colors hover:text-foreground">{t.nav.idea}</a>
-              <a href="#prinzipien" className="transition-colors hover:text-foreground">{t.nav.principles}</a>
-              <a href="#wissenschaft" className="transition-colors hover:text-foreground">{t.nav.science}</a>
-              <a href="#geschichte" className="transition-colors hover:text-foreground">{t.nav.history}</a>
-              <a href="#daten" className="transition-colors hover:text-foreground">{t.nav.data}</a>
-              <a href="#faq" className="transition-colors hover:text-foreground">{t.nav.faq}</a>
+            <nav className="hidden gap-7 text-sm lg:flex">
+              {[
+                { id: "was-ist", label: t.nav.idea },
+                { id: "prinzipien", label: t.nav.principles },
+                { id: "wissenschaft", label: t.nav.science },
+                { id: "geschichte", label: t.nav.history },
+                { id: "daten", label: t.nav.data },
+                { id: "faq", label: t.nav.faq },
+              ].map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  aria-current={activeId === item.id ? "true" : undefined}
+                  className={`transition-colors ${
+                    activeId === item.id
+                      ? "font-medium text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              ))}
             </nav>
 
             {/* Sprachumschalter */}
