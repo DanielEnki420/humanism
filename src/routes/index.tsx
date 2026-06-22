@@ -37,31 +37,73 @@ const principles = [
     icon: Brain,
     title: "Kritisches Denken",
     text: "Entscheidungen entstehen durch Logik, Fakten und offene Diskussion.",
+    points: [
+      "Argumente prüfen, statt Autoritäten zu folgen",
+      "Eigene Annahmen hinterfragen",
+      "Widersprüche aushalten und auflösen",
+    ],
+    example:
+      "Bevor eine Behauptung übernommen wird, werden Quellen, Belege und mögliche Gegenargumente geprüft.",
   },
   {
     icon: FlaskConical,
     title: "Wissenschaftliche Erkenntnis",
     text: "Wissen wächst durch Forschung und überprüfbare Beweise.",
+    points: [
+      "Hypothesen testen und revidieren",
+      "Methoden transparent machen",
+      "Konsens als vorläufig verstehen",
+    ],
+    example:
+      "Medizinische Entscheidungen orientieren sich an Studien mit überprüfbaren Ergebnissen, nicht an Tradition.",
   },
   {
     icon: HeartHandshake,
     title: "Menschliche Werte",
     text: "Empathie, Zusammenarbeit und Respekt im Miteinander.",
+    points: [
+      "Andere Perspektiven ernst nehmen",
+      "Konflikte im Dialog lösen",
+      "Vielfalt als Bereicherung erleben",
+    ],
+    example:
+      "In einer Nachbarschaftsinitiative bringen Menschen unterschiedlicher Herkunft ihre Fähigkeiten zusammen.",
   },
   {
     icon: Scale,
     title: "Menschenrechte",
     text: "Würde und Freiheit für alle Menschen – ohne Ausnahme.",
+    points: [
+      "Gleiche Rechte unabhängig von Herkunft",
+      "Schutz von Minderheiten",
+      "Meinungs- und Glaubensfreiheit",
+    ],
+    example:
+      "Die Allgemeine Erklärung der Menschenrechte als gemeinsamer Maßstab für Gesellschaft und Politik.",
   },
   {
     icon: Globe2,
     title: "Verantwortung",
     text: "Gemeinsame Lösungen für globale Herausforderungen.",
+    points: [
+      "Klima und Umwelt schützen",
+      "Solidarität über Grenzen hinweg",
+      "Zukünftige Generationen mitdenken",
+    ],
+    example:
+      "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
   },
   {
     icon: Sparkles,
     title: "Freies Denken",
     text: "Fragen stellen und eigene Überzeugungen entwickeln.",
+    points: [
+      "Neugier als Lebenshaltung",
+      "Sich von guten Argumenten überzeugen lassen",
+      "Meinungen weiterentwickeln dürfen",
+    ],
+    example:
+      "Ein Buchclub, in dem alle frei ihre Sicht teilen und gemeinsam Neues entdecken.",
   },
 ];
 
