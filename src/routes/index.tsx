@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Brain,
   FlaskConical,
@@ -8,6 +9,7 @@ import {
   Sparkles,
   ArrowRight,
   Leaf,
+  Plus,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -35,31 +37,73 @@ const principles = [
     icon: Brain,
     title: "Kritisches Denken",
     text: "Entscheidungen entstehen durch Logik, Fakten und offene Diskussion.",
+    points: [
+      "Argumente prüfen, statt Autoritäten zu folgen",
+      "Eigene Annahmen hinterfragen",
+      "Widersprüche aushalten und auflösen",
+    ],
+    example:
+      "Bevor eine Behauptung übernommen wird, werden Quellen, Belege und mögliche Gegenargumente geprüft.",
   },
   {
     icon: FlaskConical,
     title: "Wissenschaftliche Erkenntnis",
     text: "Wissen wächst durch Forschung und überprüfbare Beweise.",
+    points: [
+      "Hypothesen testen und revidieren",
+      "Methoden transparent machen",
+      "Konsens als vorläufig verstehen",
+    ],
+    example:
+      "Medizinische Entscheidungen orientieren sich an Studien mit überprüfbaren Ergebnissen, nicht an Tradition.",
   },
   {
     icon: HeartHandshake,
     title: "Menschliche Werte",
     text: "Empathie, Zusammenarbeit und Respekt im Miteinander.",
+    points: [
+      "Andere Perspektiven ernst nehmen",
+      "Konflikte im Dialog lösen",
+      "Vielfalt als Bereicherung erleben",
+    ],
+    example:
+      "In einer Nachbarschaftsinitiative bringen Menschen unterschiedlicher Herkunft ihre Fähigkeiten zusammen.",
   },
   {
     icon: Scale,
     title: "Menschenrechte",
     text: "Würde und Freiheit für alle Menschen – ohne Ausnahme.",
+    points: [
+      "Gleiche Rechte unabhängig von Herkunft",
+      "Schutz von Minderheiten",
+      "Meinungs- und Glaubensfreiheit",
+    ],
+    example:
+      "Die Allgemeine Erklärung der Menschenrechte als gemeinsamer Maßstab für Gesellschaft und Politik.",
   },
   {
     icon: Globe2,
     title: "Verantwortung",
     text: "Gemeinsame Lösungen für globale Herausforderungen.",
+    points: [
+      "Klima und Umwelt schützen",
+      "Solidarität über Grenzen hinweg",
+      "Zukünftige Generationen mitdenken",
+    ],
+    example:
+      "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
   },
   {
     icon: Sparkles,
     title: "Freies Denken",
     text: "Fragen stellen und eigene Überzeugungen entwickeln.",
+    points: [
+      "Neugier als Lebenshaltung",
+      "Sich von guten Argumenten überzeugen lassen",
+      "Meinungen weiterentwickeln dürfen",
+    ],
+    example:
+      "Ein Buchclub, in dem alle frei ihre Sicht teilen und gemeinsam Neues entdecken.",
   },
 ];
 
@@ -161,19 +205,8 @@ function Index() {
           </div>
 
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {principles.map(({ icon: Icon, title, text }) => (
-              <article
-                key={title}
-                className="group relative bg-card p-8 transition-colors hover:bg-card/70"
-              >
-                <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </div>
-                <h3 className="font-serif text-xl font-medium">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {text}
-                </p>
-              </article>
+            {principles.map((p) => (
+              <PrincipleCard key={p.title} {...p} />
             ))}
           </div>
         </div>
@@ -273,5 +306,60 @@ function Index() {
         </div>
       </footer>
     </div>
+  );
+}
+
+type Principle = (typeof principles)[number];
+
+function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) {
+  const [open, setOpen] = useState(false);
+  const panelId = `principle-${title.replace(/\s+/g, "-").toLowerCase()}`;
+  return (
+    <article className="group relative bg-card p-8 transition-colors hover:bg-card/70">
+      <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
+        <Icon className="h-5 w-5" strokeWidth={1.5} />
+      </div>
+      <h3 className="font-serif text-xl font-medium">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
+
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-primary transition-opacity hover:opacity-70"
+      >
+        <span>{open ? "Weniger anzeigen" : "Mehr erfahren"}</span>
+        <Plus
+          className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+          strokeWidth={2}
+        />
+      </button>
+
+      <div
+        id={panelId}
+        className={`grid transition-all duration-300 ease-out ${
+          open ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <ul className="space-y-2 border-l border-primary/20 pl-4 text-sm text-foreground/80">
+            {points.map((pt) => (
+              <li key={pt} className="leading-relaxed">
+                {pt}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-5 rounded-lg bg-secondary/60 p-4">
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+              Beispiel
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">
+              {example}
+            </p>
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
