@@ -1,0 +1,12 @@
+{
+  "name": "Humanitas – Säkularer Humanismus",
+  "short_name": "Humanitas",
+  "description": "Eine Einführung in den säkularen Humanismus: Vernunft, Wissenschaft und Mitgefühl.",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ],
+  "theme_color": "#2c4a3a",
+  "background_color": "#f7f3ea",
+  "display": "standalone",
+  "lang": "de"
+}

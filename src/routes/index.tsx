@@ -8,7 +8,6 @@ import {
   Globe2,
   Sparkles,
   ArrowRight,
-  Leaf,
   Plus,
   Moon,
   Sun,
@@ -153,6 +152,18 @@ function SourceNote({ label, text }: { label: string; text: string }) {
   );
 }
 
+/** H-Monogramm – das Markenzeichen (Pendant zur Favicon) im Markengrün. */
+function Monogram() {
+  return (
+    <span
+      aria-hidden
+      className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary font-serif text-base font-medium leading-none text-primary-foreground"
+    >
+      H
+    </span>
+  );
+}
+
 // Sektions-IDs in Nav-Reihenfolge – auch für den Scroll-Spy.
 const NAV_SECTION_IDS = [
   "was-ist",
@@ -282,7 +293,7 @@ function Index() {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2 font-serif text-lg font-semibold">
-            <Leaf className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            <Monogram />
             <span>Humanitas</span>
           </a>
           <div className="flex items-center gap-4 lg:gap-6">
@@ -649,7 +660,7 @@ function Index() {
           <div className="grid gap-12 md:grid-cols-12">
             <div className="md:col-span-6">
               <div className="flex items-center gap-2 font-serif text-lg font-semibold">
-                <Leaf className="h-5 w-5 text-primary" strokeWidth={1.5} />
+                <Monogram />
                 Humanitas
               </div>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
