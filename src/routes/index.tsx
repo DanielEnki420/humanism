@@ -205,19 +205,8 @@ function Index() {
           </div>
 
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {principles.map(({ icon: Icon, title, text }) => (
-              <article
-                key={title}
-                className="group relative bg-card p-8 transition-colors hover:bg-card/70"
-              >
-                <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </div>
-                <h3 className="font-serif text-xl font-medium">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {text}
-                </p>
-              </article>
+            {principles.map((p) => (
+              <PrincipleCard key={p.title} {...p} />
             ))}
           </div>
         </div>
