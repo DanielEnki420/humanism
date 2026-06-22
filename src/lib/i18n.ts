@@ -117,6 +117,7 @@ export type Translation = {
     toggleTheme: string;
     toggleLanguage: string;
     sourceLabel: string;
+    skipToContent: string;
   };
 };
 
@@ -411,14 +412,14 @@ export const translations: Record<Lang, Translation> = {
       heading: "Ein Blick auf die Zahlen",
       intro:
         "Wie viele Menschen verstehen sich als religiös ungebunden? Die Anteile unterscheiden sich stark zwischen Ländern.",
-      chartCaption: "Anteil religiös ungebundener Menschen (gerundete Schätzwerte)",
-      estimateBadge: "Schätzwerte",
+      chartCaption: "Anteil religiös ungebundener Menschen (2020)",
+      estimateBadge: "Stand 2020",
       worldNote:
-        "Weltweit sind rund 1,2 Mrd. Menschen (~16 %) religiös ungebunden. Bemerkenswert: Der globale Anteil dürfte bis 2050 demografiebedingt leicht sinken, während er in Westeuropa und den USA steigt.",
+        "Weltweit sind rund 1,9 Mrd. Menschen (~24 %) religiös ungebunden – nach Christen und Muslimen die drittgrößte Gruppe. Zwischen 2010 und 2020 wuchs der Anteil vor allem durch Konfessionswechsel in Nordamerika (+13 Pp.) und Europa.",
       chartSource:
-        "Quellen: Pew Research Center – „The Global Religious Landscape“ (2010/2012) & Länderdaten; US-Wert „Nones“ ~28–29 % (Pew, 2021/2023). Werte gerundet – vor Veröffentlichung gegen aktuelle Daten prüfen.",
+        "Quelle: Pew Research Center, „How the Global Religious Landscape Changed, 2010–2020“ (Juni 2025). Der China-Wert beruht auf einer neuen Methodik (CGSS 2018) und liegt daher höher als in Pew-Berichten vor 2025.",
       unit: "%",
-      regions: ["Tschechien", "China", "Niederlande", "Deutschland", "USA", "Welt"],
+      regions: ["China", "Tschechien", "Niederlande", "Deutschland", "USA", "Welt"],
     },
     faq: {
       label: "Häufige Fragen",
@@ -501,6 +502,7 @@ export const translations: Record<Lang, Translation> = {
       toggleTheme: "Farbschema wechseln",
       toggleLanguage: "Sprache wählen",
       sourceLabel: "Quelle",
+      skipToContent: "Zum Inhalt springen",
     },
   },
 
@@ -790,14 +792,14 @@ export const translations: Record<Lang, Translation> = {
       heading: "A look at the numbers",
       intro:
         "How many people identify as religiously unaffiliated? The shares vary widely between countries.",
-      chartCaption: "Share of religiously unaffiliated people (rounded estimates)",
-      estimateBadge: "Estimates",
+      chartCaption: "Share of religiously unaffiliated people (2020)",
+      estimateBadge: "As of 2020",
       worldNote:
-        "Worldwide, around 1.2 billion people (~16%) are religiously unaffiliated. Notably, the global share is projected to dip slightly by 2050 for demographic reasons, while it rises in Western Europe and the USA.",
+        "Worldwide, around 1.9 billion people (~24%) are religiously unaffiliated – the third-largest group after Christians and Muslims. Between 2010 and 2020 the share grew mainly through religious switching in North America (+13 pts) and Europe.",
       chartSource:
-        "Sources: Pew Research Center – “The Global Religious Landscape” (2010/2012) & country data; US “nones” ~28–29% (Pew, 2021/2023). Figures rounded – verify against current data before publishing.",
+        "Source: Pew Research Center, “How the Global Religious Landscape Changed, 2010–2020” (June 2025). The figure for China uses a new methodology (CGSS 2018) and is therefore higher than in Pew reports before 2025.",
       unit: "%",
-      regions: ["Czechia", "China", "Netherlands", "Germany", "USA", "World"],
+      regions: ["China", "Czechia", "Netherlands", "Germany", "USA", "World"],
     },
     faq: {
       label: "Frequent Questions",
@@ -880,6 +882,7 @@ export const translations: Record<Lang, Translation> = {
       toggleTheme: "Toggle colour scheme",
       toggleLanguage: "Choose language",
       sourceLabel: "Source",
+      skipToContent: "Skip to content",
     },
   },
 
@@ -1169,14 +1172,14 @@ export const translations: Record<Lang, Translation> = {
       heading: "Uno sguardo ai numeri",
       intro:
         "Quante persone si dichiarano senza affiliazione religiosa? Le quote variano molto tra i paesi.",
-      chartCaption: "Quota di persone senza affiliazione religiosa (stime arrotondate)",
-      estimateBadge: "Stime",
+      chartCaption: "Quota di persone senza affiliazione religiosa (2020)",
+      estimateBadge: "Al 2020",
       worldNote:
-        "Nel mondo circa 1,2 miliardi di persone (~16%) sono senza affiliazione religiosa. Da notare: la quota globale dovrebbe calare leggermente entro il 2050 per ragioni demografiche, mentre cresce in Europa occidentale e negli USA.",
+        "Nel mondo circa 1,9 miliardi di persone (~24%) sono senza affiliazione religiosa – il terzo gruppo dopo cristiani e musulmani. Tra il 2010 e il 2020 la quota è cresciuta soprattutto per i cambi di religione in Nord America (+13 punti) ed Europa.",
       chartSource:
-        "Fonti: Pew Research Center – «The Global Religious Landscape» (2010/2012) e dati per paese; «nones» USA ~28–29% (Pew, 2021/2023). Valori arrotondati – verificare con dati aggiornati prima della pubblicazione.",
+        "Fonte: Pew Research Center, «How the Global Religious Landscape Changed, 2010–2020» (giugno 2025). Il dato sulla Cina usa una nuova metodologia (CGSS 2018) ed è quindi più alto che nei rapporti Pew precedenti al 2025.",
       unit: "%",
-      regions: ["Cechia", "Cina", "Paesi Bassi", "Germania", "USA", "Mondo"],
+      regions: ["Cina", "Cechia", "Paesi Bassi", "Germania", "USA", "Mondo"],
     },
     faq: {
       label: "Domande frequenti",
@@ -1259,6 +1262,7 @@ export const translations: Record<Lang, Translation> = {
       toggleTheme: "Cambia combinazione di colori",
       toggleLanguage: "Scegli la lingua",
       sourceLabel: "Fonte",
+      skipToContent: "Vai al contenuto",
     },
   },
 };

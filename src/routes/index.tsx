@@ -37,8 +37,9 @@ const PRINCIPLE_ICONS = [
 ];
 
 // Sprachunabhängige Zahlenwerte zum Diagramm (Reihenfolge = data.regions).
-// Gerundete Schätzwerte (Pew Research Center) – vor dem Launch gegen aktuelle Daten prüfen.
-const DATA_VALUES = [72, 52, 48, 43, 29, 16];
+// Anteil religiös Ungebundener 2020, Pew Research Center, „How the Global Religious
+// Landscape Changed, 2010–2020" (Juni 2025). China nach neuer Methodik (CGSS 2018).
+const DATA_VALUES = [90, 73, 54, 36, 30, 24];
 
 // Schlüsseldokumente: Name/Jahr/Link bleiben sprachunabhängig (Reihenfolge = documents.items).
 const DOCUMENT_LINKS = [
@@ -198,6 +199,14 @@ function Index() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+
+      {/* Skip-to-content – per Fokus eingeblendet, bleibt für Screenreader erreichbar */}
+      <a
+        href="#was-ist"
+        className="fixed left-4 -top-20 z-[60] rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all focus:top-4"
+      >
+        {t.ui.skipToContent}
+      </a>
 
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">

@@ -1,0 +1,6 @@
+# robots.txt – Suchmaschinen dürfen alles crawlen.
+User-agent: *
+Allow: /
+
+# Nach dem Deployment DEINE-DOMAIN.tld durch die echte Domain ersetzen:
+Sitemap: https://DEINE-DOMAIN.tld/sitemap.xml
