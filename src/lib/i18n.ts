@@ -1,5 +1,6 @@
 // Mehrsprachige Inhalte (DE / EN / IT) für die Humanitas-Landingpage.
-// Texte werden hier zentral gepflegt; index.tsx liefert nur Icons, Layout & Zahlenwerte.
+// Texte werden hier zentral gepflegt; index.tsx liefert nur Icons, Layout,
+// Zahlenwerte und Links. Faktenblöcke tragen eine Quellen-Fußnote.
 
 export const LANGUAGES = ["de", "en", "it"] as const;
 export type Lang = (typeof LANGUAGES)[number];
@@ -22,16 +23,23 @@ export type PrincipleText = {
 
 export type TimelineItem = { year: string; title: string; text: string };
 export type FaqItem = { q: string; a: string };
+export type TitledItem = { title: string; text: string };
+export type TermItem = { term: string; def: string };
 
 export type Translation = {
   meta: { title: string; description: string };
   nav: {
     idea: string;
     principles: string;
+    foundation: string;
+    science: string;
+    ethics: string;
+    distinctions: string;
     history: string;
+    documents: string;
     data: string;
     faq: string;
-    foundation: string;
+    glossary: string;
   };
   hero: {
     badge: string;
@@ -47,18 +55,46 @@ export type Translation = {
     quote: Segment[];
     cards: { k: string; v: string }[];
   };
+  science: {
+    label: string;
+    heading: string;
+    intro: string;
+    items: TitledItem[];
+    source: string;
+  };
+  ethics: {
+    label: string;
+    heading: string;
+    intro: string;
+    items: TitledItem[];
+    source: string;
+  };
+  distinctions: {
+    label: string;
+    heading: string;
+    intro: string;
+    items: TitledItem[];
+  };
   history: { label: string; heading: string; intro: string; items: TimelineItem[] };
+  documents: {
+    label: string;
+    heading: string;
+    intro: string;
+    items: { desc: string }[];
+  };
   data: {
     label: string;
     heading: string;
     intro: string;
     chartCaption: string;
+    estimateBadge: string;
+    worldNote: string;
     chartSource: string;
-    placeholderBadge: string;
     unit: string;
     regions: string[];
   };
   faq: { label: string; heading: string; items: FaqItem[] };
+  glossary: { label: string; heading: string; intro: string; items: TermItem[] };
   sources: {
     label: string;
     heading: string;
@@ -68,7 +104,7 @@ export type Translation = {
   footer: {
     tagline: string;
     topicsLabel: string;
-    moreLabel: string;
+    referenceLabel: string;
     projectLabel: string;
     sourceLink: string;
     copyright: string;
@@ -80,6 +116,7 @@ export type Translation = {
     exampleLabel: string;
     toggleTheme: string;
     toggleLanguage: string;
+    sourceLabel: string;
   };
 };
 
@@ -93,10 +130,15 @@ export const translations: Record<Lang, Translation> = {
     nav: {
       idea: "Idee",
       principles: "Prinzipien",
+      foundation: "Grundlage",
+      science: "Wissenschaft",
+      ethics: "Ethik",
+      distinctions: "Abgrenzung",
       history: "Geschichte",
+      documents: "Dokumente",
       data: "Daten",
       faq: "FAQ",
-      foundation: "Grundlage",
+      glossary: "Glossar",
     },
     hero: {
       badge: "Eine Einführung in eine moderne Weltanschauung",
@@ -203,7 +245,7 @@ export const translations: Record<Lang, Translation> = {
         { t: "Erfahrung", em: true },
         { t: " und " },
         { t: "menschlichem Wohlergehen", em: true },
-        { t: "." },
+        { t: ".“" },
       ],
       cards: [
         {
@@ -220,6 +262,80 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    science: {
+      label: "Wissenschafts-1×1",
+      heading: "Wie wir verlässlich Wissen gewinnen",
+      intro:
+        "Prinzip 2 konkret: Wissenschaft ist kein Glaube, sondern eine Methode, die sich selbst korrigiert.",
+      items: [
+        {
+          title: "Hypothese & Test",
+          text: "Eine Vermutung wird so formuliert, dass die Wirklichkeit sie widerlegen könnte – und dann geprüft.",
+        },
+        {
+          title: "Falsifizierbarkeit",
+          text: "Nur was widerlegbar ist, ist wissenschaftlich (Karl Popper). Was nichts ausschließt, erklärt nichts.",
+        },
+        {
+          title: "Korrelation ≠ Kausalität",
+          text: "Dass zwei Dinge gemeinsam auftreten, heißt nicht, dass eines das andere verursacht.",
+        },
+        {
+          title: "Peer-Review",
+          text: "Unabhängige Fachleute prüfen Methode und Ergebnisse, bevor etwas als gesichert gilt.",
+        },
+        {
+          title: "Vorläufiger Konsens",
+          text: "Wissen gilt, bis bessere Belege es korrigieren. Irrtum ist Teil des Fortschritts, nicht sein Gegenteil.",
+        },
+      ],
+      source: "Nach Karl Popper, „Logik der Forschung“ (1934).",
+    },
+    ethics: {
+      label: "Ethik",
+      heading: "Woher kommen Werte ohne Gott?",
+      intro:
+        "Moral braucht keine übernatürliche Quelle – sie lässt sich begründen.",
+      items: [
+        {
+          title: "Empathie & Evolution",
+          text: "Kooperation und Mitgefühl sind tief in sozialen Lebewesen verankert – Moral hat eine natürliche Wurzel.",
+        },
+        {
+          title: "Gesellschaftsvertrag",
+          text: "Regeln gelten, weil sie das Zusammenleben für alle besser machen, nicht weil sie befohlen werden.",
+        },
+        {
+          title: "Wohlergehen als Maßstab",
+          text: "Gut ist, was Leid mindert und Aufblühen ermöglicht – beurteilt an den realen Folgen für fühlende Wesen.",
+        },
+      ],
+      source:
+        "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
+    },
+    distinctions: {
+      label: "Abgrenzung",
+      heading: "Was Humanismus nicht ist",
+      intro: "Vier häufige Verwechslungen – und warum sie danebenliegen.",
+      items: [
+        {
+          title: "Atheismus",
+          text: "ist allein die Verneinung eines Gottesglaubens. Humanismus fügt eine positive Werteordnung hinzu.",
+        },
+        {
+          title: "Säkularismus",
+          text: "ist ein politisches Prinzip – die Trennung von Staat und Religion –, keine umfassende Lebenshaltung.",
+        },
+        {
+          title: "Nihilismus",
+          text: "bestreitet jeden Sinn. Humanismus findet Sinn im Diesseits: in Beziehungen, Wissen und Wirken.",
+        },
+        {
+          title: "Antitheismus",
+          text: "bekämpft Religion aktiv. Humanismus verteidigt Glaubensfreiheit – auch die der Gläubigen.",
+        },
+      ],
+    },
     history: {
       label: "Ideengeschichte",
       heading: "Eine lange Linie des Denkens",
@@ -230,6 +346,11 @@ export const translations: Record<Lang, Translation> = {
           year: "~600 v. Chr.",
           title: "Charvaka (Indien)",
           text: "Eine frühe materialistische Schule, die Wissen aus Wahrnehmung statt aus Offenbarung ableitet.",
+        },
+        {
+          year: "~500 v. Chr.",
+          title: "Konfuzius (China)",
+          text: "Ethik des Mitmenschlichen (rén): rechtes Handeln gründet auf Menschlichkeit und Gegenseitigkeit, nicht auf göttlichem Gebot.",
         },
         {
           year: "~450 v. Chr.",
@@ -257,9 +378,14 @@ export const translations: Record<Lang, Translation> = {
           text: "„Über die Entstehung der Arten“ liefert eine natürliche Erklärung für die Vielfalt des Lebens.",
         },
         {
+          year: "1927",
+          title: "Bertrand Russell",
+          text: "„Warum ich kein Christ bin“ macht skeptisches, vernunftgeleitetes Denken zu einer öffentlichen Haltung.",
+        },
+        {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "Erste programmatische Selbstbeschreibung des modernen, säkularen Humanismus.",
+          text: "John Dewey und andere formulieren den modernen, säkularen Humanismus erstmals programmatisch.",
         },
         {
           year: "1948",
@@ -268,15 +394,29 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    documents: {
+      label: "Schlüsseldokumente",
+      heading: "Worauf der Humanismus sich beruft",
+      intro: "Programmatische Texte – verlinkt zum Original.",
+      items: [
+        { desc: "Erste programmatische Erklärung des säkularen Humanismus." },
+        { desc: "Antwort auf Krieg und Krisen – Menschenrechte und globale Ethik." },
+        { desc: "„Humanism and Its Aspirations“ – die heutige Kurzfassung." },
+        { desc: "Offizielle Grundsatzerklärung der weltweiten humanistischen Bewegung." },
+        { desc: "Universelle Würde und Rechte – ein humanistischer Meilenstein." },
+      ],
+    },
     data: {
       label: "Daten & Fakten",
       heading: "Ein Blick auf die Zahlen",
       intro:
         "Wie viele Menschen verstehen sich als religiös ungebunden? Die Anteile unterscheiden sich stark zwischen Ländern.",
-      chartCaption: "Anteil religiös ungebundener Menschen (illustrativ)",
+      chartCaption: "Anteil religiös ungebundener Menschen (gerundete Schätzwerte)",
+      estimateBadge: "Schätzwerte",
+      worldNote:
+        "Weltweit sind rund 1,2 Mrd. Menschen (~16 %) religiös ungebunden. Bemerkenswert: Der globale Anteil dürfte bis 2050 demografiebedingt leicht sinken, während er in Westeuropa und den USA steigt.",
       chartSource:
-        "Quelle: in Anlehnung an Pew Research Center · Werte vor dem Launch prüfen",
-      placeholderBadge: "Platzhalter-Werte",
+        "Quellen: Pew Research Center – „The Global Religious Landscape“ (2010/2012) & Länderdaten; US-Wert „Nones“ ~28–29 % (Pew, 2021/2023). Werte gerundet – vor Veröffentlichung gegen aktuelle Daten prüfen.",
       unit: "%",
       regions: ["Tschechien", "China", "Niederlande", "Deutschland", "USA", "Welt"],
     },
@@ -306,6 +446,31 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    glossary: {
+      label: "Glossar",
+      heading: "Begriffe kurz erklärt",
+      intro: "Eine kleine Landkarte der wichtigsten Wörter.",
+      items: [
+        { term: "Säkular", def: "Weltlich; unabhängig von Religion und Kirche." },
+        { term: "Empirie", def: "Erkenntnis, die auf Beobachtung und Erfahrung beruht." },
+        {
+          term: "Falsifizierbarkeit",
+          def: "Die Eigenschaft einer Aussage, durch Beobachtung widerlegbar zu sein.",
+        },
+        {
+          term: "Agnostizismus",
+          def: "Die Haltung, dass sich die Existenz von Göttern nicht wissen lässt.",
+        },
+        {
+          term: "Naturalismus",
+          def: "Die Annahme, dass alle Vorgänge natürliche Ursachen haben.",
+        },
+        {
+          term: "Aufklärung",
+          def: "Geistesströmung des 18. Jh., die Vernunft und Mündigkeit betont.",
+        },
+      ],
+    },
     sources: {
       label: "Quellen & Weiterlesen",
       heading: "Vertiefen & nachprüfen",
@@ -323,7 +488,7 @@ export const translations: Record<Lang, Translation> = {
       tagline:
         "Eine Einladung, die Welt mit offenen Augen, klarem Verstand und warmem Herzen zu betrachten.",
       topicsLabel: "Themen",
-      moreLabel: "Mehr",
+      referenceLabel: "Nachschlagen",
       projectLabel: "Projekt",
       sourceLink: "Quellcode (GitHub)",
       copyright: "Eine Einführung in den säkularen Humanismus.",
@@ -335,6 +500,7 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Beispiel",
       toggleTheme: "Farbschema wechseln",
       toggleLanguage: "Sprache wählen",
+      sourceLabel: "Quelle",
     },
   },
 
@@ -347,10 +513,15 @@ export const translations: Record<Lang, Translation> = {
     nav: {
       idea: "Idea",
       principles: "Principles",
+      foundation: "Foundation",
+      science: "Science",
+      ethics: "Ethics",
+      distinctions: "Distinctions",
       history: "History",
+      documents: "Documents",
       data: "Data",
       faq: "FAQ",
-      foundation: "Foundation",
+      glossary: "Glossary",
     },
     hero: {
       badge: "An introduction to a modern worldview",
@@ -472,6 +643,78 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    science: {
+      label: "Science 101",
+      heading: "How we gain reliable knowledge",
+      intro:
+        "Principle 2 in practice: science is not a belief but a self-correcting method.",
+      items: [
+        {
+          title: "Hypothesis & test",
+          text: "A conjecture is framed so that reality could refute it – and then tested.",
+        },
+        {
+          title: "Falsifiability",
+          text: "Only what can be refuted is scientific (Karl Popper). What excludes nothing explains nothing.",
+        },
+        {
+          title: "Correlation ≠ causation",
+          text: "Two things occurring together does not mean one causes the other.",
+        },
+        {
+          title: "Peer review",
+          text: "Independent experts check method and results before anything counts as established.",
+        },
+        {
+          title: "Provisional consensus",
+          text: "Knowledge holds until better evidence corrects it. Error is part of progress, not its opposite.",
+        },
+      ],
+      source: "After Karl Popper, “The Logic of Scientific Discovery” (1934).",
+    },
+    ethics: {
+      label: "Ethics",
+      heading: "Where do values come from without a god?",
+      intro: "Morality needs no supernatural source – it can be justified.",
+      items: [
+        {
+          title: "Empathy & evolution",
+          text: "Cooperation and compassion are deeply rooted in social beings – morality has a natural origin.",
+        },
+        {
+          title: "Social contract",
+          text: "Rules hold because they make living together better for all, not because they are commanded.",
+        },
+        {
+          title: "Well-being as the measure",
+          text: "Good is what reduces suffering and enables flourishing – judged by real consequences for sentient beings.",
+        },
+      ],
+      source: "Following Peter Singer and Sam Harris, “The Moral Landscape” (2010).",
+    },
+    distinctions: {
+      label: "Distinctions",
+      heading: "What humanism is not",
+      intro: "Four common mix-ups – and why they miss the point.",
+      items: [
+        {
+          title: "Atheism",
+          text: "is merely the denial of belief in a god. Humanism adds a positive framework of values.",
+        },
+        {
+          title: "Secularism",
+          text: "is a political principle – the separation of state and religion – not a whole way of life.",
+        },
+        {
+          title: "Nihilism",
+          text: "denies all meaning. Humanism finds meaning in this world: in relationships, knowledge and action.",
+        },
+        {
+          title: "Anti-theism",
+          text: "actively fights religion. Humanism defends freedom of belief – including that of believers.",
+        },
+      ],
+    },
     history: {
       label: "History of Ideas",
       heading: "A long line of thought",
@@ -482,6 +725,11 @@ export const translations: Record<Lang, Translation> = {
           year: "~600 BCE",
           title: "Charvaka (India)",
           text: "An early materialist school deriving knowledge from perception rather than revelation.",
+        },
+        {
+          year: "~500 BCE",
+          title: "Confucius (China)",
+          text: "An ethic of humaneness (rén): right conduct rests on humanity and reciprocity, not on divine command.",
         },
         {
           year: "~450 BCE",
@@ -509,9 +757,14 @@ export const translations: Record<Lang, Translation> = {
           text: "“On the Origin of Species” offers a natural explanation for the diversity of life.",
         },
         {
+          year: "1927",
+          title: "Bertrand Russell",
+          text: "“Why I Am Not a Christian” turns sceptical, reason-led thinking into a public stance.",
+        },
+        {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "The first programmatic self-description of modern secular humanism.",
+          text: "John Dewey and others give modern secular humanism its first programmatic form.",
         },
         {
           year: "1948",
@@ -520,15 +773,29 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    documents: {
+      label: "Key Documents",
+      heading: "What humanism appeals to",
+      intro: "Programmatic texts – linked to the originals.",
+      items: [
+        { desc: "The first programmatic declaration of secular humanism." },
+        { desc: "A response to war and crisis – human rights and a global ethic." },
+        { desc: "“Humanism and Its Aspirations” – today's concise statement." },
+        { desc: "The official statement of principles of the worldwide humanist movement." },
+        { desc: "Universal dignity and rights – a humanist milestone." },
+      ],
+    },
     data: {
       label: "Data & Facts",
       heading: "A look at the numbers",
       intro:
         "How many people identify as religiously unaffiliated? The shares vary widely between countries.",
-      chartCaption: "Share of religiously unaffiliated people (illustrative)",
+      chartCaption: "Share of religiously unaffiliated people (rounded estimates)",
+      estimateBadge: "Estimates",
+      worldNote:
+        "Worldwide, around 1.2 billion people (~16%) are religiously unaffiliated. Notably, the global share is projected to dip slightly by 2050 for demographic reasons, while it rises in Western Europe and the USA.",
       chartSource:
-        "Source: based on Pew Research Center · verify values before launch",
-      placeholderBadge: "Placeholder values",
+        "Sources: Pew Research Center – “The Global Religious Landscape” (2010/2012) & country data; US “nones” ~28–29% (Pew, 2021/2023). Figures rounded – verify against current data before publishing.",
       unit: "%",
       regions: ["Czechia", "China", "Netherlands", "Germany", "USA", "World"],
     },
@@ -558,6 +825,31 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    glossary: {
+      label: "Glossary",
+      heading: "Key terms in brief",
+      intro: "A small map of the most important words.",
+      items: [
+        { term: "Secular", def: "Worldly; independent of religion and church." },
+        { term: "Empiricism", def: "Knowledge based on observation and experience." },
+        {
+          term: "Falsifiability",
+          def: "The property of a statement of being refutable by observation.",
+        },
+        {
+          term: "Agnosticism",
+          def: "The view that the existence of gods cannot be known.",
+        },
+        {
+          term: "Naturalism",
+          def: "The assumption that all events have natural causes.",
+        },
+        {
+          term: "Enlightenment",
+          def: "An 18th-century movement emphasising reason and autonomy.",
+        },
+      ],
+    },
     sources: {
       label: "Sources & Further Reading",
       heading: "Go deeper & verify",
@@ -575,7 +867,7 @@ export const translations: Record<Lang, Translation> = {
       tagline:
         "An invitation to view the world with open eyes, a clear mind and a warm heart.",
       topicsLabel: "Topics",
-      moreLabel: "More",
+      referenceLabel: "Reference",
       projectLabel: "Project",
       sourceLink: "Source code (GitHub)",
       copyright: "An introduction to secular humanism.",
@@ -587,6 +879,7 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Example",
       toggleTheme: "Toggle colour scheme",
       toggleLanguage: "Choose language",
+      sourceLabel: "Source",
     },
   },
 
@@ -599,10 +892,15 @@ export const translations: Record<Lang, Translation> = {
     nav: {
       idea: "Idea",
       principles: "Principi",
+      foundation: "Fondamento",
+      science: "Scienza",
+      ethics: "Etica",
+      distinctions: "Distinzioni",
       history: "Storia",
+      documents: "Documenti",
       data: "Dati",
       faq: "FAQ",
-      foundation: "Fondamento",
+      glossary: "Glossario",
     },
     hero: {
       badge: "Un'introduzione a una visione del mondo moderna",
@@ -724,6 +1022,78 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    science: {
+      label: "ABC della scienza",
+      heading: "Come otteniamo conoscenza affidabile",
+      intro:
+        "Il principio 2 in pratica: la scienza non è una fede, ma un metodo che si autocorregge.",
+      items: [
+        {
+          title: "Ipotesi e verifica",
+          text: "Una congettura è formulata in modo che la realtà possa smentirla – e poi viene verificata.",
+        },
+        {
+          title: "Falsificabilità",
+          text: "È scientifico solo ciò che è confutabile (Karl Popper). Ciò che non esclude nulla non spiega nulla.",
+        },
+        {
+          title: "Correlazione ≠ causalità",
+          text: "Che due cose si presentino insieme non significa che una causi l'altra.",
+        },
+        {
+          title: "Revisione paritaria",
+          text: "Esperti indipendenti verificano metodo e risultati prima che qualcosa sia considerato acquisito.",
+        },
+        {
+          title: "Consenso provvisorio",
+          text: "La conoscenza vale finché prove migliori non la correggono. L'errore fa parte del progresso, non il suo opposto.",
+        },
+      ],
+      source: "Da Karl Popper, «Logica della scoperta scientifica» (1934).",
+    },
+    ethics: {
+      label: "Etica",
+      heading: "Da dove vengono i valori senza un dio?",
+      intro: "La morale non ha bisogno di una fonte soprannaturale – può essere fondata.",
+      items: [
+        {
+          title: "Empatia ed evoluzione",
+          text: "Cooperazione e compassione sono profondamente radicate negli esseri sociali – la morale ha un'origine naturale.",
+        },
+        {
+          title: "Contratto sociale",
+          text: "Le regole valgono perché migliorano la convivenza per tutti, non perché sono imposte.",
+        },
+        {
+          title: "Il benessere come metro",
+          text: "È bene ciò che riduce la sofferenza e favorisce la fioritura – valutato dalle conseguenze reali per gli esseri senzienti.",
+        },
+      ],
+      source: "Sulla scia di Peter Singer e Sam Harris, «The Moral Landscape» (2010).",
+    },
+    distinctions: {
+      label: "Distinzioni",
+      heading: "Cosa non è l'umanesimo",
+      intro: "Quattro confusioni frequenti – e perché sbagliano bersaglio.",
+      items: [
+        {
+          title: "Ateismo",
+          text: "è soltanto la negazione della fede in un dio. L'umanesimo aggiunge un ordine positivo di valori.",
+        },
+        {
+          title: "Secolarismo",
+          text: "è un principio politico – la separazione tra Stato e religione – non un'intera visione della vita.",
+        },
+        {
+          title: "Nichilismo",
+          text: "nega ogni senso. L'umanesimo trova senso in questo mondo: nelle relazioni, nella conoscenza e nell'agire.",
+        },
+        {
+          title: "Antiteismo",
+          text: "combatte attivamente la religione. L'umanesimo difende la libertà di credo – anche quella dei credenti.",
+        },
+      ],
+    },
     history: {
       label: "Storia delle idee",
       heading: "Una lunga linea di pensiero",
@@ -734,6 +1104,11 @@ export const translations: Record<Lang, Translation> = {
           year: "~600 a.C.",
           title: "Charvaka (India)",
           text: "Una prima scuola materialista che trae la conoscenza dalla percezione, non dalla rivelazione.",
+        },
+        {
+          year: "~500 a.C.",
+          title: "Confucio (Cina)",
+          text: "Un'etica dell'umanità (rén): l'agire retto si fonda sull'umanità e la reciprocità, non sul comando divino.",
         },
         {
           year: "~450 a.C.",
@@ -761,9 +1136,14 @@ export const translations: Record<Lang, Translation> = {
           text: "«L'origine delle specie» offre una spiegazione naturale della diversità della vita.",
         },
         {
+          year: "1927",
+          title: "Bertrand Russell",
+          text: "«Perché non sono cristiano» rende il pensiero scettico e guidato dalla ragione un atteggiamento pubblico.",
+        },
+        {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "La prima descrizione programmatica dell'umanesimo laico moderno.",
+          text: "John Dewey e altri danno all'umanesimo laico moderno la sua prima forma programmatica.",
         },
         {
           year: "1948",
@@ -772,15 +1152,29 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    documents: {
+      label: "Documenti chiave",
+      heading: "A cosa si richiama l'umanesimo",
+      intro: "Testi programmatici – con link agli originali.",
+      items: [
+        { desc: "La prima dichiarazione programmatica dell'umanesimo laico." },
+        { desc: "Una risposta a guerra e crisi – diritti umani ed etica globale." },
+        { desc: "«Humanism and Its Aspirations» – la formulazione concisa di oggi." },
+        { desc: "La dichiarazione ufficiale di principi del movimento umanista mondiale." },
+        { desc: "Dignità e diritti universali – una pietra miliare umanista." },
+      ],
+    },
     data: {
       label: "Dati e fatti",
       heading: "Uno sguardo ai numeri",
       intro:
         "Quante persone si dichiarano senza affiliazione religiosa? Le quote variano molto tra i paesi.",
-      chartCaption: "Quota di persone senza affiliazione religiosa (illustrativa)",
+      chartCaption: "Quota di persone senza affiliazione religiosa (stime arrotondate)",
+      estimateBadge: "Stime",
+      worldNote:
+        "Nel mondo circa 1,2 miliardi di persone (~16%) sono senza affiliazione religiosa. Da notare: la quota globale dovrebbe calare leggermente entro il 2050 per ragioni demografiche, mentre cresce in Europa occidentale e negli USA.",
       chartSource:
-        "Fonte: basato su Pew Research Center · verificare i valori prima del lancio",
-      placeholderBadge: "Valori segnaposto",
+        "Fonti: Pew Research Center – «The Global Religious Landscape» (2010/2012) e dati per paese; «nones» USA ~28–29% (Pew, 2021/2023). Valori arrotondati – verificare con dati aggiornati prima della pubblicazione.",
       unit: "%",
       regions: ["Cechia", "Cina", "Paesi Bassi", "Germania", "USA", "Mondo"],
     },
@@ -810,6 +1204,31 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    glossary: {
+      label: "Glossario",
+      heading: "Termini in breve",
+      intro: "Una piccola mappa delle parole più importanti.",
+      items: [
+        { term: "Laico / secolare", def: "Mondano; indipendente da religione e chiesa." },
+        { term: "Empirismo", def: "Conoscenza basata su osservazione ed esperienza." },
+        {
+          term: "Falsificabilità",
+          def: "La proprietà di un'affermazione di poter essere confutata dall'osservazione.",
+        },
+        {
+          term: "Agnosticismo",
+          def: "La posizione secondo cui l'esistenza degli dèi non può essere conosciuta.",
+        },
+        {
+          term: "Naturalismo",
+          def: "L'assunto che tutti i fenomeni abbiano cause naturali.",
+        },
+        {
+          term: "Illuminismo",
+          def: "Movimento del XVIII secolo che valorizza ragione e autonomia.",
+        },
+      ],
+    },
     sources: {
       label: "Fonti e approfondimenti",
       heading: "Approfondire e verificare",
@@ -827,7 +1246,7 @@ export const translations: Record<Lang, Translation> = {
       tagline:
         "Un invito a guardare il mondo con occhi aperti, mente lucida e cuore caldo.",
       topicsLabel: "Argomenti",
-      moreLabel: "Altro",
+      referenceLabel: "Consultazione",
       projectLabel: "Progetto",
       sourceLink: "Codice sorgente (GitHub)",
       copyright: "Un'introduzione all'umanesimo laico.",
@@ -839,6 +1258,7 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Esempio",
       toggleTheme: "Cambia combinazione di colori",
       toggleLanguage: "Scegli la lingua",
+      sourceLabel: "Fonte",
     },
   },
 };

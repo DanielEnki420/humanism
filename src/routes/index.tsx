@@ -37,10 +37,39 @@ const PRINCIPLE_ICONS = [
 ];
 
 // Sprachunabhängige Zahlenwerte zum Diagramm (Reihenfolge = data.regions).
-// PLATZHALTER – vor dem Launch gegen aktuelle Pew-/UN-Daten prüfen.
+// Gerundete Schätzwerte (Pew Research Center) – vor dem Launch gegen aktuelle Daten prüfen.
 const DATA_VALUES = [72, 52, 48, 43, 29, 16];
 
-// Eigennamen & Links bleiben sprachunabhängig (Reihenfolge = sources.items).
+// Schlüsseldokumente: Name/Jahr/Link bleiben sprachunabhängig (Reihenfolge = documents.items).
+const DOCUMENT_LINKS = [
+  {
+    name: "Humanist Manifesto I",
+    year: "1933",
+    url: "https://americanhumanist.org/what-is-humanism/manifesto1/",
+  },
+  {
+    name: "Humanist Manifesto II",
+    year: "1973",
+    url: "https://americanhumanist.org/what-is-humanism/manifesto2/",
+  },
+  {
+    name: "Humanist Manifesto III",
+    year: "2003",
+    url: "https://americanhumanist.org/what-is-humanism/humanist-manifesto-iii/",
+  },
+  {
+    name: "Amsterdam Declaration",
+    year: "1952 · rev. 2022",
+    url: "https://humanists.international/what-is-humanism/the-amsterdam-declaration/",
+  },
+  {
+    name: "Allgemeine Erklärung der Menschenrechte",
+    year: "1948",
+    url: "https://www.un.org/en/about-us/universal-declaration-of-human-rights",
+  },
+];
+
+// Quellen-Kacheln: Eigennamen & Links sprachunabhängig (Reihenfolge = sources.items).
 const SOURCE_LINKS = [
   { name: "Humanists International", url: "https://humanists.international" },
   { name: "American Humanist Association", url: "https://americanhumanist.org" },
@@ -89,6 +118,40 @@ function RichText({ segments, em = "text-primary" }: { segments: Segment[]; em?:
   );
 }
 
+/** Kleine Überschrift + Titel für einen Abschnitt. */
+function SectionHead({
+  label,
+  heading,
+  intro,
+  center = false,
+}: {
+  label: string;
+  heading: string;
+  intro?: string;
+  center?: boolean;
+}) {
+  return (
+    <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+      <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </p>
+      <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">{heading}</h2>
+      {intro && (
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>
+      )}
+    </div>
+  );
+}
+
+/** Quellen-Fußnote unter einem Faktenblock. */
+function SourceNote({ label, text }: { label: string; text: string }) {
+  return (
+    <p className="mt-8 border-l-2 border-primary/30 pl-4 text-xs leading-relaxed text-muted-foreground">
+      <span className="font-medium text-foreground/70">{label}:</span> {text}
+    </p>
+  );
+}
+
 function Index() {
   const [lang, setLang] = useState<Lang>("de");
   const [dark, setDark] = useState(false);
@@ -118,8 +181,24 @@ function Index() {
     });
   };
 
+  // FAQPage-Structured-Data (JSON-LD) für Rich Results.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: t.faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -131,6 +210,7 @@ function Index() {
             <nav className="hidden gap-7 text-sm text-muted-foreground lg:flex">
               <a href="#was-ist" className="transition-colors hover:text-foreground">{t.nav.idea}</a>
               <a href="#prinzipien" className="transition-colors hover:text-foreground">{t.nav.principles}</a>
+              <a href="#wissenschaft" className="transition-colors hover:text-foreground">{t.nav.science}</a>
               <a href="#geschichte" className="transition-colors hover:text-foreground">{t.nav.history}</a>
               <a href="#daten" className="transition-colors hover:text-foreground">{t.nav.data}</a>
               <a href="#faq" className="transition-colors hover:text-foreground">{t.nav.faq}</a>
@@ -219,12 +299,7 @@ function Index() {
       <section id="was-ist" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
         <div className="grid gap-16 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-5">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.idea.label}
-            </p>
-            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              {t.idea.heading}
-            </h2>
+            <SectionHead label={t.idea.label} heading={t.idea.heading} />
           </div>
           <div className="md:col-span-7">
             <p className="text-xl leading-relaxed text-foreground/90">
@@ -240,15 +315,7 @@ function Index() {
       {/* Prinzipien */}
       <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.principles.label}
-            </p>
-            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              {t.principles.heading}
-            </h2>
-          </div>
-
+          <SectionHead label={t.principles.label} heading={t.principles.heading} center />
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
             {t.principles.items.map((p, i) => (
               <PrincipleCard
@@ -264,7 +331,7 @@ function Index() {
         </div>
       </section>
 
-      {/* Grundlage / Compare */}
+      {/* Grundlage */}
       <section id="grundlage" className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-28">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-12">
@@ -275,13 +342,69 @@ function Index() {
               <RichText segments={t.foundation.quote} em="italic text-primary" />
             </blockquote>
           </div>
-
           <div className="mt-8 grid gap-8 md:col-span-12 md:grid-cols-3">
             {t.foundation.cards.map((b) => (
               <div key={b.k} className="border-t border-border pt-6">
                 <p className="font-serif text-lg text-primary">{b.k}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {b.v}
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Wissenschafts-1x1 */}
+      <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <SectionHead label={t.science.label} heading={t.science.heading} intro={t.science.intro} />
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.science.items.map((item, i) => (
+              <div key={item.title} className="rounded-xl border border-border bg-card p-6">
+                <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
+                <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+              </div>
+            ))}
+          </div>
+          <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
+        </div>
+      </section>
+
+      {/* Ethik */}
+      <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
+        <div className="mt-14 grid gap-8 md:grid-cols-3">
+          {t.ethics.items.map((item, i) => (
+            <div key={item.title} className="border-t-2 border-primary/30 pt-6">
+              <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
+              <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+            </div>
+          ))}
+        </div>
+        <SourceNote label={t.ui.sourceLabel} text={t.ethics.source} />
+      </section>
+
+      {/* Abgrenzung */}
+      <section id="abgrenzung" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-4xl px-6 py-24">
+          <SectionHead
+            label={t.distinctions.label}
+            heading={t.distinctions.heading}
+            intro={t.distinctions.intro}
+            center
+          />
+          <div className="mt-12 space-y-3">
+            {t.distinctions.items.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-border bg-card p-5 sm:flex sm:items-baseline sm:gap-4"
+              >
+                <span className="shrink-0 font-serif text-lg font-medium text-primary sm:w-44">
+                  {item.title}
+                </span>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground sm:mt-0">
+                  {item.text}
                 </p>
               </div>
             ))}
@@ -290,35 +413,58 @@ function Index() {
       </section>
 
       {/* Geschichte / Zeitstrahl */}
-      <section id="geschichte" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="max-w-2xl">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.history.label}
-            </p>
-            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              {t.history.heading}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {t.history.intro}
-            </p>
-          </div>
+      <section id="geschichte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <SectionHead label={t.history.label} heading={t.history.heading} intro={t.history.intro} />
+        <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
+          {t.history.items.map((item) => (
+            <li key={item.title} className="relative">
+              <span
+                aria-hidden
+                className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
+              />
+              <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
+              <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {item.text}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-          <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
-            {t.history.items.map((item) => (
-              <li key={item.title} className="relative">
-                <span
-                  aria-hidden
-                  className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
-                />
-                <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
-                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  {item.text}
-                </p>
-              </li>
+      {/* Schlüsseldokumente */}
+      <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <SectionHead
+            label={t.documents.label}
+            heading={t.documents.heading}
+            intro={t.documents.intro}
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.documents.items.map((item, i) => (
+              <a
+                key={DOCUMENT_LINKS[i].name}
+                href={DOCUMENT_LINKS[i].url}
+                target="_blank"
+                rel="noreferrer"
+                className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-serif text-xs font-medium text-primary">
+                    {DOCUMENT_LINKS[i].year}
+                  </span>
+                  <ExternalLink
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3 className="mt-2 font-serif text-lg font-medium leading-snug">
+                  {DOCUMENT_LINKS[i].name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+              </a>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
@@ -326,23 +472,17 @@ function Index() {
       <section id="daten" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
         <div className="grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.data.label}
-            </p>
-            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              {t.data.heading}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {t.data.intro}
+            <SectionHead label={t.data.label} heading={t.data.heading} intro={t.data.intro} />
+            <p className="mt-6 rounded-xl bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
+              {t.data.worldNote}
             </p>
           </div>
-
           <div className="md:col-span-7">
             <DataChart
               regions={t.data.regions}
               caption={t.data.chartCaption}
               source={t.data.chartSource}
-              placeholderBadge={t.data.placeholderBadge}
+              estimateBadge={t.data.estimateBadge}
               unit={t.data.unit}
             />
           </div>
@@ -352,15 +492,7 @@ function Index() {
       {/* FAQ */}
       <section id="faq" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-3xl px-6 py-24">
-          <div className="text-center">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.faq.label}
-            </p>
-            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              {t.faq.heading}
-            </h2>
-          </div>
-
+          <SectionHead label={t.faq.label} heading={t.faq.heading} center />
           <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
             {t.faq.items.map((item) => (
               <FaqRow key={item.q} item={item} />
@@ -369,39 +501,51 @@ function Index() {
         </div>
       </section>
 
-      {/* Quellen */}
-      <section id="quellen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <div className="max-w-2xl">
-          <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            {t.sources.label}
-          </p>
-          <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-            {t.sources.heading}
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            {t.sources.intro}
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {t.sources.items.map((item, i) => (
-            <a
-              key={SOURCE_LINKS[i].name}
-              href={SOURCE_LINKS[i].url}
-              target="_blank"
-              rel="noreferrer"
-              className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-secondary"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
-                <ExternalLink
-                  className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                  strokeWidth={1.5}
-                />
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-            </a>
+      {/* Glossar */}
+      <section id="glossar" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <SectionHead
+          label={t.glossary.label}
+          heading={t.glossary.heading}
+          intro={t.glossary.intro}
+        />
+        <dl className="mt-12 grid gap-x-12 gap-y-6 sm:grid-cols-2">
+          {t.glossary.items.map((item) => (
+            <div key={item.term} className="border-t border-border pt-4">
+              <dt className="font-serif text-lg font-medium text-primary">{item.term}</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.def}</dd>
+            </div>
           ))}
+        </dl>
+      </section>
+
+      {/* Quellen */}
+      <section id="quellen" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <SectionHead
+            label={t.sources.label}
+            heading={t.sources.heading}
+            intro={t.sources.intro}
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.sources.items.map((item, i) => (
+              <a
+                key={SOURCE_LINKS[i].name}
+                href={SOURCE_LINKS[i].url}
+                target="_blank"
+                rel="noreferrer"
+                className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
+                  <ExternalLink
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -427,16 +571,20 @@ function Index() {
                   <li><a href="#was-ist" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.idea}</a></li>
                   <li><a href="#prinzipien" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.principles}</a></li>
                   <li><a href="#grundlage" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.foundation}</a></li>
+                  <li><a href="#wissenschaft" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.science}</a></li>
+                  <li><a href="#ethik" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.ethics}</a></li>
                 </ul>
               </div>
               <div>
                 <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {t.footer.moreLabel}
+                  {t.footer.referenceLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
+                  <li><a href="#abgrenzung" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.distinctions}</a></li>
                   <li><a href="#geschichte" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.history}</a></li>
+                  <li><a href="#dokumente" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.documents}</a></li>
                   <li><a href="#daten" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.data}</a></li>
-                  <li><a href="#faq" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.faq}</a></li>
+                  <li><a href="#glossar" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.glossary}</a></li>
                 </ul>
               </div>
               <div>
@@ -444,6 +592,7 @@ function Index() {
                   {t.footer.projectLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
+                  <li><a href="#faq" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.faq}</a></li>
                   <li><a href="#quellen" className="text-muted-foreground transition-colors hover:text-primary">{t.sources.label}</a></li>
                   <li>
                     <a
@@ -473,13 +622,13 @@ function DataChart({
   regions,
   caption,
   source,
-  placeholderBadge,
+  estimateBadge,
   unit,
 }: {
   regions: string[];
   caption: string;
   source: string;
-  placeholderBadge: string;
+  estimateBadge: string;
   unit: string;
 }) {
   // Balken erst nach dem Mount auf Zielbreite animieren.
@@ -494,7 +643,7 @@ function DataChart({
       <figcaption className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm font-medium text-foreground">{caption}</span>
         <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-primary ring-1 ring-primary/20">
-          {placeholderBadge}
+          {estimateBadge}
         </span>
       </figcaption>
 
