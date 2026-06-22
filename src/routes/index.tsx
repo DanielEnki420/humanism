@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Brain,
   FlaskConical,
@@ -10,7 +10,47 @@ import {
   ArrowRight,
   Leaf,
   Plus,
+  Moon,
+  Sun,
+  ExternalLink,
 } from "lucide-react";
+import {
+  LANGUAGES,
+  LANGUAGE_LABELS,
+  translations,
+  type FaqItem,
+  type Lang,
+  type PrincipleText,
+  type Segment,
+} from "@/lib/i18n";
+
+const GITHUB_URL = "https://github.com/DanielEnki420/humanism";
+
+// Icons in der Reihenfolge der Prinzipien aus i18n.ts.
+const PRINCIPLE_ICONS = [
+  Brain,
+  FlaskConical,
+  HeartHandshake,
+  Scale,
+  Globe2,
+  Sparkles,
+];
+
+// Sprachunabhängige Zahlenwerte zum Diagramm (Reihenfolge = data.regions).
+// PLATZHALTER – vor dem Launch gegen aktuelle Pew-/UN-Daten prüfen.
+const DATA_VALUES = [72, 52, 48, 43, 29, 16];
+
+// Eigennamen & Links bleiben sprachunabhängig (Reihenfolge = sources.items).
+const SOURCE_LINKS = [
+  { name: "Humanists International", url: "https://humanists.international" },
+  { name: "American Humanist Association", url: "https://americanhumanist.org" },
+  { name: "Giordano-Bruno-Stiftung", url: "https://giordano-bruno-stiftung.de" },
+  { name: "Pew Research Center", url: "https://www.pewresearch.org/religion/" },
+  {
+    name: "UN – Menschenrechte",
+    url: "https://www.un.org/en/about-us/universal-declaration-of-human-rights",
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,95 +72,108 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const principles = [
-  {
-    icon: Brain,
-    title: "Kritisches Denken",
-    text: "Entscheidungen entstehen durch Logik, Fakten und offene Diskussion.",
-    points: [
-      "Argumente prüfen, statt Autoritäten zu folgen",
-      "Eigene Annahmen hinterfragen",
-      "Widersprüche aushalten und auflösen",
-    ],
-    example:
-      "Bevor eine Behauptung übernommen wird, werden Quellen, Belege und mögliche Gegenargumente geprüft.",
-  },
-  {
-    icon: FlaskConical,
-    title: "Wissenschaftliche Erkenntnis",
-    text: "Wissen wächst durch Forschung und überprüfbare Beweise.",
-    points: [
-      "Hypothesen testen und revidieren",
-      "Methoden transparent machen",
-      "Konsens als vorläufig verstehen",
-    ],
-    example:
-      "Medizinische Entscheidungen orientieren sich an Studien mit überprüfbaren Ergebnissen, nicht an Tradition.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Menschliche Werte",
-    text: "Empathie, Zusammenarbeit und Respekt im Miteinander.",
-    points: [
-      "Andere Perspektiven ernst nehmen",
-      "Konflikte im Dialog lösen",
-      "Vielfalt als Bereicherung erleben",
-    ],
-    example:
-      "In einer Nachbarschaftsinitiative bringen Menschen unterschiedlicher Herkunft ihre Fähigkeiten zusammen.",
-  },
-  {
-    icon: Scale,
-    title: "Menschenrechte",
-    text: "Würde und Freiheit für alle Menschen – ohne Ausnahme.",
-    points: [
-      "Gleiche Rechte unabhängig von Herkunft",
-      "Schutz von Minderheiten",
-      "Meinungs- und Glaubensfreiheit",
-    ],
-    example:
-      "Die Allgemeine Erklärung der Menschenrechte als gemeinsamer Maßstab für Gesellschaft und Politik.",
-  },
-  {
-    icon: Globe2,
-    title: "Verantwortung",
-    text: "Gemeinsame Lösungen für globale Herausforderungen.",
-    points: [
-      "Klima und Umwelt schützen",
-      "Solidarität über Grenzen hinweg",
-      "Zukünftige Generationen mitdenken",
-    ],
-    example:
-      "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
-  },
-  {
-    icon: Sparkles,
-    title: "Freies Denken",
-    text: "Fragen stellen und eigene Überzeugungen entwickeln.",
-    points: [
-      "Neugier als Lebenshaltung",
-      "Sich von guten Argumenten überzeugen lassen",
-      "Meinungen weiterentwickeln dürfen",
-    ],
-    example:
-      "Ein Buchclub, in dem alle frei ihre Sicht teilen und gemeinsam Neues entdecken.",
-  },
-];
+/** Rendert Textsegmente; hervorgehobene (`em`) Teile mit eigener Klasse. */
+function RichText({ segments, em = "text-primary" }: { segments: Segment[]; em?: string }) {
+  return (
+    <>
+      {segments.map((seg, i) =>
+        seg.em ? (
+          <span key={i} className={em}>
+            {seg.t}
+          </span>
+        ) : (
+          <span key={i}>{seg.t}</span>
+        ),
+      )}
+    </>
+  );
+}
 
 function Index() {
+  const [lang, setLang] = useState<Lang>("de");
+  const [dark, setDark] = useState(false);
+  const t = translations[lang];
+
+  // Gespeicherte Einstellungen nach dem Mount übernehmen (vermeidet Hydration-Mismatch).
+  useEffect(() => {
+    const savedLang = (localStorage.getItem("lang") ||
+      document.documentElement.lang) as Lang;
+    if (LANGUAGES.includes(savedLang)) setLang(savedLang);
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  // Sprache überall synchron halten.
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.title = translations[lang].meta.title;
+    localStorage.setItem("lang", lang);
+  }, [lang]);
+
+  const toggleTheme = () => {
+    setDark((prev) => {
+      const next = !prev;
+      document.documentElement.classList.toggle("dark", next);
+      localStorage.setItem("theme", next ? "dark" : "light");
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <a href="#top" className="flex items-center gap-2 font-serif text-lg font-semibold">
-          <Leaf className="h-5 w-5 text-primary" strokeWidth={1.5} />
-          <span>Humanitas</span>
-        </a>
-        <nav className="hidden gap-8 text-sm text-muted-foreground sm:flex">
-          <a href="#was-ist" className="transition-colors hover:text-foreground">Idee</a>
-          <a href="#prinzipien" className="transition-colors hover:text-foreground">Prinzipien</a>
-          <a href="#grundlage" className="transition-colors hover:text-foreground">Grundlage</a>
-        </nav>
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <a href="#top" className="flex items-center gap-2 font-serif text-lg font-semibold">
+            <Leaf className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            <span>Humanitas</span>
+          </a>
+          <div className="flex items-center gap-4 lg:gap-6">
+            <nav className="hidden gap-7 text-sm text-muted-foreground lg:flex">
+              <a href="#was-ist" className="transition-colors hover:text-foreground">{t.nav.idea}</a>
+              <a href="#prinzipien" className="transition-colors hover:text-foreground">{t.nav.principles}</a>
+              <a href="#geschichte" className="transition-colors hover:text-foreground">{t.nav.history}</a>
+              <a href="#daten" className="transition-colors hover:text-foreground">{t.nav.data}</a>
+              <a href="#faq" className="transition-colors hover:text-foreground">{t.nav.faq}</a>
+            </nav>
+
+            {/* Sprachumschalter */}
+            <div
+              className="flex items-center gap-0.5 rounded-full border border-border bg-card/60 p-0.5 backdrop-blur"
+              role="group"
+              aria-label={t.ui.toggleLanguage}
+            >
+              {LANGUAGES.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLang(l)}
+                  aria-pressed={l === lang}
+                  className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
+                    l === lang
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {LANGUAGE_LABELS[l]}
+                </button>
+              ))}
+            </div>
+
+            {/* Theme-Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={t.ui.toggleTheme}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 text-foreground backdrop-blur transition-colors hover:bg-secondary"
+            >
+              {dark ? (
+                <Sun className="h-4 w-4" strokeWidth={1.5} />
+              ) : (
+                <Moon className="h-4 w-4" strokeWidth={1.5} />
+              )}
+            </button>
+          </div>
+        </div>
       </header>
 
       {/* Hero */}
@@ -136,112 +189,95 @@ function Index() {
         <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-16 text-center sm:pt-24">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            Eine Einführung in eine moderne Weltanschauung
+            {t.hero.badge}
           </div>
           <h1 className="font-serif text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
-            Säkularer Humanismus –{" "}
-            <span className="italic text-primary">Menschlichkeit</span> durch
-            Vernunft und Verantwortung
+            <RichText segments={t.hero.title} em="italic text-primary" />
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft,
-            kritischem Denken und Mitgefühl.
+            {t.hero.subtitle}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
               href="#prinzipien"
               className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:opacity-90"
             >
-              Prinzipien entdecken
+              {t.hero.ctaPrimary}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
             <a
               href="#was-ist"
               className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
             >
-              Mehr erfahren
+              {t.hero.ctaSecondary}
             </a>
           </div>
         </div>
       </section>
 
       {/* Was ist */}
-      <section id="was-ist" className="mx-auto max-w-6xl px-6 py-24">
+      <section id="was-ist" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
         <div className="grid gap-16 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-5">
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Die Idee
+              {t.idea.label}
             </p>
             <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              Was ist säkularer Humanismus?
+              {t.idea.heading}
             </h2>
           </div>
           <div className="md:col-span-7">
             <p className="text-xl leading-relaxed text-foreground/90">
-              Säkularer Humanismus stellt den{" "}
-              <span className="text-primary">Menschen</span>, Vernunft,
-              Wissenschaft und ethische Verantwortung in den Mittelpunkt.
+              <RichText segments={t.idea.lead} />
             </p>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-              Es ist eine lebensbejahende Haltung, die sich an dem orientiert,
-              was wir gemeinsam beobachten, verstehen und gestalten können –
-              getragen von Empathie, Neugier und dem Vertrauen in die
-              menschliche Fähigkeit, die Welt besser zu machen.
+              {t.idea.body}
             </p>
           </div>
         </div>
       </section>
 
       {/* Prinzipien */}
-      <section id="prinzipien" className="bg-secondary/40">
+      <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="mx-auto max-w-2xl text-center">
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Sechs Prinzipien
+              {t.principles.label}
             </p>
             <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
-              Werte, die uns verbinden
+              {t.principles.heading}
             </h2>
           </div>
 
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {principles.map((p) => (
-              <PrincipleCard key={p.title} {...p} />
+            {t.principles.items.map((p, i) => (
+              <PrincipleCard
+                key={p.title}
+                principle={p}
+                Icon={PRINCIPLE_ICONS[i]}
+                showMore={t.ui.showMore}
+                showLess={t.ui.showLess}
+                exampleLabel={t.ui.exampleLabel}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* Grundlage / Compare */}
-      <section id="grundlage" className="relative mx-auto max-w-6xl px-6 py-28">
+      <section id="grundlage" className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-28">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-12">
             <p className="mb-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Die Grundlage
+              {t.foundation.label}
             </p>
             <blockquote className="font-serif text-3xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl">
-              „Säkularer Humanismus basiert auf{" "}
-              <span className="italic text-primary">Vernunft</span>,{" "}
-              <span className="italic text-primary">Erfahrung</span> und{" "}
-              <span className="italic text-primary">menschlichem Wohlergehen</span>."
+              <RichText segments={t.foundation.quote} em="italic text-primary" />
             </blockquote>
           </div>
 
           <div className="mt-8 grid gap-8 md:col-span-12 md:grid-cols-3">
-            {[
-              {
-                k: "Vernunft",
-                v: "Argumente werden geprüft, nicht geglaubt. Klarheit entsteht durch Denken.",
-              },
-              {
-                k: "Erfahrung",
-                v: "Die Wirklichkeit ist unser Lehrmeister – beobachtbar, teilbar, lernbar.",
-              },
-              {
-                k: "Wohlergehen",
-                v: "Maßstab ethischen Handelns ist das Wohl aller Menschen und Lebewesen.",
-              },
-            ].map((b) => (
+            {t.foundation.cards.map((b) => (
               <div key={b.k} className="border-t border-border pt-6">
                 <p className="font-serif text-lg text-primary">{b.k}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -253,55 +289,179 @@ function Index() {
         </div>
       </section>
 
+      {/* Geschichte / Zeitstrahl */}
+      <section id="geschichte" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="max-w-2xl">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              {t.history.label}
+            </p>
+            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
+              {t.history.heading}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              {t.history.intro}
+            </p>
+          </div>
+
+          <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
+            {t.history.items.map((item) => (
+              <li key={item.title} className="relative">
+                <span
+                  aria-hidden
+                  className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
+                />
+                <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
+                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {item.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Daten & Fakten */}
+      <section id="daten" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+          <div className="md:col-span-5">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              {t.data.label}
+            </p>
+            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
+              {t.data.heading}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              {t.data.intro}
+            </p>
+          </div>
+
+          <div className="md:col-span-7">
+            <DataChart
+              regions={t.data.regions}
+              caption={t.data.chartCaption}
+              source={t.data.chartSource}
+              placeholderBadge={t.data.placeholderBadge}
+              unit={t.data.unit}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-3xl px-6 py-24">
+          <div className="text-center">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              {t.faq.label}
+            </p>
+            <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
+              {t.faq.heading}
+            </h2>
+          </div>
+
+          <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+            {t.faq.items.map((item) => (
+              <FaqRow key={item.q} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quellen */}
+      <section id="quellen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <div className="max-w-2xl">
+          <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            {t.sources.label}
+          </p>
+          <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">
+            {t.sources.heading}
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+            {t.sources.intro}
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {t.sources.items.map((item, i) => (
+            <a
+              key={SOURCE_LINKS[i].name}
+              href={SOURCE_LINKS[i].url}
+              target="_blank"
+              rel="noreferrer"
+              className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-secondary"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
+                <ExternalLink
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                  strokeWidth={1.5}
+                />
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-border bg-card/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="grid gap-12 md:grid-cols-12">
-            <div className="md:col-span-5">
+            <div className="md:col-span-6">
               <div className="flex items-center gap-2 font-serif text-lg font-semibold">
                 <Leaf className="h-5 w-5 text-primary" strokeWidth={1.5} />
                 Humanitas
               </div>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Eine Einladung, die Welt mit offenen Augen, klarem Verstand und
-                warmem Herzen zu betrachten.
+                {t.footer.tagline}
               </p>
             </div>
-            <div className="md:col-span-7 grid grid-cols-2 gap-8 sm:grid-cols-3">
+            <div className="md:col-span-6 grid grid-cols-2 gap-8 sm:grid-cols-3">
               <div>
                 <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Themen
+                  {t.footer.topicsLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#was-ist" className="hover:text-primary">Idee</a></li>
-                  <li><a href="#prinzipien" className="hover:text-primary">Prinzipien</a></li>
-                  <li><a href="#grundlage" className="hover:text-primary">Grundlage</a></li>
+                  <li><a href="#was-ist" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.idea}</a></li>
+                  <li><a href="#prinzipien" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.principles}</a></li>
+                  <li><a href="#grundlage" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.foundation}</a></li>
                 </ul>
               </div>
               <div>
                 <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Lesen
+                  {t.footer.moreLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><span className="text-muted-foreground">Manifeste</span></li>
-                  <li><span className="text-muted-foreground">Essays</span></li>
-                  <li><span className="text-muted-foreground">Wissenschaft</span></li>
+                  <li><a href="#geschichte" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.history}</a></li>
+                  <li><a href="#daten" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.data}</a></li>
+                  <li><a href="#faq" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.faq}</a></li>
                 </ul>
               </div>
               <div>
                 <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Kontakt
+                  {t.footer.projectLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><span className="text-muted-foreground">Newsletter</span></li>
-                  <li><span className="text-muted-foreground">Community</span></li>
+                  <li><a href="#quellen" className="text-muted-foreground transition-colors hover:text-primary">{t.sources.label}</a></li>
+                  <li>
+                    <a
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.footer.sourceLink}
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center">
-            <p>© {new Date().getFullYear()} Humanitas. Eine Einführung in den säkularen Humanismus.</p>
-            <p>Mit Vernunft & Mitgefühl gestaltet.</p>
+            <p>© {new Date().getFullYear()} Humanitas. {t.footer.copyright}</p>
+            <p>{t.footer.madeWith}</p>
           </div>
         </div>
       </footer>
@@ -309,9 +469,108 @@ function Index() {
   );
 }
 
-type Principle = (typeof principles)[number];
+function DataChart({
+  regions,
+  caption,
+  source,
+  placeholderBadge,
+  unit,
+}: {
+  regions: string[];
+  caption: string;
+  source: string;
+  placeholderBadge: string;
+  unit: string;
+}) {
+  // Balken erst nach dem Mount auf Zielbreite animieren.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(id);
+  }, []);
 
-function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) {
+  return (
+    <figure className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+      <figcaption className="mb-6 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-sm font-medium text-foreground">{caption}</span>
+        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-primary ring-1 ring-primary/20">
+          {placeholderBadge}
+        </span>
+      </figcaption>
+
+      <div className="space-y-4">
+        {regions.map((region, i) => {
+          const value = DATA_VALUES[i] ?? 0;
+          return (
+            <div key={region} className="grid grid-cols-[5.5rem_1fr_2.5rem] items-center gap-3 sm:grid-cols-[7rem_1fr_3rem]">
+              <span className="truncate text-sm text-muted-foreground">{region}</span>
+              <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
+                <div
+                  className="h-full rounded-full bg-primary transition-[width] duration-700 ease-out"
+                  style={{ width: mounted ? `${value}%` : "0%" }}
+                />
+              </div>
+              <span className="text-right font-serif text-sm tabular-nums text-foreground">
+                {value}
+                {unit}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{source}</p>
+    </figure>
+  );
+}
+
+function FaqRow({ item }: { item: FaqItem }) {
+  const [open, setOpen] = useState(false);
+  const panelId = `faq-${item.q.replace(/[^\p{L}\p{N}]+/gu, "-").toLowerCase()}`;
+
+  return (
+    <div className="bg-card">
+      <button
+        type="button"
+        onClick={() => setOpen((p) => !p)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-secondary/50"
+      >
+        <span className="font-serif text-base font-medium">{item.q}</span>
+        <Plus
+          className={`h-4 w-4 shrink-0 text-primary transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+          strokeWidth={2}
+        />
+      </button>
+      <div
+        id={panelId}
+        className={`grid transition-all duration-300 ease-out ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PrincipleCard({
+  principle,
+  Icon,
+  showMore,
+  showLess,
+  exampleLabel,
+}: {
+  principle: PrincipleText;
+  Icon: (typeof PRINCIPLE_ICONS)[number];
+  showMore: string;
+  showLess: string;
+  exampleLabel: string;
+}) {
+  const { title, text, points, example } = principle;
   const [open, setOpen] = useState(false);
   const panelId = `principle-${title.replace(/\s+/g, "-").toLowerCase()}`;
   const exampleRef = useRef<HTMLDivElement | null>(null);
@@ -347,7 +606,7 @@ function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) 
         aria-controls={panelId}
         className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-primary transition-opacity hover:opacity-70"
       >
-        <span>{open ? "Weniger anzeigen" : "Mehr erfahren"}</span>
+        <span>{open ? showLess : showMore}</span>
         <Plus
           className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
           strokeWidth={2}
@@ -373,7 +632,7 @@ function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) 
             className="mt-5 scroll-mt-24 rounded-lg bg-secondary/60 p-4"
           >
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              Beispiel
+              {exampleLabel}
             </p>
             <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">
               {example}

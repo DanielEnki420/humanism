@@ -77,16 +77,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Humanistic App" },
-      { name: "description", content: "Reason & Compassion is a modern landing page explaining secular humanism's values and benefits." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Humanistic App" },
-      { property: "og:description", content: "Reason & Compassion is a modern landing page explaining secular humanism's values and benefits." },
+      { title: "Säkularer Humanismus – Menschlichkeit durch Vernunft" },
+      { name: "description", content: "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl." },
+      { name: "author", content: "Daniel Enki" },
+      { property: "og:title", content: "Säkularer Humanismus" },
+      { property: "og:description", content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Humanistic App" },
-      { name: "twitter:description", content: "Reason & Compassion is a modern landing page explaining secular humanism's values and benefits." },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Säkularer Humanismus" },
+      { name: "twitter:description", content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/DB0yzZo6etTPzyu6IeFQ5xEGiH32/social-images/social-1782136684913-humanismus_beschreibung.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/DB0yzZo6etTPzyu6IeFQ5xEGiH32/social-images/social-1782136684913-humanismus_beschreibung.webp" },
     ],
@@ -106,10 +105,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Wendet gespeichertes Farbschema & Sprache an, bevor React hydriert (verhindert Flackern).
+const themeInitScript = `(function(){try{
+  var t=localStorage.getItem('theme');
+  var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(t==='dark'||(t===null&&prefersDark)){document.documentElement.classList.add('dark');}
+  var l=localStorage.getItem('lang');
+  if(l==='de'||l==='en'||l==='it'){document.documentElement.lang=l;}
+}catch(e){}})();`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="de">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <HeadContent />
       </head>
       <body>
