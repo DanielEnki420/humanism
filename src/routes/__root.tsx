@@ -91,8 +91,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Säkularer Humanismus" },
       { name: "twitter:description", content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/DB0yzZo6etTPzyu6IeFQ5xEGiH32/social-images/social-1782136684913-humanismus_beschreibung.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/DB0yzZo6etTPzyu6IeFQ5xEGiH32/social-images/social-1782136684913-humanismus_beschreibung.webp" },
+      { property: "og:image", content: "/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Humanitas – Säkularer Humanismus" },
+      { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
