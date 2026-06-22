@@ -314,6 +314,24 @@ type Principle = (typeof principles)[number];
 function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) {
   const [open, setOpen] = useState(false);
   const panelId = `principle-${title.replace(/\s+/g, "-").toLowerCase()}`;
+  const exampleRef = useRef<HTMLDivElement | null>(null);
+
+  const handleToggle = () => {
+    setOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        // Warten bis die Ausklapp-Animation gestartet hat, dann die Beispiel-Box sanft sichtbar machen.
+        window.setTimeout(() => {
+          exampleRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }, 320);
+      }
+      return next;
+    });
+  };
+
   return (
     <article className="group relative bg-card p-8 transition-colors hover:bg-card/70">
       <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
@@ -324,7 +342,7 @@ function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) 
 
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={handleToggle}
         aria-expanded={open}
         aria-controls={panelId}
         className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-primary transition-opacity hover:opacity-70"
@@ -350,7 +368,10 @@ function PrincipleCard({ icon: Icon, title, text, points, example }: Principle) 
               </li>
             ))}
           </ul>
-          <div className="mt-5 rounded-lg bg-secondary/60 p-4">
+          <div
+            ref={exampleRef}
+            className="mt-5 scroll-mt-24 rounded-lg bg-secondary/60 p-4"
+          >
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
               Beispiel
             </p>
