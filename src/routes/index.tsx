@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Brain,
   FlaskConical,
@@ -8,6 +9,7 @@ import {
   Sparkles,
   ArrowRight,
   Leaf,
+  Plus,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
