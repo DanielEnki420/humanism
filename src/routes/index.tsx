@@ -152,14 +152,25 @@ function SourceNote({ label, text }: { label: string; text: string }) {
   );
 }
 
-/** H-Monogramm – das Markenzeichen (Pendant zur Favicon) im Markengrün. */
+/** Markenzeichen: serifen-„H" mittig im Erd-Ring „O" (Pendant zur Favicon). */
 function Monogram() {
   return (
     <span
       aria-hidden
-      className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary font-serif text-base font-medium leading-none text-primary-foreground"
+      className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground"
     >
-      H
+      <svg viewBox="0 0 100 100" className="h-5 w-5" fill="none" aria-hidden>
+        <circle cx="50" cy="50" r="34" stroke="currentColor" strokeWidth="7" />
+        <g fill="currentColor">
+          <rect x="36" y="32" width="8" height="36" />
+          <rect x="56" y="32" width="8" height="36" />
+          <rect x="40" y="47" width="20" height="6" />
+          <rect x="32" y="32" width="16" height="4.5" />
+          <rect x="32" y="63.5" width="16" height="4.5" />
+          <rect x="52" y="32" width="16" height="4.5" />
+          <rect x="52" y="63.5" width="16" height="4.5" />
+        </g>
+      </svg>
     </span>
   );
 }
