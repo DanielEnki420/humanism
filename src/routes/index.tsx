@@ -175,6 +175,71 @@ function Monogram() {
   );
 }
 
+// Hexagon-Positionen (Prozent) der sechs Hub-Knoten um das Zentrum.
+const HUB_POSITIONS = [
+  { left: "50%", top: "7%" },
+  { left: "87%", top: "29%" },
+  { left: "87%", top: "71%" },
+  { left: "50%", top: "93%" },
+  { left: "13%", top: "71%" },
+  { left: "13%", top: "29%" },
+];
+
+/** Prinzipien-Hub: der Mensch im Zentrum, sechs Werte mit Icons ringsum (klickbar). */
+function PrinciplesHub({
+  items,
+  center,
+}: {
+  items: { title: string; Icon: (typeof PRINCIPLE_ICONS)[number] }[];
+  center: string;
+}) {
+  return (
+    <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden
+        className="absolute inset-0 h-full w-full text-primary/25"
+      >
+        {HUB_POSITIONS.map((p, i) => (
+          <line
+            key={i}
+            x1="50"
+            y1="50"
+            x2={parseFloat(p.left)}
+            y2={parseFloat(p.top)}
+            stroke="currentColor"
+            strokeWidth="0.4"
+          />
+        ))}
+      </svg>
+
+      <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-2 text-center font-serif text-sm font-medium leading-tight text-primary-foreground">
+        {center}
+      </div>
+
+      {items.map((item, i) => {
+        const Icon = item.Icon;
+        return (
+          <a
+            key={item.title}
+            href={`#principle-${i}`}
+            className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+            style={{ left: HUB_POSITIONS[i].left, top: HUB_POSITIONS[i].top }}
+          >
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary ring-1 ring-border transition-colors group-hover:bg-secondary group-hover:ring-primary/40">
+              <Icon className="h-6 w-6" strokeWidth={1.5} />
+            </span>
+            <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
+              {item.title}
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
 // Sektions-IDs in Nav-Reihenfolge – auch für den Scroll-Spy.
 const NAV_SECTION_IDS = [
   "was-ist",
@@ -468,10 +533,20 @@ function Index() {
       <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <SectionHead label={t.principles.label} heading={t.principles.heading} center />
+
+          <PrinciplesHub
+            center={t.principles.center}
+            items={t.principles.items.map((p, i) => ({
+              title: p.title,
+              Icon: PRINCIPLE_ICONS[i],
+            }))}
+          />
+
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
             {t.principles.items.map((p, i) => (
               <PrincipleCard
                 key={p.title}
+                id={`principle-${i}`}
                 principle={p}
                 Icon={PRINCIPLE_ICONS[i]}
                 showMore={t.ui.showMore}
@@ -886,12 +961,14 @@ function FaqRow({ item }: { item: FaqItem }) {
 }
 
 function PrincipleCard({
+  id,
   principle,
   Icon,
   showMore,
   showLess,
   exampleLabel,
 }: {
+  id: string;
   principle: PrincipleText;
   Icon: (typeof PRINCIPLE_ICONS)[number];
   showMore: string;
@@ -920,7 +997,7 @@ function PrincipleCard({
   };
 
   return (
-    <article className="group relative bg-card p-8 transition-colors hover:bg-card/70">
+    <article id={id} className="group relative scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70">
       <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
         <Icon className="h-5 w-5" strokeWidth={1.5} />
       </div>

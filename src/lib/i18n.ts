@@ -49,7 +49,7 @@ export type Translation = {
     ctaSecondary: string;
   };
   idea: { label: string; heading: string; lead: Segment[]; body: string };
-  principles: { label: string; heading: string; items: PrincipleText[] };
+  principles: { label: string; heading: string; center: string; items: PrincipleText[] };
   foundation: {
     label: string;
     quote: Segment[];
@@ -168,6 +168,7 @@ export const translations: Record<Lang, Translation> = {
     principles: {
       label: "Sechs Prinzipien",
       heading: "Werte, die uns verbinden",
+      center: "Der Mensch",
       items: [
         {
           title: "Kritisches Denken",
@@ -550,6 +551,7 @@ export const translations: Record<Lang, Translation> = {
     principles: {
       label: "Six Principles",
       heading: "Values that connect us",
+      center: "The human",
       items: [
         {
           title: "Critical Thinking",
@@ -930,6 +932,7 @@ export const translations: Record<Lang, Translation> = {
     principles: {
       label: "Sei principi",
       heading: "Valori che ci uniscono",
+      center: "L'essere umano",
       items: [
         {
           title: "Pensiero critico",
