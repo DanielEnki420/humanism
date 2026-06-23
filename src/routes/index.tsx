@@ -953,6 +953,41 @@ function Index() {
         </div>
       </section>
 
+      {/* Impressum */}
+      <section id="impressum" className="scroll-mt-20 border-t border-border">
+        <div className="mx-auto max-w-3xl px-6 py-20">
+          <h2 className="font-serif text-2xl font-medium">{t.legal.impressum.heading}</h2>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{t.legal.disclaimer}</p>
+          <div className="mt-8 space-y-6">
+            {t.legal.impressum.blocks.map((b) => (
+              <div key={b.title}>
+                <p className="text-sm font-medium text-foreground">{b.title}</p>
+                {b.lines.map((line) => (
+                  <p key={line} className="text-sm leading-relaxed text-muted-foreground">
+                    {line}
+                  </p>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Datenschutz */}
+      <section id="datenschutz" className="scroll-mt-20 bg-secondary/40">
+        <div className="mx-auto max-w-3xl px-6 py-20">
+          <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
+          <div className="mt-8 space-y-6">
+            {t.legal.privacy.blocks.map((b) => (
+              <div key={b.title}>
+                <p className="text-sm font-medium text-foreground">{b.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-border bg-card/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
@@ -1112,11 +1147,20 @@ function Index() {
               </div>
             </div>
           </div>
-          <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center">
+          <div className="mt-16 flex flex-col items-start gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {new Date().getFullYear()} Humanitas. {t.footer.copyright}
             </p>
-            <p>{t.footer.madeWith}</p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a href="#impressum" className="transition-colors hover:text-primary">
+                {t.legal.impressumLabel}
+              </a>
+              <a href="#datenschutz" className="transition-colors hover:text-primary">
+                {t.legal.privacyLabel}
+              </a>
+              <span className="text-border">·</span>
+              <span>{t.footer.madeWith}</span>
+            </div>
           </div>
         </div>
       </footer>

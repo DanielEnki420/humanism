@@ -139,6 +139,13 @@ export type Translation = {
     sourceLabel: string;
     skipToContent: string;
   };
+  legal: {
+    impressumLabel: string;
+    privacyLabel: string;
+    disclaimer: string;
+    impressum: { heading: string; blocks: { title: string; lines: string[] }[] };
+    privacy: { heading: string; blocks: { title: string; body: string }[] };
+  };
 };
 
 export const translations: Record<Lang, Translation> = {
@@ -577,6 +584,51 @@ export const translations: Record<Lang, Translation> = {
       sourceLabel: "Quelle",
       skipToContent: "Zum Inhalt springen",
     },
+    legal: {
+      impressumLabel: "Impressum",
+      privacyLabel: "Datenschutz",
+      disclaimer:
+        "Vorlage ohne Gewähr – ersetzt keine Rechtsberatung. Bitte die Platzhalter in eckigen Klammern mit deinen Angaben ersetzen und vor Veröffentlichung prüfen lassen.",
+      impressum: {
+        heading: "Impressum",
+        blocks: [
+          {
+            title: "Angaben gemäß § 5 DDG",
+            lines: ["[Vor- und Nachname]", "[Straße und Hausnummer]", "[PLZ und Ort]"],
+          },
+          { title: "Kontakt", lines: ["E-Mail: [deine@e-mail.de]"] },
+          {
+            title: "Verantwortlich nach § 18 Abs. 2 MStV",
+            lines: ["[Name]", "[Anschrift wie oben]"],
+          },
+        ],
+      },
+      privacy: {
+        heading: "Datenschutzerklärung",
+        blocks: [
+          {
+            title: "Verantwortlicher",
+            body: "Verantwortlich für die Datenverarbeitung ist die im Impressum genannte Person.",
+          },
+          {
+            title: "Hosting",
+            body: "Diese Website wird bei [Hosting-Anbieter] gehostet. Beim Aufruf verarbeitet der Anbieter technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt) in Server-Logfiles auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.",
+          },
+          {
+            title: "Schriftarten",
+            body: "Die Seite lädt Schriftarten von Google-Servern (Google Fonts); dabei wird deine IP-Adresse an Google übertragen. Für volle DSGVO-Konformität empfiehlt sich, die Schriften lokal zu hosten.",
+          },
+          {
+            title: "Lokale Speicherung",
+            body: "Sprache und Farbschema werden ausschließlich lokal in deinem Browser gespeichert (localStorage). Es werden keine Cookies gesetzt, und es findet kein Tracking und keine Analyse statt.",
+          },
+          {
+            title: "Deine Rechte",
+            body: "Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde.",
+          },
+        ],
+      },
+    },
   },
 
   en: {
@@ -1004,6 +1056,51 @@ export const translations: Record<Lang, Translation> = {
       toggleLanguage: "Choose language",
       sourceLabel: "Source",
       skipToContent: "Skip to content",
+    },
+    legal: {
+      impressumLabel: "Imprint",
+      privacyLabel: "Privacy",
+      disclaimer:
+        "Template without warranty – not legal advice. Please replace the bracketed placeholders with your details and have it reviewed before publishing.",
+      impressum: {
+        heading: "Imprint",
+        blocks: [
+          {
+            title: "Information pursuant to § 5 DDG (German law)",
+            lines: ["[First and last name]", "[Street and number]", "[Postal code and city]"],
+          },
+          { title: "Contact", lines: ["Email: [your@email.com]"] },
+          {
+            title: "Responsible per § 18 (2) MStV",
+            lines: ["[Name]", "[Address as above]"],
+          },
+        ],
+      },
+      privacy: {
+        heading: "Privacy Policy",
+        blocks: [
+          {
+            title: "Controller",
+            body: "The person named in the imprint is responsible for data processing.",
+          },
+          {
+            title: "Hosting",
+            body: "This website is hosted by [hosting provider]. On access, the provider processes technically necessary access data (e.g. IP address, timestamp) in server log files under Art. 6(1)(f) GDPR.",
+          },
+          {
+            title: "Fonts",
+            body: "The site loads fonts from Google servers (Google Fonts); your IP address is transmitted to Google. For full GDPR compliance, hosting the fonts locally is recommended.",
+          },
+          {
+            title: "Local storage",
+            body: "Language and colour scheme are stored solely in your browser (localStorage). No cookies are set, and no tracking or analytics take place.",
+          },
+          {
+            title: "Your rights",
+            body: "You have the right to access, rectification, erasure, restriction of processing, data portability and objection, as well as to lodge a complaint with a supervisory authority.",
+          },
+        ],
+      },
     },
   },
 
@@ -1438,6 +1535,51 @@ export const translations: Record<Lang, Translation> = {
       toggleLanguage: "Scegli la lingua",
       sourceLabel: "Fonte",
       skipToContent: "Vai al contenuto",
+    },
+    legal: {
+      impressumLabel: "Note legali",
+      privacyLabel: "Privacy",
+      disclaimer:
+        "Modello senza garanzia – non costituisce consulenza legale. Sostituisci i segnaposto tra parentesi con i tuoi dati e fallo verificare prima della pubblicazione.",
+      impressum: {
+        heading: "Note legali",
+        blocks: [
+          {
+            title: "Informazioni ai sensi del § 5 DDG (legge tedesca)",
+            lines: ["[Nome e cognome]", "[Via e numero civico]", "[CAP e città]"],
+          },
+          { title: "Contatto", lines: ["E-mail: [tua@email.it]"] },
+          {
+            title: "Responsabile ai sensi del § 18 c. 2 MStV",
+            lines: ["[Nome]", "[Indirizzo come sopra]"],
+          },
+        ],
+      },
+      privacy: {
+        heading: "Informativa sulla privacy",
+        blocks: [
+          {
+            title: "Titolare",
+            body: "Il trattamento dei dati è di competenza della persona indicata nelle note legali.",
+          },
+          {
+            title: "Hosting",
+            body: "Questo sito è ospitato da [provider di hosting]. All'accesso, il provider tratta dati tecnicamente necessari (es. indirizzo IP, orario) in file di log del server ai sensi dell'art. 6 par. 1 lett. f GDPR.",
+          },
+          {
+            title: "Caratteri",
+            body: "Il sito carica i caratteri dai server di Google (Google Fonts); il tuo indirizzo IP viene trasmesso a Google. Per piena conformità al GDPR si consiglia di ospitare i caratteri localmente.",
+          },
+          {
+            title: "Memoria locale",
+            body: "Lingua e combinazione di colori sono salvate solo nel tuo browser (localStorage). Non vengono impostati cookie e non avviene alcun tracciamento o analisi.",
+          },
+          {
+            title: "I tuoi diritti",
+            body: "Hai diritto di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione, nonché di reclamo a un'autorità di controllo.",
+          },
+        ],
+      },
     },
   },
 };
