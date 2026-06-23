@@ -87,22 +87,92 @@ const SOURCE_LINKS = [
   },
 ];
 
+const SITE_URL = "https://humanism.lovable.app";
+
+const LOCALIZED_META: Record<
+  Lang,
+  {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    ogLocale: string;
+    image: string;
+    imageAlt: string;
+  }
+> = {
+  de: {
+    title: "Säkularer Humanismus – Menschlichkeit durch Vernunft",
+    description:
+      "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+    ogTitle: "Säkularer Humanismus",
+    ogDescription:
+      "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
+    ogLocale: "de_DE",
+    image: "/og-image-de.png",
+    imageAlt: "Humanitas – Säkularer Humanismus: Vernunft, Wissenschaft, Mitgefühl",
+  },
+  en: {
+    title: "Secular Humanism – Humanity through Reason",
+    description:
+      "A worldview grounded in human dignity, science, critical thinking and compassion.",
+    ogTitle: "Secular Humanism",
+    ogDescription:
+      "Values, reason and responsibility – an introduction to secular humanism.",
+    ogLocale: "en_US",
+    image: "/og-image-en.png",
+    imageAlt: "Humanitas – Secular Humanism: Reason, Science, Compassion",
+  },
+  it: {
+    title: "Umanesimo Laico – Umanità attraverso la ragione",
+    description:
+      "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
+    ogTitle: "Umanesimo Laico",
+    ogDescription:
+      "Valori, ragione e responsabilità – un'introduzione all'umanesimo laico.",
+    ogLocale: "it_IT",
+    image: "/og-image-it.png",
+    imageAlt: "Humanitas – Umanesimo Laico: Ragione, Scienza, Compassione",
+  },
+};
+
+function isLang(value: unknown): value is Lang {
+  return value === "de" || value === "en" || value === "it";
+}
+
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Säkularer Humanismus – Menschlichkeit durch Vernunft" },
-      {
-        name: "description",
-        content:
-          "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
-      },
-      { property: "og:title", content: "Säkularer Humanismus" },
-      {
-        property: "og:description",
-        content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
-      },
-    ],
+  validateSearch: (search: Record<string, unknown>) => ({
+    lang: isLang(search.lang) ? (search.lang as Lang) : undefined,
   }),
+  head: ({ search }) => {
+    const lang: Lang = search?.lang ?? "de";
+    const m = LOCALIZED_META[lang];
+    const url = lang === "de" ? SITE_URL + "/" : `${SITE_URL}/?lang=${lang}`;
+    const imageAbs = SITE_URL + m.image;
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.ogTitle },
+        { property: "og:description", content: m.ogDescription },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { property: "og:locale", content: m.ogLocale },
+        { property: "og:image", content: imageAbs },
+        { property: "og:image:secure_url", content: imageAbs },
+        { property: "og:image:type", content: "image/png" },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: m.imageAlt },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: m.ogTitle },
+        { name: "twitter:description", content: m.ogDescription },
+        { name: "twitter:image", content: imageAbs },
+        { name: "twitter:image:alt", content: m.imageAlt },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: Index,
 });
 
