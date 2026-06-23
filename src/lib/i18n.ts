@@ -241,8 +241,7 @@ export const translations: Record<Lang, Translation> = {
             "Solidarität über Grenzen hinweg",
             "Zukünftige Generationen mitdenken",
           ],
-          example:
-            "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
+          example: "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
         },
         {
           title: "Freies Denken",
@@ -315,8 +314,7 @@ export const translations: Record<Lang, Translation> = {
     ethics: {
       label: "Ethik",
       heading: "Woher kommen Werte ohne Gott?",
-      intro:
-        "Moral braucht keine übernatürliche Quelle – sie lässt sich begründen.",
+      intro: "Moral braucht keine übernatürliche Quelle – sie lässt sich begründen.",
       items: [
         {
           title: "Empathie & Evolution",
@@ -331,8 +329,7 @@ export const translations: Record<Lang, Translation> = {
           text: "Gut ist, was Leid mindert und Aufblühen ermöglicht – beurteilt an den realen Folgen für fühlende Wesen.",
         },
       ],
-      source:
-        "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
+      source: "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
     },
     distinctions: {
       label: "Abgrenzung",
@@ -488,21 +485,24 @@ export const translations: Record<Lang, Translation> = {
             "Angegriffen wird die Person, nicht ihr Argument. Ob sie einen SUV fährt, sagt nichts über die Richtigkeit ihrer Aussage.",
         },
         {
-          statement: "„Entweder du bist für das Gesetz – oder dir ist die Sicherheit der Bürger egal.“",
+          statement:
+            "„Entweder du bist für das Gesetz – oder dir ist die Sicherheit der Bürger egal.“",
           options: ["Ad hominem", "Falsches Dilemma", "Zirkelschluss"],
           correct: 1,
           explanation:
             "Es werden nur zwei Möglichkeiten vorgegaukelt, obwohl es viele Positionen dazwischen gibt.",
         },
         {
-          statement: "„Seit es mehr Bio-Läden gibt, steigen auch die Allergien. Bio macht also krank.“",
+          statement:
+            "„Seit es mehr Bio-Läden gibt, steigen auch die Allergien. Bio macht also krank.“",
           options: ["Strohmann", "Autoritätsargument", "Scheinkausalität"],
           correct: 2,
           explanation:
             "Zwei Dinge treten gleichzeitig auf – das beweist keinen ursächlichen Zusammenhang. Korrelation ≠ Kausalität.",
         },
         {
-          statement: "„Humanist:innen wollen die Religion abschaffen? Dann seid ihr also gegen jede Tradition!“",
+          statement:
+            "„Humanist:innen wollen die Religion abschaffen? Dann seid ihr also gegen jede Tradition!“",
           options: ["Ad hominem", "Strohmann", "Falsches Dilemma"],
           correct: 1,
           explanation:
@@ -572,8 +572,7 @@ export const translations: Record<Lang, Translation> = {
   en: {
     meta: {
       title: "Secular Humanism – Humanity through Reason",
-      description:
-        "A worldview based on human dignity, science, critical thinking and compassion.",
+      description: "A worldview based on human dignity, science, critical thinking and compassion.",
     },
     nav: {
       idea: "Idea",
@@ -595,8 +594,7 @@ export const translations: Record<Lang, Translation> = {
         { t: "Humanity", em: true },
         { t: " through Reason and Responsibility" },
       ],
-      subtitle:
-        "A worldview based on human dignity, science, critical thinking and compassion.",
+      subtitle: "A worldview based on human dignity, science, critical thinking and compassion.",
       ctaPrimary: "Explore the principles",
       ctaSecondary: "Learn more",
     },
@@ -712,8 +710,7 @@ export const translations: Record<Lang, Translation> = {
     science: {
       label: "Science 101",
       heading: "How we gain reliable knowledge",
-      intro:
-        "Principle 2 in practice: science is not a belief but a self-correcting method.",
+      intro: "Principle 2 in practice: science is not a belief but a self-correcting method.",
       items: [
         {
           title: "Hypothesis & test",
@@ -787,8 +784,7 @@ export const translations: Record<Lang, Translation> = {
     history: {
       label: "History of Ideas",
       heading: "A long line of thought",
-      intro:
-        "Humanist ideas are not a modern invention – they run across cultures and millennia.",
+      intro: "Humanist ideas are not a modern invention – they run across cultures and millennia.",
       items: [
         {
           year: "~600 BCE",
@@ -915,11 +911,11 @@ export const translations: Record<Lang, Translation> = {
           statement: "“Either you support the law – or you don't care about citizens' safety.”",
           options: ["Ad hominem", "False dilemma", "Circular reasoning"],
           correct: 1,
-          explanation:
-            "Only two options are presented, though many positions exist in between.",
+          explanation: "Only two options are presented, though many positions exist in between.",
         },
         {
-          statement: "“Since organic shops became common, allergies have risen too. So organic food makes you ill.”",
+          statement:
+            "“Since organic shops became common, allergies have risen too. So organic food makes you ill.”",
           options: ["Straw man", "Appeal to authority", "False cause"],
           correct: 2,
           explanation:
@@ -973,8 +969,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     footer: {
-      tagline:
-        "An invitation to view the world with open eyes, a clear mind and a warm heart.",
+      tagline: "An invitation to view the world with open eyes, a clear mind and a warm heart.",
       topicsLabel: "Topics",
       referenceLabel: "Reference",
       projectLabel: "Project",
@@ -1211,8 +1206,7 @@ export const translations: Record<Lang, Translation> = {
     history: {
       label: "Storia delle idee",
       heading: "Una lunga linea di pensiero",
-      intro:
-        "Le idee umaniste non sono un'invenzione moderna – attraversano culture e millenni.",
+      intro: "Le idee umaniste non sono un'invenzione moderna – attraversano culture e millenni.",
       items: [
         {
           year: "~600 a.C.",
@@ -1336,21 +1330,24 @@ export const translations: Record<Lang, Translation> = {
             "Si attacca la persona, non il suo argomento. Guidare un SUV non dice nulla sulla verità dell'affermazione.",
         },
         {
-          statement: "«O sei a favore della legge – o non t'importa della sicurezza dei cittadini.»",
+          statement:
+            "«O sei a favore della legge – o non t'importa della sicurezza dei cittadini.»",
           options: ["Ad hominem", "Falso dilemma", "Ragionamento circolare"],
           correct: 1,
           explanation:
             "Si presentano solo due opzioni, anche se esistono molte posizioni intermedie.",
         },
         {
-          statement: "«Da quando ci sono più negozi bio, aumentano anche le allergie. Quindi il bio fa male.»",
+          statement:
+            "«Da quando ci sono più negozi bio, aumentano anche le allergie. Quindi il bio fa male.»",
           options: ["Uomo di paglia", "Argomento d'autorità", "Falsa causa"],
           correct: 2,
           explanation:
             "Due fenomeni si presentano insieme – ciò non prova un nesso causale. Correlazione ≠ causalità.",
         },
         {
-          statement: "«Gli umanisti vogliono abolire la religione? Allora siete contro ogni tradizione!»",
+          statement:
+            "«Gli umanisti vogliono abolire la religione? Allora siete contro ogni tradizione!»",
           options: ["Ad hominem", "Uomo di paglia", "Falso dilemma"],
           correct: 1,
           explanation:
@@ -1397,8 +1394,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     footer: {
-      tagline:
-        "Un invito a guardare il mondo con occhi aperti, mente lucida e cuore caldo.",
+      tagline: "Un invito a guardare il mondo con occhi aperti, mente lucida e cuore caldo.",
       topicsLabel: "Argomenti",
       referenceLabel: "Consultazione",
       projectLabel: "Progetto",

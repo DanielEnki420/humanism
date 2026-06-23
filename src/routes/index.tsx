@@ -32,14 +32,7 @@ import {
 const GITHUB_URL = "https://github.com/DanielEnki420/humanism";
 
 // Icons in der Reihenfolge der Prinzipien aus i18n.ts.
-const PRINCIPLE_ICONS = [
-  Brain,
-  FlaskConical,
-  HeartHandshake,
-  Scale,
-  Globe2,
-  Sparkles,
-];
+const PRINCIPLE_ICONS = [Brain, FlaskConical, HeartHandshake, Scale, Globe2, Sparkles];
 
 // Icons für die drei Grundlage-Säulen (Reihenfolge = foundation.cards).
 const FOUNDATION_ICONS = [Brain, Eye, Heart];
@@ -106,8 +99,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Säkularer Humanismus" },
       {
         property: "og:description",
-        content:
-          "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
+        content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
       },
     ],
   }),
@@ -149,9 +141,7 @@ function SectionHead({
         {label}
       </p>
       <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">{heading}</h2>
-      {intro && (
-        <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>
-      )}
+      {intro && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>}
     </div>
   );
 }
@@ -166,7 +156,7 @@ function SourceNote({ label, text }: { label: string; text: string }) {
 }
 
 /** Markenzeichen: stilisierter Globus (Pendant zur Favicon). */
-function Monogram() {
+function BrandMark() {
   return (
     <span
       aria-hidden
@@ -265,7 +255,11 @@ const CYCLE_POSITIONS = [
 function ScienceCycle({ titles }: { titles: string[] }) {
   return (
     <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
-      <svg viewBox="0 0 100 100" aria-hidden className="absolute inset-0 h-full w-full text-primary/30">
+      <svg
+        viewBox="0 0 100 100"
+        aria-hidden
+        className="absolute inset-0 h-full w-full text-primary/30"
+      >
         <circle
           cx="50"
           cy="50"
@@ -350,11 +344,7 @@ function Index() {
     const q = new URLSearchParams(window.location.search).get("lang") as Lang | null;
     const saved = localStorage.getItem("lang") as Lang | null;
     const initial =
-      q && LANGUAGES.includes(q)
-        ? q
-        : saved && LANGUAGES.includes(saved)
-          ? saved
-          : "de";
+      q && LANGUAGES.includes(q) ? q : saved && LANGUAGES.includes(saved) ? saved : "de";
     if (initial !== "de") setLang(initial);
     setDark(document.documentElement.classList.contains("dark"));
   }, []);
@@ -393,9 +383,9 @@ function Index() {
   // Scroll-Reveal: Abschnitte blenden beim Scrollen sanft ein (außer Hero).
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = Array.from(
-      document.querySelectorAll<HTMLElement>("section[id]"),
-    ).filter((el) => el.id !== "top");
+    const targets = Array.from(document.querySelectorAll<HTMLElement>("section[id]")).filter(
+      (el) => el.id !== "top",
+    );
     if (!targets.length) return;
     targets.forEach((el) => el.setAttribute("data-reveal", ""));
     document.documentElement.classList.add("reveal-ready");
@@ -453,7 +443,7 @@ function Index() {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2 font-serif text-lg font-semibold">
-            <Monogram />
+            <BrandMark />
             <span>Humanitas</span>
           </a>
           <div className="flex items-center gap-4 lg:gap-6">
@@ -527,15 +517,20 @@ function Index() {
           aria-hidden
           className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
           style={{
-            background:
-              "radial-gradient(closest-side, var(--sage), transparent 70%)",
+            background: "radial-gradient(closest-side, var(--sage), transparent 70%)",
           }}
         />
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 text-primary opacity-[0.07]"
         >
-          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.4" className="globe-spin h-full w-full">
+          <svg
+            viewBox="0 0 200 200"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            className="globe-spin h-full w-full"
+          >
             <circle cx="100" cy="100" r="96" />
             <ellipse cx="100" cy="100" rx="96" ry="32" />
             <ellipse cx="100" cy="100" rx="34" ry="96" />
@@ -582,9 +577,7 @@ function Index() {
             <p className="text-xl leading-relaxed text-foreground/90">
               <RichText segments={t.idea.lead} />
             </p>
-            <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-              {t.idea.body}
-            </p>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t.idea.body}</p>
           </div>
         </div>
       </section>
@@ -656,7 +649,11 @@ function Index() {
       {/* Wissenschafts-1x1 */}
       <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <SectionHead label={t.science.label} heading={t.science.heading} intro={t.science.intro} />
+          <SectionHead
+            label={t.science.label}
+            heading={t.science.heading}
+            intro={t.science.intro}
+          />
 
           <ScienceCycle titles={t.science.items.map((it) => it.title)} />
 
@@ -885,7 +882,7 @@ function Index() {
           <div className="grid gap-12 md:grid-cols-12">
             <div className="md:col-span-6">
               <div className="flex items-center gap-2 font-serif text-lg font-semibold">
-                <Monogram />
+                <BrandMark />
                 Humanitas
               </div>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -898,11 +895,46 @@ function Index() {
                   {t.footer.topicsLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#was-ist" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.idea}</a></li>
-                  <li><a href="#prinzipien" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.principles}</a></li>
-                  <li><a href="#grundlage" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.foundation}</a></li>
-                  <li><a href="#wissenschaft" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.science}</a></li>
-                  <li><a href="#ethik" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.ethics}</a></li>
+                  <li>
+                    <a
+                      href="#was-ist"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.idea}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#prinzipien"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.principles}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#grundlage"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.foundation}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#wissenschaft"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.science}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#ethik"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.ethics}
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div>
@@ -910,11 +942,46 @@ function Index() {
                   {t.footer.referenceLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#abgrenzung" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.distinctions}</a></li>
-                  <li><a href="#geschichte" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.history}</a></li>
-                  <li><a href="#dokumente" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.documents}</a></li>
-                  <li><a href="#daten" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.data}</a></li>
-                  <li><a href="#glossar" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.glossary}</a></li>
+                  <li>
+                    <a
+                      href="#abgrenzung"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.distinctions}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#geschichte"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.history}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#dokumente"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.documents}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#daten"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.data}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#glossar"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.glossary}
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div>
@@ -922,9 +989,30 @@ function Index() {
                   {t.footer.projectLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#faq" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.faq}</a></li>
-                  <li><a href="#quiz" className="text-muted-foreground transition-colors hover:text-primary">{t.quiz.heading}</a></li>
-                  <li><a href="#quellen" className="text-muted-foreground transition-colors hover:text-primary">{t.sources.label}</a></li>
+                  <li>
+                    <a
+                      href="#faq"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.nav.faq}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#quiz"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.quiz.heading}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#quellen"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.sources.label}
+                    </a>
+                  </li>
                   <li>
                     <a
                       href={GITHUB_URL}
@@ -940,7 +1028,9 @@ function Index() {
             </div>
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center">
-            <p>© {new Date().getFullYear()} Humanitas. {t.footer.copyright}</p>
+            <p>
+              © {new Date().getFullYear()} Humanitas. {t.footer.copyright}
+            </p>
             <p>{t.footer.madeWith}</p>
           </div>
         </div>
@@ -1204,7 +1294,11 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
 
       {selected !== null && (
         <div className="mt-5">
-          <p className="rounded-lg bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
+          <p
+            role="status"
+            aria-live="polite"
+            className="rounded-lg bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85"
+          >
             {item.explanation}
           </p>
           <button
@@ -1258,7 +1352,10 @@ function PrincipleCard({
   };
 
   return (
-    <article id={id} className="group relative scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70">
+    <article
+      id={id}
+      className="group relative scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70"
+    >
       <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
         <Icon className="h-5 w-5" strokeWidth={1.5} />
       </div>
@@ -1293,16 +1390,11 @@ function PrincipleCard({
               </li>
             ))}
           </ul>
-          <div
-            ref={exampleRef}
-            className="mt-5 scroll-mt-24 rounded-lg bg-secondary/60 p-4"
-          >
+          <div ref={exampleRef} className="mt-5 scroll-mt-24 rounded-lg bg-secondary/60 p-4">
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
               {exampleLabel}
             </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">
-              {example}
-            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">{example}</p>
           </div>
         </div>
       </div>

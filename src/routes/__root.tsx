@@ -78,10 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Säkularer Humanismus – Menschlichkeit durch Vernunft" },
-      { name: "description", content: "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl." },
+      {
+        name: "description",
+        content:
+          "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+      },
       { name: "author", content: "Daniel Enki" },
       { property: "og:title", content: "Säkularer Humanismus" },
-      { property: "og:description", content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus." },
+      {
+        property: "og:description",
+        content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "de_DE" },
       { property: "og:locale:alternate", content: "en_US" },
@@ -90,7 +97,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#17211c", media: "(prefers-color-scheme: dark)" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Säkularer Humanismus" },
-      { name: "twitter:description", content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus." },
+      {
+        name: "twitter:description",
+        content: "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
+      },
       { property: "og:image", content: "/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
