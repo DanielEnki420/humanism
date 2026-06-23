@@ -13,6 +13,9 @@ import {
   Sun,
   ExternalLink,
   RotateCw,
+  Check,
+  Eye,
+  Heart,
 } from "lucide-react";
 import {
   LANGUAGES,
@@ -35,6 +38,9 @@ const PRINCIPLE_ICONS = [
   Globe2,
   Sparkles,
 ];
+
+// Icons für die drei Grundlage-Säulen (Reihenfolge = foundation.cards).
+const FOUNDATION_ICONS = [Brain, Eye, Heart];
 
 // Sprachunabhängige Zahlenwerte zum Diagramm (Reihenfolge = data.regions).
 // Anteil religiös Ungebundener 2020, Pew Research Center, „How the Global Religious
@@ -618,13 +624,26 @@ function Index() {
               <RichText segments={t.foundation.quote} em="italic text-primary" />
             </blockquote>
           </div>
-          <div className="mt-8 grid gap-8 md:col-span-12 md:grid-cols-3">
-            {t.foundation.cards.map((b) => (
-              <div key={b.k} className="border-t border-border pt-6">
-                <p className="font-serif text-lg text-primary">{b.k}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
-              </div>
-            ))}
+          <div className="mt-12 md:col-span-12">
+            <div className="h-1.5 rounded-full bg-primary/20" />
+            <div className="grid gap-4 py-4 sm:grid-cols-3">
+              {t.foundation.cards.map((b, i) => {
+                const Icon = FOUNDATION_ICONS[i];
+                return (
+                  <div
+                    key={b.k}
+                    className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
+                      <Icon className="h-5 w-5" strokeWidth={1.5} />
+                    </span>
+                    <p className="mt-4 font-serif text-lg font-medium text-primary">{b.k}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="h-1.5 rounded-full bg-primary/20" />
           </div>
         </div>
       </section>
@@ -677,20 +696,36 @@ function Index() {
             intro={t.distinctions.intro}
             center
           />
-          <div className="mt-12 space-y-3">
-            {t.distinctions.items.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-xl border border-border bg-card p-5 sm:flex sm:items-baseline sm:gap-4"
-              >
-                <span className="shrink-0 font-serif text-lg font-medium text-primary sm:w-44">
-                  {item.title}
-                </span>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground sm:mt-0">
-                  {item.text}
-                </p>
-              </div>
-            ))}
+          <div className="mt-12 grid gap-6 md:grid-cols-5">
+            {/* Was es IST */}
+            <div className="flex flex-col justify-center rounded-2xl bg-primary p-6 text-primary-foreground md:col-span-2">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
+                <Check className="h-5 w-5" strokeWidth={2} />
+              </span>
+              <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/70">
+                {t.distinctions.affirmLabel}
+              </p>
+              <p className="mt-1 font-serif text-xl font-medium leading-snug">
+                {t.distinctions.affirmText}
+              </p>
+            </div>
+
+            {/* Was es NICHT ist */}
+            <div className="grid gap-3 sm:grid-cols-2 md:col-span-3">
+              {t.distinctions.items.map((item) => (
+                <div key={item.title} className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-secondary font-serif text-base text-muted-foreground">
+                      ≠
+                    </span>
+                    <span className="font-serif text-base font-medium text-foreground">
+                      {item.title}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{item.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -73,6 +73,8 @@ export type Translation = {
     label: string;
     heading: string;
     intro: string;
+    affirmLabel: string;
+    affirmText: string;
     items: TitledItem[];
   };
   history: { label: string; heading: string; intro: string; items: TimelineItem[] };
@@ -319,6 +321,9 @@ export const translations: Record<Lang, Translation> = {
       label: "Abgrenzung",
       heading: "Was Humanismus nicht ist",
       intro: "Vier häufige Verwechslungen – und warum sie danebenliegen.",
+      affirmLabel: "Humanismus ist",
+      affirmText:
+        "eine positive Lebenshaltung mit eigenen Werten – getragen von Vernunft, Würde und Verantwortung.",
       items: [
         {
           title: "Atheismus",
@@ -700,6 +705,9 @@ export const translations: Record<Lang, Translation> = {
       label: "Distinctions",
       heading: "What humanism is not",
       intro: "Four common mix-ups – and why they miss the point.",
+      affirmLabel: "Humanism is",
+      affirmText:
+        "a positive stance on life with its own values – carried by reason, dignity and responsibility.",
       items: [
         {
           title: "Atheism",
@@ -1081,6 +1089,9 @@ export const translations: Record<Lang, Translation> = {
       label: "Distinzioni",
       heading: "Cosa non è l'umanesimo",
       intro: "Quattro confusioni frequenti – e perché sbagliano bersaglio.",
+      affirmLabel: "L'umanesimo è",
+      affirmText:
+        "un atteggiamento positivo verso la vita con valori propri – sostenuto da ragione, dignità e responsabilità.",
       items: [
         {
           title: "Ateismo",
