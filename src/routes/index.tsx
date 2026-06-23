@@ -159,7 +159,7 @@ function SourceNote({ label, text }: { label: string; text: string }) {
   );
 }
 
-/** Markenzeichen: serifen-„H" mittig im Erd-Ring „O" (Pendant zur Favicon). */
+/** Markenzeichen: stilisierter Globus (Pendant zur Favicon). */
 function Monogram() {
   return (
     <span
@@ -167,16 +167,15 @@ function Monogram() {
       className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground"
     >
       <svg viewBox="0 0 100 100" className="h-5 w-5" fill="none" aria-hidden>
-        <circle cx="50" cy="50" r="34" stroke="currentColor" strokeWidth="7" />
-        <g fill="currentColor">
-          <rect x="36" y="32" width="8" height="36" />
-          <rect x="56" y="32" width="8" height="36" />
-          <rect x="40" y="47" width="20" height="6" />
-          <rect x="32" y="32" width="16" height="4.5" />
-          <rect x="32" y="63.5" width="16" height="4.5" />
-          <rect x="52" y="32" width="16" height="4.5" />
-          <rect x="52" y="63.5" width="16" height="4.5" />
+        <g stroke="currentColor" strokeWidth="6">
+          <circle cx="50" cy="50" r="33" />
+          <ellipse cx="50" cy="50" rx="33" ry="11.5" />
+          <ellipse cx="50" cy="50" rx="12.5" ry="33" />
         </g>
+        <path
+          d="M40,28 q-10,9 -6,20 q8,6 10,-2 q-4,-10 -4,-18 z M62,40 q9,4 7,14 q-6,5 -9,-2 q3,-8 2,-12 z"
+          fill="currentColor"
+        />
       </svg>
     </span>
   );
