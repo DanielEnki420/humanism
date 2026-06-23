@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   ExternalLink,
+  RotateCw,
 } from "lucide-react";
 import {
   LANGUAGES,
@@ -236,6 +237,54 @@ function PrinciplesHub({
           </a>
         );
       })}
+    </div>
+  );
+}
+
+// Pentagon-Positionen (Prozent) der fünf Zyklus-Knoten um das Zentrum.
+const CYCLE_POSITIONS = [
+  { left: "50%", top: "11%" },
+  { left: "86%", top: "39%" },
+  { left: "72%", top: "82%" },
+  { left: "28%", top: "82%" },
+  { left: "14%", top: "39%" },
+];
+
+/** Wissenschafts-Kreislauf: fünf Methoden-Schritte als selbst-korrigierender Zyklus. */
+function ScienceCycle({ titles }: { titles: string[] }) {
+  return (
+    <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
+      <svg viewBox="0 0 100 100" aria-hidden className="absolute inset-0 h-full w-full text-primary/30">
+        <circle
+          cx="50"
+          cy="50"
+          r="39"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+        />
+      </svg>
+
+      <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground">
+        <RotateCw className="h-7 w-7" strokeWidth={1.5} />
+      </div>
+
+      {titles.map((title, i) => (
+        <a
+          key={title}
+          href={`#science-${i}`}
+          className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+          style={{ left: CYCLE_POSITIONS[i].left, top: CYCLE_POSITIONS[i].top }}
+        >
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-card font-serif text-sm font-medium text-primary ring-1 ring-border transition-colors group-hover:bg-secondary group-hover:ring-primary/40">
+            {`0${i + 1}`}
+          </span>
+          <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
+            {title}
+          </span>
+        </a>
+      ))}
     </div>
   );
 }
@@ -584,9 +633,16 @@ function Index() {
       <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <SectionHead label={t.science.label} heading={t.science.heading} intro={t.science.intro} />
+
+          <ScienceCycle titles={t.science.items.map((it) => it.title)} />
+
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {t.science.items.map((item, i) => (
-              <div key={item.title} className="rounded-xl border border-border bg-card p-6">
+              <div
+                key={item.title}
+                id={`science-${i}`}
+                className="scroll-mt-24 rounded-xl border border-border bg-card p-6"
+              >
                 <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
                 <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
