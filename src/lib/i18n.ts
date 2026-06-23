@@ -25,6 +25,12 @@ export type TimelineItem = { year: string; title: string; text: string };
 export type FaqItem = { q: string; a: string };
 export type TitledItem = { title: string; text: string };
 export type TermItem = { term: string; def: string };
+export type QuizItem = {
+  statement: string;
+  options: string[];
+  correct: number;
+  explanation: string;
+};
 
 export type Translation = {
   meta: { title: string; description: string };
@@ -97,6 +103,16 @@ export type Translation = {
     regions: string[];
   };
   faq: { label: string; heading: string; items: FaqItem[] };
+  quiz: {
+    label: string;
+    heading: string;
+    intro: string;
+    questionLabel: string;
+    next: string;
+    restart: string;
+    resultLabel: string;
+    items: QuizItem[];
+  };
   glossary: { label: string; heading: string; intro: string; items: TermItem[] };
   sources: {
     label: string;
@@ -452,6 +468,45 @@ export const translations: Record<Lang, Translation> = {
         {
           q: "Wie steht Humanismus zur Wissenschaft?",
           a: "Wissenschaft ist die beste Methode, um Wirklichkeit verlässlich zu verstehen. Humanismus nutzt sie als Werkzeug – kennt aber auch ihre Grenzen bei Sinn- und Wertefragen.",
+        },
+      ],
+    },
+    quiz: {
+      label: "Mitmachen",
+      heading: "Erkenne den Denkfehler",
+      intro: "Vier Aussagen, vier typische Denkfehler. Welcher steckt jeweils dahinter?",
+      questionLabel: "Frage",
+      next: "Weiter",
+      restart: "Nochmal",
+      resultLabel: "richtig",
+      items: [
+        {
+          statement: "„Was weiß die schon über Klimapolitik – sie fährt doch selbst einen SUV.“",
+          options: ["Ad hominem", "Strohmann", "Falsches Dilemma"],
+          correct: 0,
+          explanation:
+            "Angegriffen wird die Person, nicht ihr Argument. Ob sie einen SUV fährt, sagt nichts über die Richtigkeit ihrer Aussage.",
+        },
+        {
+          statement: "„Entweder du bist für das Gesetz – oder dir ist die Sicherheit der Bürger egal.“",
+          options: ["Ad hominem", "Falsches Dilemma", "Zirkelschluss"],
+          correct: 1,
+          explanation:
+            "Es werden nur zwei Möglichkeiten vorgegaukelt, obwohl es viele Positionen dazwischen gibt.",
+        },
+        {
+          statement: "„Seit es mehr Bio-Läden gibt, steigen auch die Allergien. Bio macht also krank.“",
+          options: ["Strohmann", "Autoritätsargument", "Scheinkausalität"],
+          correct: 2,
+          explanation:
+            "Zwei Dinge treten gleichzeitig auf – das beweist keinen ursächlichen Zusammenhang. Korrelation ≠ Kausalität.",
+        },
+        {
+          statement: "„Humanist:innen wollen die Religion abschaffen? Dann seid ihr also gegen jede Tradition!“",
+          options: ["Ad hominem", "Strohmann", "Falsches Dilemma"],
+          correct: 1,
+          explanation:
+            "Die Gegenposition wird verzerrt überzeichnet, um sie leichter angreifen zu können – ein Strohmann.",
         },
       ],
     },
@@ -840,6 +895,45 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    quiz: {
+      label: "Join in",
+      heading: "Spot the fallacy",
+      intro: "Four statements, four classic reasoning errors. Which one is at work each time?",
+      questionLabel: "Question",
+      next: "Next",
+      restart: "Again",
+      resultLabel: "correct",
+      items: [
+        {
+          statement: "“What would she know about climate policy – she drives an SUV herself.”",
+          options: ["Ad hominem", "Straw man", "False dilemma"],
+          correct: 0,
+          explanation:
+            "The person is attacked, not their argument. Driving an SUV says nothing about whether their claim is true.",
+        },
+        {
+          statement: "“Either you support the law – or you don't care about citizens' safety.”",
+          options: ["Ad hominem", "False dilemma", "Circular reasoning"],
+          correct: 1,
+          explanation:
+            "Only two options are presented, though many positions exist in between.",
+        },
+        {
+          statement: "“Since organic shops became common, allergies have risen too. So organic food makes you ill.”",
+          options: ["Straw man", "Appeal to authority", "False cause"],
+          correct: 2,
+          explanation:
+            "Two things occur at the same time – that proves no causal link. Correlation ≠ causation.",
+        },
+        {
+          statement: "“Humanists want to abolish religion? So you're against all tradition!”",
+          options: ["Ad hominem", "Straw man", "False dilemma"],
+          correct: 1,
+          explanation:
+            "The opposing view is distorted and exaggerated to make it easier to attack – a straw man.",
+        },
+      ],
+    },
     glossary: {
       label: "Glossary",
       heading: "Key terms in brief",
@@ -1222,6 +1316,45 @@ export const translations: Record<Lang, Translation> = {
         {
           q: "Qual è il rapporto dell'umanesimo con la scienza?",
           a: "La scienza è il metodo migliore per comprendere la realtà in modo affidabile. L'umanesimo la usa come strumento, pur riconoscendone i limiti sulle questioni di senso e di valore.",
+        },
+      ],
+    },
+    quiz: {
+      label: "Partecipa",
+      heading: "Riconosci l'errore di ragionamento",
+      intro: "Quattro affermazioni, quattro errori tipici. Quale si nasconde ogni volta?",
+      questionLabel: "Domanda",
+      next: "Avanti",
+      restart: "Ricomincia",
+      resultLabel: "corrette",
+      items: [
+        {
+          statement: "«Che ne sa lei di politica climatica – guida lei stessa un SUV.»",
+          options: ["Ad hominem", "Uomo di paglia", "Falso dilemma"],
+          correct: 0,
+          explanation:
+            "Si attacca la persona, non il suo argomento. Guidare un SUV non dice nulla sulla verità dell'affermazione.",
+        },
+        {
+          statement: "«O sei a favore della legge – o non t'importa della sicurezza dei cittadini.»",
+          options: ["Ad hominem", "Falso dilemma", "Ragionamento circolare"],
+          correct: 1,
+          explanation:
+            "Si presentano solo due opzioni, anche se esistono molte posizioni intermedie.",
+        },
+        {
+          statement: "«Da quando ci sono più negozi bio, aumentano anche le allergie. Quindi il bio fa male.»",
+          options: ["Uomo di paglia", "Argomento d'autorità", "Falsa causa"],
+          correct: 2,
+          explanation:
+            "Due fenomeni si presentano insieme – ciò non prova un nesso causale. Correlazione ≠ causalità.",
+        },
+        {
+          statement: "«Gli umanisti vogliono abolire la religione? Allora siete contro ogni tradizione!»",
+          options: ["Ad hominem", "Uomo di paglia", "Falso dilemma"],
+          correct: 1,
+          explanation:
+            "La posizione avversaria viene distorta ed esagerata per attaccarla più facilmente – un uomo di paglia.",
         },
       ],
     },

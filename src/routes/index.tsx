@@ -16,6 +16,7 @@ import {
   Check,
   Eye,
   Heart,
+  X,
 } from "lucide-react";
 import {
   LANGUAGES,
@@ -25,6 +26,7 @@ import {
   type Lang,
   type PrincipleText,
   type Segment,
+  type Translation,
 } from "@/lib/i18n";
 
 const GITHUB_URL = "https://github.com/DanielEnki420/humanism";
@@ -823,6 +825,12 @@ function Index() {
         </div>
       </section>
 
+      {/* Quiz */}
+      <section id="quiz" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <SectionHead label={t.quiz.label} heading={t.quiz.heading} intro={t.quiz.intro} center />
+        <FallacyQuiz quiz={t.quiz} />
+      </section>
+
       {/* Glossar */}
       <section id="glossar" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
         <SectionHead
@@ -915,6 +923,7 @@ function Index() {
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li><a href="#faq" className="text-muted-foreground transition-colors hover:text-primary">{t.nav.faq}</a></li>
+                  <li><a href="#quiz" className="text-muted-foreground transition-colors hover:text-primary">{t.quiz.heading}</a></li>
                   <li><a href="#quellen" className="text-muted-foreground transition-colors hover:text-primary">{t.sources.label}</a></li>
                   <li>
                     <a
@@ -1101,6 +1110,113 @@ function FaqRow({ item }: { item: FaqItem }) {
           <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  const total = quiz.items.length;
+  const item = quiz.items[index];
+
+  const choose = (i: number) => {
+    if (selected !== null) return;
+    setSelected(i);
+    if (i === item.correct) setScore((s) => s + 1);
+  };
+  const next = () => {
+    if (index + 1 < total) {
+      setIndex(index + 1);
+      setSelected(null);
+    } else {
+      setFinished(true);
+    }
+  };
+  const restart = () => {
+    setIndex(0);
+    setSelected(null);
+    setScore(0);
+    setFinished(false);
+  };
+
+  if (finished) {
+    return (
+      <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-border bg-card p-8 text-center">
+        <p className="font-serif text-5xl font-medium text-primary">
+          {score}
+          <span className="text-muted-foreground">/{total}</span>
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{quiz.resultLabel}</p>
+        <button
+          type="button"
+          onClick={restart}
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          <RotateCw className="h-4 w-4" strokeWidth={1.8} />
+          {quiz.restart}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-border bg-card p-6 sm:p-8">
+      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+        {quiz.questionLabel} {index + 1}/{total}
+      </p>
+      <p className="mt-3 font-serif text-xl font-medium leading-snug text-foreground">
+        {item.statement}
+      </p>
+
+      <div className="mt-6 space-y-2.5">
+        {item.options.map((opt, i) => {
+          const isCorrect = i === item.correct;
+          const isChosen = selected === i;
+          let cls = "border-border bg-background hover:bg-secondary";
+          if (selected !== null) {
+            if (isCorrect) cls = "border-primary/40 bg-primary/10";
+            else if (isChosen) cls = "border-destructive/40 bg-destructive/10";
+            else cls = "border-border bg-background opacity-60";
+          }
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => choose(i)}
+              disabled={selected !== null}
+              className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm text-foreground transition-colors ${cls}`}
+            >
+              <span>{opt}</span>
+              {selected !== null && isCorrect && (
+                <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={2} />
+              )}
+              {selected !== null && isChosen && !isCorrect && (
+                <X className="h-4 w-4 shrink-0 text-destructive" strokeWidth={2} />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {selected !== null && (
+        <div className="mt-5">
+          <p className="rounded-lg bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
+            {item.explanation}
+          </p>
+          <button
+            type="button"
+            onClick={next}
+            className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            {quiz.next}
+            <ArrowRight className="h-4 w-4" strokeWidth={1.8} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
