@@ -87,6 +87,8 @@ const SOURCE_LINKS = [
   },
 ];
 
+// Einziges Domain-Stellrad: steuert canonical, og:url, og:image & hreflang.
+// Bei eigener Domain hier (und nur hier) ändern.
 const SITE_URL = "https://humanism.lovable.app";
 
 const LOCALIZED_META: Record<
@@ -117,8 +119,7 @@ const LOCALIZED_META: Record<
     description:
       "A worldview grounded in human dignity, science, critical thinking and compassion.",
     ogTitle: "Secular Humanism",
-    ogDescription:
-      "Values, reason and responsibility – an introduction to secular humanism.",
+    ogDescription: "Values, reason and responsibility – an introduction to secular humanism.",
     ogLocale: "en_US",
     image: "/og-image-en.png",
     imageAlt: "Humanitas – Secular Humanism: Reason, Science, Compassion",
@@ -128,8 +129,7 @@ const LOCALIZED_META: Record<
     description:
       "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
     ogTitle: "Umanesimo Laico",
-    ogDescription:
-      "Valori, ragione e responsabilità – un'introduzione all'umanesimo laico.",
+    ogDescription: "Valori, ragione e responsabilità – un'introduzione all'umanesimo laico.",
     ogLocale: "it_IT",
     image: "/og-image-it.png",
     imageAlt: "Humanitas – Umanesimo Laico: Ragione, Scienza, Compassione",
@@ -172,7 +172,15 @@ export const Route = createFileRoute("/")({
         { name: "twitter:image", content: imageAbs },
         { name: "twitter:image:alt", content: m.imageAlt },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        ...LANGUAGES.map((l) => ({
+          rel: "alternate",
+          hreflang: l,
+          href: l === "de" ? `${SITE_URL}/` : `${SITE_URL}/?lang=${l}`,
+        })),
+        { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}/` },
+      ],
     };
   },
   component: Index,
@@ -387,24 +395,6 @@ function setMetaTag(name: string, content: string) {
   el.setAttribute("content", content);
 }
 
-/** Pflegt hreflang-Alternates + Canonical zur Laufzeit (domain-unabhängig über origin). */
-function updateAlternateLinks(lang: Lang) {
-  const base = window.location.origin + window.location.pathname;
-  const href = (l: Lang) => (l === "de" ? base : `${base}?lang=${l}`);
-  document.head.querySelectorAll("link[data-i18n]").forEach((n) => n.remove());
-  const add = (rel: string, linkHref: string, hreflang?: string) => {
-    const l = document.createElement("link");
-    l.setAttribute("rel", rel);
-    if (hreflang) l.setAttribute("hreflang", hreflang);
-    l.setAttribute("href", linkHref);
-    l.setAttribute("data-i18n", "");
-    document.head.appendChild(l);
-  };
-  LANGUAGES.forEach((l) => add("alternate", href(l), l));
-  add("alternate", href("de"), "x-default");
-  add("canonical", href(lang));
-}
-
 function Index() {
   const [lang, setLang] = useState<Lang>("de");
   const [dark, setDark] = useState(false);
@@ -421,7 +411,8 @@ function Index() {
     setDark(document.documentElement.classList.contains("dark"));
   }, []);
 
-  // Sprache überall synchron halten: <html lang>, Titel, Description, URL, hreflang/canonical.
+  // Bei Sprachwechsel im Client <html lang>, Titel, Description & URL synchron halten.
+  // canonical/og/hreflang kommen serverseitig aus head() (siehe Route oben).
   useEffect(() => {
     const tr = translations[lang];
     document.documentElement.lang = lang;
@@ -432,7 +423,6 @@ function Index() {
     if (lang === "de") url.searchParams.delete("lang");
     else url.searchParams.set("lang", lang);
     window.history.replaceState(null, "", url);
-    updateAlternateLinks(lang);
   }, [lang]);
 
   // Scroll-Spy: aktiven Abschnitt für die Navigation bestimmen.
