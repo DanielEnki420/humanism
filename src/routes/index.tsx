@@ -265,6 +265,30 @@ function Index() {
     return () => obs.disconnect();
   }, []);
 
+  // Scroll-Reveal: Abschnitte blenden beim Scrollen sanft ein (außer Hero).
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>("section[id]"),
+    ).filter((el) => el.id !== "top");
+    if (!targets.length) return;
+    targets.forEach((el) => el.setAttribute("data-reveal", ""));
+    document.documentElement.classList.add("reveal-ready");
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.06 },
+    );
+    targets.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   const toggleTheme = () => {
     setDark((prev) => {
       const next = !prev;
@@ -382,6 +406,18 @@ function Index() {
               "radial-gradient(closest-side, var(--sage), transparent 70%)",
           }}
         />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 text-primary opacity-[0.07]"
+        >
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.4" className="globe-spin h-full w-full">
+            <circle cx="100" cy="100" r="96" />
+            <ellipse cx="100" cy="100" rx="96" ry="32" />
+            <ellipse cx="100" cy="100" rx="34" ry="96" />
+            <ellipse cx="100" cy="100" rx="66" ry="96" />
+            <line x1="4" y1="100" x2="196" y2="100" />
+          </svg>
+        </div>
         <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-16 text-center sm:pt-24">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -747,15 +783,42 @@ function DataChart({
   estimateBadge: string;
   unit: string;
 }) {
-  // Balken erst nach dem Mount auf Zielbreite animieren.
-  const [mounted, setMounted] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
+  // 0 → 1; treibt Balkenbreite UND Zahlen-Count-up, sobald sichtbar.
+  const [progress, setProgress] = useState(0);
+
   useEffect(() => {
-    const id = window.requestAnimationFrame(() => setMounted(true));
-    return () => window.cancelAnimationFrame(id);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setProgress(1);
+      return;
+    }
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        const start = performance.now();
+        const dur = 900;
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - start) / dur);
+          setProgress(1 - (1 - p) * (1 - p)); // easeOutQuad
+          if (p < 1) raf = window.requestAnimationFrame(tick);
+        };
+        raf = window.requestAnimationFrame(tick);
+      },
+      { threshold: 0.3 },
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
-    <figure className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+    <figure ref={ref} className="rounded-2xl border border-border bg-card p-6 sm:p-8">
       <figcaption className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm font-medium text-foreground">{caption}</span>
         <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-primary ring-1 ring-primary/20">
@@ -771,12 +834,12 @@ function DataChart({
               <span className="truncate text-sm text-muted-foreground">{region}</span>
               <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
                 <div
-                  className="h-full rounded-full bg-primary transition-[width] duration-700 ease-out"
-                  style={{ width: mounted ? `${value}%` : "0%" }}
+                  className="h-full rounded-full bg-primary"
+                  style={{ width: `${value * progress}%` }}
                 />
               </div>
               <span className="text-right font-serif text-sm tabular-nums text-foreground">
-                {value}
+                {Math.round(value * progress)}
                 {unit}
               </span>
             </div>
