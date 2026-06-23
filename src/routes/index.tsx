@@ -144,8 +144,10 @@ export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) => ({
     lang: isLang(search.lang) ? (search.lang as Lang) : undefined,
   }),
-  head: ({ search }) => {
-    const lang: Lang = search?.lang ?? "de";
+  loaderDeps: ({ search }) => ({ lang: search.lang ?? "de" }),
+  loader: ({ deps }) => ({ lang: deps.lang as Lang }),
+  head: ({ loaderData }) => {
+    const lang: Lang = loaderData?.lang ?? "de";
     const m = LOCALIZED_META[lang];
     const url = lang === "de" ? SITE_URL + "/" : `${SITE_URL}/?lang=${lang}`;
     const imageAbs = SITE_URL + m.image;
