@@ -89,7 +89,8 @@ export type Translation = {
     heading: string;
     intro: string;
     chartCaption: string;
-    estimateBadge: string;
+    chooseYear: string;
+    changeLabel: string;
     worldNote: string;
     chartSource: string;
     unit: string;
@@ -418,8 +419,9 @@ export const translations: Record<Lang, Translation> = {
       heading: "Ein Blick auf die Zahlen",
       intro:
         "Wie viele Menschen verstehen sich als religiös ungebunden? Die Anteile unterscheiden sich stark zwischen Ländern.",
-      chartCaption: "Anteil religiös ungebundener Menschen (2020)",
-      estimateBadge: "Stand 2020",
+      chartCaption: "Anteil religiös ungebundener Menschen",
+      chooseYear: "Jahr wählen",
+      changeLabel: "seit 2010",
       worldNote:
         "Weltweit sind rund 1,9 Mrd. Menschen (~24 %) religiös ungebunden – nach Christen und Muslimen die drittgrößte Gruppe. Zwischen 2010 und 2020 wuchs der Anteil vor allem durch Konfessionswechsel in Nordamerika (+13 Pp.) und Europa.",
       chartSource:
@@ -802,8 +804,9 @@ export const translations: Record<Lang, Translation> = {
       heading: "A look at the numbers",
       intro:
         "How many people identify as religiously unaffiliated? The shares vary widely between countries.",
-      chartCaption: "Share of religiously unaffiliated people (2020)",
-      estimateBadge: "As of 2020",
+      chartCaption: "Share of religiously unaffiliated people",
+      chooseYear: "Choose year",
+      changeLabel: "since 2010",
       worldNote:
         "Worldwide, around 1.9 billion people (~24%) are religiously unaffiliated – the third-largest group after Christians and Muslims. Between 2010 and 2020 the share grew mainly through religious switching in North America (+13 pts) and Europe.",
       chartSource:
@@ -1186,8 +1189,9 @@ export const translations: Record<Lang, Translation> = {
       heading: "Uno sguardo ai numeri",
       intro:
         "Quante persone si dichiarano senza affiliazione religiosa? Le quote variano molto tra i paesi.",
-      chartCaption: "Quota di persone senza affiliazione religiosa (2020)",
-      estimateBadge: "Al 2020",
+      chartCaption: "Quota di persone senza affiliazione religiosa",
+      chooseYear: "Scegli l'anno",
+      changeLabel: "dal 2010",
       worldNote:
         "Nel mondo circa 1,9 miliardi di persone (~24%) sono senza affiliazione religiosa – il terzo gruppo dopo cristiani e musulmani. Tra il 2010 e il 2020 la quota è cresciuta soprattutto per i cambi di religione in Nord America (+13 punti) ed Europa.",
       chartSource:

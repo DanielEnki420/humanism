@@ -42,10 +42,14 @@ const PRINCIPLE_ICONS = [
 // Icons für die drei Grundlage-Säulen (Reihenfolge = foundation.cards).
 const FOUNDATION_ICONS = [Brain, Eye, Heart];
 
-// Sprachunabhängige Zahlenwerte zum Diagramm (Reihenfolge = data.regions).
-// Anteil religiös Ungebundener 2020, Pew Research Center, „How the Global Religious
-// Landscape Changed, 2010–2020" (Juni 2025). China nach neuer Methodik (CGSS 2018).
-const DATA_VALUES = [90, 73, 54, 36, 30, 24];
+// Anteil religiös Ungebundener je Land (Reihenfolge = data.regions), gerundet.
+// Quelle: Pew Research Center, „How the Global Religious Landscape Changed, 2010–2020"
+// (Juni 2025). China nach neuer Methodik (CGSS 2018).
+const DATA_BY_YEAR: Record<2010 | 2020, number[]> = {
+  2010: [87, 69, 46, 32, 17, 23],
+  2020: [90, 73, 54, 36, 30, 24],
+};
+const DATA_YEARS = [2010, 2020] as const;
 
 // Schlüsseldokumente: Name/Jahr/Link bleiben sprachunabhängig (Reihenfolge = documents.items).
 const DOCUMENT_LINKS = [
@@ -799,7 +803,8 @@ function Index() {
               regions={t.data.regions}
               caption={t.data.chartCaption}
               source={t.data.chartSource}
-              estimateBadge={t.data.estimateBadge}
+              chooseYear={t.data.chooseYear}
+              changeLabel={t.data.changeLabel}
               unit={t.data.unit}
             />
           </div>
@@ -939,74 +944,124 @@ function DataChart({
   regions,
   caption,
   source,
-  estimateBadge,
+  chooseYear,
+  changeLabel,
   unit,
 }: {
   regions: string[];
   caption: string;
   source: string;
-  estimateBadge: string;
+  chooseYear: string;
+  changeLabel: string;
   unit: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
-  // 0 → 1; treibt Balkenbreite UND Zahlen-Count-up, sobald sichtbar.
-  const [progress, setProgress] = useState(0);
+  const rafRef = useRef(0);
+  const displayRef = useRef<number[]>(regions.map(() => 0));
+  const [display, setDisplay] = useState<number[]>(() => regions.map(() => 0));
+  const [year, setYear] = useState<2010 | 2020>(2020);
 
-  useEffect(() => {
+  const setBoth = (vals: number[]) => {
+    displayRef.current = vals;
+    setDisplay(vals);
+  };
+
+  // Tweent die Balken/Zahlen von `from` zu `target` (Reduced-Motion → sofort).
+  const tween = (from: number[], target: number[]) => {
+    window.cancelAnimationFrame(rafRef.current);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setProgress(1);
+      setBoth(target);
       return;
     }
+    const t0 = performance.now();
+    const dur = 800;
+    const step = (now: number) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const e = 1 - (1 - p) * (1 - p); // easeOutQuad
+      setBoth(target.map((v, i) => from[i] + (v - from[i]) * e));
+      if (p < 1) rafRef.current = window.requestAnimationFrame(step);
+    };
+    rafRef.current = window.requestAnimationFrame(step);
+  };
+
+  // Beim Sichtbarwerden von 0 auf die Werte des aktiven Jahres hochzählen.
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let raf = 0;
     const obs = new IntersectionObserver(
       (entries) => {
         if (!entries[0].isIntersecting) return;
         obs.disconnect();
-        const start = performance.now();
-        const dur = 900;
-        const tick = (now: number) => {
-          const p = Math.min(1, (now - start) / dur);
-          setProgress(1 - (1 - p) * (1 - p)); // easeOutQuad
-          if (p < 1) raf = window.requestAnimationFrame(tick);
-        };
-        raf = window.requestAnimationFrame(tick);
+        tween(
+          regions.map(() => 0),
+          DATA_BY_YEAR[year],
+        );
       },
       { threshold: 0.3 },
     );
     obs.observe(el);
     return () => {
       obs.disconnect();
-      window.cancelAnimationFrame(raf);
+      window.cancelAnimationFrame(rafRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const selectYear = (y: 2010 | 2020) => {
+    if (y === year) return;
+    setYear(y);
+    tween(displayRef.current, DATA_BY_YEAR[y]);
+  };
 
   return (
     <figure ref={ref} className="rounded-2xl border border-border bg-card p-6 sm:p-8">
-      <figcaption className="mb-6 flex flex-wrap items-center justify-between gap-2">
+      <figcaption className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <span className="text-sm font-medium text-foreground">{caption}</span>
-        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-primary ring-1 ring-primary/20">
-          {estimateBadge}
-        </span>
+        <div
+          role="group"
+          aria-label={chooseYear}
+          className="flex items-center gap-0.5 rounded-full border border-border bg-secondary/50 p-0.5"
+        >
+          {DATA_YEARS.map((y) => (
+            <button
+              key={y}
+              type="button"
+              onClick={() => selectYear(y)}
+              aria-pressed={y === year}
+              className={`rounded-full px-3 py-1 text-xs font-medium tabular-nums transition-colors ${
+                y === year
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {y}
+            </button>
+          ))}
+        </div>
       </figcaption>
+
+      <p className="mb-3 text-right text-[11px] tabular-nums text-muted-foreground">
+        Δ {changeLabel}
+      </p>
 
       <div className="space-y-4">
         {regions.map((region, i) => {
-          const value = DATA_VALUES[i] ?? 0;
+          const v = display[i] ?? 0;
+          const delta = DATA_BY_YEAR[2020][i] - DATA_BY_YEAR[2010][i];
           return (
-            <div key={region} className="grid grid-cols-[5.5rem_1fr_2.5rem] items-center gap-3 sm:grid-cols-[7rem_1fr_3rem]">
+            <div
+              key={region}
+              className="grid grid-cols-[6rem_1fr_2.2rem_2.4rem] items-center gap-2 sm:grid-cols-[8rem_1fr_2.6rem_2.8rem] sm:gap-3"
+            >
               <span className="truncate text-sm text-muted-foreground">{region}</span>
               <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
-                <div
-                  className="h-full rounded-full bg-primary"
-                  style={{ width: `${value * progress}%` }}
-                />
+                <div className="h-full rounded-full bg-primary" style={{ width: `${v}%` }} />
               </div>
               <span className="text-right font-serif text-sm tabular-nums text-foreground">
-                {Math.round(value * progress)}
+                {Math.round(v)}
                 {unit}
               </span>
+              <span className="text-right text-xs tabular-nums text-primary">+{delta}</span>
             </div>
           );
         })}
