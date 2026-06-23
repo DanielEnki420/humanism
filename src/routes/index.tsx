@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   Brain,
   FlaskConical,
@@ -90,6 +90,10 @@ const SOURCE_LINKS = [
 // Einziges Domain-Stellrad: steuert canonical, og:url, og:image & hreflang.
 // Bei eigener Domain hier (und nur hier) ändern.
 const SITE_URL = "https://humanism.lovable.app";
+
+// Kontaktformular läuft über Web3Forms (kostenlos, kein Konto).
+// Zugangs-Schlüssel auf web3forms.com holen und hier eintragen:
+const CONTACT_ACCESS_KEY = "DEIN-WEB3FORMS-KEY";
 
 const LOCALIZED_META: Record<
   Lang,
@@ -953,8 +957,21 @@ function Index() {
         </div>
       </section>
 
+      {/* Kontakt */}
+      <section id="kontakt" className="scroll-mt-20">
+        <div className="mx-auto max-w-3xl px-6 py-24">
+          <SectionHead
+            label={t.contact.label}
+            heading={t.contact.heading}
+            intro={t.contact.intro}
+            center
+          />
+          <ContactForm c={t.contact} />
+        </div>
+      </section>
+
       {/* Impressum */}
-      <section id="impressum" className="scroll-mt-20 border-t border-border">
+      <section id="impressum" className="scroll-mt-20 border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-3xl px-6 py-20">
           <h2 className="font-serif text-2xl font-medium">{t.legal.impressum.heading}</h2>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{t.legal.disclaimer}</p>
@@ -974,7 +991,7 @@ function Index() {
       </section>
 
       {/* Datenschutz */}
-      <section id="datenschutz" className="scroll-mt-20 bg-secondary/40">
+      <section id="datenschutz" className="scroll-mt-20">
         <div className="mx-auto max-w-3xl px-6 py-20">
           <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
           <div className="mt-8 space-y-6">
@@ -1152,6 +1169,9 @@ function Index() {
               © {new Date().getFullYear()} Humanitas. {t.footer.copyright}
             </p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a href="#kontakt" className="transition-colors hover:text-primary">
+                {t.contact.label}
+              </a>
               <a href="#impressum" className="transition-colors hover:text-primary">
                 {t.legal.impressumLabel}
               </a>
@@ -1441,6 +1461,93 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
         </div>
       )}
     </div>
+  );
+}
+
+function ContactForm({ c }: { c: Translation["contact"] }) {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const configured = !CONTACT_ACCESS_KEY.startsWith("DEIN-");
+  const field =
+    "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/50 focus:ring-2 focus:ring-primary/20";
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!configured) return;
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    data.append("access_key", CONTACT_ACCESS_KEY);
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const json = await res.json();
+      if (json.success) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="mx-auto mt-10 max-w-xl space-y-4 text-left">
+      <input
+        type="text"
+        name="name"
+        required
+        aria-label={c.nameLabel}
+        placeholder={c.nameLabel}
+        className={field}
+      />
+      <input
+        type="email"
+        name="email"
+        required
+        aria-label={c.emailLabel}
+        placeholder={c.emailLabel}
+        className={field}
+      />
+      <textarea
+        name="message"
+        required
+        rows={5}
+        aria-label={c.messageLabel}
+        placeholder={c.messageLabel}
+        className={field}
+      />
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden
+      />
+      <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <input type="checkbox" required className="mt-0.5 h-4 w-4 shrink-0 accent-primary" />
+        <span>{c.consent}</span>
+      </label>
+      <button
+        type="submit"
+        disabled={status === "sending" || !configured}
+        className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+      >
+        {status === "sending" ? c.sending : c.submit}
+      </button>
+      {status === "success" && (
+        <p role="status" className="text-sm font-medium text-primary">
+          {c.success}
+        </p>
+      )}
+      {status === "error" && (
+        <p role="status" className="text-sm font-medium text-destructive">
+          {c.error}
+        </p>
+      )}
+      {!configured && <p className="text-xs text-muted-foreground">{c.notConfigured}</p>}
+    </form>
   );
 }
 

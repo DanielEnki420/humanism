@@ -146,6 +146,20 @@ export type Translation = {
     impressum: { heading: string; blocks: { title: string; lines: string[] }[] };
     privacy: { heading: string; blocks: { title: string; body: string }[] };
   };
+  contact: {
+    label: string;
+    heading: string;
+    intro: string;
+    nameLabel: string;
+    emailLabel: string;
+    messageLabel: string;
+    consent: string;
+    submit: string;
+    sending: string;
+    success: string;
+    error: string;
+    notConfigured: string;
+  };
 };
 
 export const translations: Record<Lang, Translation> = {
@@ -594,12 +608,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Angaben gemäß § 5 DDG",
-            lines: ["[Vor- und Nachname]", "[Straße und Hausnummer]", "[PLZ und Ort]"],
+            lines: ["Daniel Buttadauro", "[Straße und Hausnummer]", "[PLZ und Ort]"],
           },
-          { title: "Kontakt", lines: ["E-Mail: [deine@e-mail.de]"] },
+          { title: "Kontakt", lines: ["Über das Kontaktformular auf dieser Seite."] },
           {
             title: "Verantwortlich nach § 18 Abs. 2 MStV",
-            lines: ["[Name]", "[Anschrift wie oben]"],
+            lines: ["Daniel Buttadauro", "[Anschrift wie oben]"],
           },
         ],
       },
@@ -623,11 +637,30 @@ export const translations: Record<Lang, Translation> = {
             body: "Sprache und Farbschema werden ausschließlich lokal in deinem Browser gespeichert (localStorage). Es werden keine Cookies gesetzt, und es findet kein Tracking und keine Analyse statt.",
           },
           {
+            title: "Kontaktformular",
+            body: "Nutzt du das Kontaktformular, werden die eingegebenen Daten (Name, E-Mail, Nachricht) zur Bearbeitung deiner Anfrage verarbeitet (Art. 6 Abs. 1 lit. a und b DSGVO). Der Versand erfolgt über den Dienstleister Web3Forms; die Daten werden nicht für Werbung genutzt.",
+          },
+          {
             title: "Deine Rechte",
             body: "Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde.",
           },
         ],
       },
+    },
+    contact: {
+      label: "Kontakt",
+      heading: "Schreib uns",
+      intro: "Fragen, Anregungen oder Feedback? Nutze das Formular – wir melden uns.",
+      nameLabel: "Name",
+      emailLabel: "E-Mail",
+      messageLabel: "Nachricht",
+      consent:
+        "Ich bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden.",
+      submit: "Senden",
+      sending: "Wird gesendet…",
+      success: "Danke! Deine Nachricht wurde gesendet.",
+      error: "Senden fehlgeschlagen. Bitte später erneut versuchen.",
+      notConfigured: "Kontaktformular noch nicht aktiviert (Zugangs-Schlüssel fehlt).",
     },
   },
 
@@ -1067,12 +1100,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Information pursuant to § 5 DDG (German law)",
-            lines: ["[First and last name]", "[Street and number]", "[Postal code and city]"],
+            lines: ["Daniel Buttadauro", "[Street and number]", "[Postal code and city]"],
           },
-          { title: "Contact", lines: ["Email: [your@email.com]"] },
+          { title: "Contact", lines: ["Via the contact form on this page."] },
           {
             title: "Responsible per § 18 (2) MStV",
-            lines: ["[Name]", "[Address as above]"],
+            lines: ["Daniel Buttadauro", "[Address as above]"],
           },
         ],
       },
@@ -1096,11 +1129,29 @@ export const translations: Record<Lang, Translation> = {
             body: "Language and colour scheme are stored solely in your browser (localStorage). No cookies are set, and no tracking or analytics take place.",
           },
           {
+            title: "Contact form",
+            body: "If you use the contact form, the data you enter (name, email, message) is processed to handle your request (Art. 6(1)(a) and (b) GDPR). Submission is handled by the provider Web3Forms; the data is not used for advertising.",
+          },
+          {
             title: "Your rights",
             body: "You have the right to access, rectification, erasure, restriction of processing, data portability and objection, as well as to lodge a complaint with a supervisory authority.",
           },
         ],
       },
+    },
+    contact: {
+      label: "Contact",
+      heading: "Get in touch",
+      intro: "Questions, ideas or feedback? Use the form – we'll get back to you.",
+      nameLabel: "Name",
+      emailLabel: "Email",
+      messageLabel: "Message",
+      consent: "I agree to my data being processed to handle my request.",
+      submit: "Send",
+      sending: "Sending…",
+      success: "Thank you! Your message has been sent.",
+      error: "Sending failed. Please try again later.",
+      notConfigured: "Contact form not yet active (access key missing).",
     },
   },
 
@@ -1546,12 +1597,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Informazioni ai sensi del § 5 DDG (legge tedesca)",
-            lines: ["[Nome e cognome]", "[Via e numero civico]", "[CAP e città]"],
+            lines: ["Daniel Buttadauro", "[Via e numero civico]", "[CAP e città]"],
           },
-          { title: "Contatto", lines: ["E-mail: [tua@email.it]"] },
+          { title: "Contatto", lines: ["Tramite il modulo di contatto in questa pagina."] },
           {
             title: "Responsabile ai sensi del § 18 c. 2 MStV",
-            lines: ["[Nome]", "[Indirizzo come sopra]"],
+            lines: ["Daniel Buttadauro", "[Indirizzo come sopra]"],
           },
         ],
       },
@@ -1575,11 +1626,29 @@ export const translations: Record<Lang, Translation> = {
             body: "Lingua e combinazione di colori sono salvate solo nel tuo browser (localStorage). Non vengono impostati cookie e non avviene alcun tracciamento o analisi.",
           },
           {
+            title: "Modulo di contatto",
+            body: "Se usi il modulo di contatto, i dati inseriti (nome, e-mail, messaggio) sono trattati per gestire la tua richiesta (art. 6 par. 1 lett. a e b GDPR). L'invio avviene tramite il fornitore Web3Forms; i dati non sono usati per pubblicità.",
+          },
+          {
             title: "I tuoi diritti",
             body: "Hai diritto di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione, nonché di reclamo a un'autorità di controllo.",
           },
         ],
       },
+    },
+    contact: {
+      label: "Contatto",
+      heading: "Scrivici",
+      intro: "Domande, idee o feedback? Usa il modulo – ti risponderemo.",
+      nameLabel: "Nome",
+      emailLabel: "E-mail",
+      messageLabel: "Messaggio",
+      consent: "Acconsento al trattamento dei miei dati per gestire la richiesta.",
+      submit: "Invia",
+      sending: "Invio in corso…",
+      success: "Grazie! Il tuo messaggio è stato inviato.",
+      error: "Invio non riuscito. Riprova più tardi.",
+      notConfigured: "Modulo di contatto non ancora attivo (chiave di accesso mancante).",
     },
   },
 };
