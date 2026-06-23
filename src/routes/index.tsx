@@ -538,7 +538,7 @@ function Index() {
             <line x1="4" y1="100" x2="196" y2="100" />
           </svg>
         </div>
-        <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-16 text-center sm:pt-24">
+        <div className="relative mx-auto max-w-4xl px-6 pb-28 pt-20 text-center sm:pb-32 sm:pt-32">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             {t.hero.badge}
@@ -564,6 +564,21 @@ function Index() {
               {t.hero.ctaSecondary}
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Leitbild / Mission */}
+      <section id="leitbild" className="scroll-mt-20 border-y border-border/60 bg-secondary/30">
+        <div className="mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            {t.mission.label}
+          </p>
+          <p className="mx-auto mt-6 max-w-3xl font-serif text-3xl font-medium leading-[1.15] text-foreground sm:text-4xl md:text-5xl">
+            <RichText segments={t.mission.statement} />
+          </p>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            {t.mission.note}
+          </p>
         </div>
       </section>
 
@@ -895,6 +910,14 @@ function Index() {
                   {t.footer.topicsLabel}
                 </p>
                 <ul className="space-y-2 text-sm">
+                  <li>
+                    <a
+                      href="#leitbild"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {t.mission.label}
+                    </a>
+                  </li>
                   <li>
                     <a
                       href="#was-ist"

@@ -54,6 +54,7 @@ export type Translation = {
     ctaPrimary: string;
     ctaSecondary: string;
   };
+  mission: { label: string; statement: Segment[]; note: string };
   idea: { label: string; heading: string; lead: Segment[]; body: string };
   principles: { label: string; heading: string; center: string; items: PrincipleText[] };
   foundation: {
@@ -171,6 +172,15 @@ export const translations: Record<Lang, Translation> = {
         "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
       ctaPrimary: "Prinzipien entdecken",
       ctaSecondary: "Mehr erfahren",
+    },
+    mission: {
+      label: "Unser Leitbild",
+      statement: [
+        { t: "Bildung für ein " },
+        { t: "menschlicheres Miteinander", em: true },
+        { t: " – getragen von Vernunft, Würde und Offenheit." },
+      ],
+      note: "Eine Einladung an alle, die mit offenem Geist nach Orientierung suchen – über Kulturen, Generationen und Überzeugungen hinweg.",
     },
     idea: {
       label: "Die Idee",
@@ -598,6 +608,15 @@ export const translations: Record<Lang, Translation> = {
       ctaPrimary: "Explore the principles",
       ctaSecondary: "Learn more",
     },
+    mission: {
+      label: "Our mission",
+      statement: [
+        { t: "Education for a " },
+        { t: "more humane togetherness", em: true },
+        { t: " – grounded in reason, dignity and openness." },
+      ],
+      note: "An invitation to everyone seeking orientation with an open mind – across cultures, generations and convictions.",
+    },
     idea: {
       label: "The Idea",
       heading: "What is secular humanism?",
@@ -1018,6 +1037,15 @@ export const translations: Record<Lang, Translation> = {
         "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
       ctaPrimary: "Scopri i principi",
       ctaSecondary: "Scopri di più",
+    },
+    mission: {
+      label: "La nostra missione",
+      statement: [
+        { t: "Educazione per una " },
+        { t: "convivenza più umana", em: true },
+        { t: " – fondata su ragione, dignità e apertura." },
+      ],
+      note: "Un invito a chiunque cerchi orientamento con mente aperta – tra culture, generazioni e convinzioni.",
     },
     idea: {
       label: "L'idea",
