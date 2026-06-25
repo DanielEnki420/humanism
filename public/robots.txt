@@ -1,6 +1,6 @@
-# robots.txt – Suchmaschinen dürfen alles crawlen.
+# robots.txt – temporäre Lovable-Domain, noch nicht für Suchmaschinen freigeben.
+# Sobald die echte Domain steht: Disallow: / entfernen + Sitemap aktivieren.
 User-agent: *
-Allow: /
+Disallow: /
 
-# Nach dem Deployment DEINE-DOMAIN.tld durch die echte Domain ersetzen:
-Sitemap: https://DEINE-DOMAIN.tld/sitemap.xml
+# Sitemap: https://DEINE-DOMAIN.tld/sitemap.xml

@@ -626,7 +626,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Hosting",
-            body: "Diese Website wird bei [Hosting-Anbieter] gehostet. Beim Aufruf verarbeitet der Anbieter technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt) in Server-Logfiles auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.",
+            body: "Diese Website wird bei Lovable (lovable.dev, betrieben auf Vercel-Infrastruktur) gehostet. Beim Aufruf verarbeitet der Anbieter technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt) in Server-Logfiles auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.",
           },
           {
             title: "Schriftarten",
@@ -1118,7 +1118,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Hosting",
-            body: "This website is hosted by [hosting provider]. On access, the provider processes technically necessary access data (e.g. IP address, timestamp) in server log files under Art. 6(1)(f) GDPR.",
+            body: "This website is hosted by Lovable (lovable.dev, running on Vercel infrastructure). On access, the provider processes technically necessary access data (e.g. IP address, timestamp) in server log files under Art. 6(1)(f) GDPR.",
           },
           {
             title: "Fonts",
@@ -1615,7 +1615,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Hosting",
-            body: "Questo sito è ospitato da [provider di hosting]. All'accesso, il provider tratta dati tecnicamente necessari (es. indirizzo IP, orario) in file di log del server ai sensi dell'art. 6 par. 1 lett. f GDPR.",
+            body: "Questo sito è ospitato da Lovable (lovable.dev, su infrastruttura Vercel). All'accesso, il provider tratta dati tecnicamente necessari (es. indirizzo IP, orario) in file di log del server ai sensi dell'art. 6 par. 1 lett. f GDPR.",
           },
           {
             title: "Caratteri",

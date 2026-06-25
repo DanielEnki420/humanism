@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Nach dem Deployment DEINE-DOMAIN.tld durch die echte Domain ersetzen. -->
+<!-- Sobald echte Domain steht: humanism.lovable.app durch die echte Domain ersetzen. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://DEINE-DOMAIN.tld/</loc>
+    <loc>https://humanism.lovable.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
