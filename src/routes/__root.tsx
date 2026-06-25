@@ -176,7 +176,9 @@ function RootShell({ children }: { children: ReactNode }) {
   };
   const lang = search.lang === "en" || search.lang === "it" ? search.lang : "de";
   return (
-    <html lang={lang}>
+    // suppressHydrationWarning: das No-Flash-Skript setzt vor der Hydration die
+    // .dark-Klasse aus localStorage – ein erwarteter, gewollter Server/Client-Unterschied.
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <HeadContent />

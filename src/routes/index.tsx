@@ -17,6 +17,7 @@ import {
   Eye,
   Heart,
   X,
+  BookOpen,
 } from "lucide-react";
 import {
   LANGUAGES,
@@ -180,10 +181,10 @@ export const Route = createFileRoute("/")({
         { rel: "canonical", href: url },
         ...LANGUAGES.map((l) => ({
           rel: "alternate",
-          hreflang: l,
+          hrefLang: l,
           href: l === "de" ? `${SITE_URL}/` : `${SITE_URL}/?lang=${l}`,
         })),
-        { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}/` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
       ],
     };
   },
@@ -924,6 +925,32 @@ function Index() {
             </div>
           ))}
         </dl>
+      </section>
+
+      {/* Weiterlesen */}
+      <section id="weiterlesen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <SectionHead label={t.reading.label} heading={t.reading.heading} intro={t.reading.intro} />
+        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {t.reading.items.map((b) => (
+            <li
+              key={b.author + b.title}
+              className="flex gap-4 rounded-xl border border-border bg-card p-5"
+            >
+              <BookOpen
+                className="mt-1 h-5 w-5 shrink-0 text-primary"
+                strokeWidth={1.5}
+                aria-hidden
+              />
+              <div>
+                <p className="font-serif text-lg font-medium leading-snug">{b.title}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  {b.author} · {b.year}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.note}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Quellen */}

@@ -22,6 +22,7 @@ export type PrincipleText = {
 };
 
 export type TimelineItem = { year: string; title: string; text: string };
+export type ReadingItem = { author: string; title: string; year: string; note: string };
 export type FaqItem = { q: string; a: string };
 export type TitledItem = { title: string; text: string };
 export type TermItem = { term: string; def: string };
@@ -115,6 +116,7 @@ export type Translation = {
     items: QuizItem[];
   };
   glossary: { label: string; heading: string; intro: string; items: TermItem[] };
+  reading: { label: string; heading: string; intro: string; items: ReadingItem[] };
   sources: {
     label: string;
     heading: string;
@@ -444,6 +446,16 @@ export const translations: Record<Lang, Translation> = {
           title: "Allgemeine Erklärung der Menschenrechte",
           text: "Die UN verankern universelle Würde und Rechte – ein humanistischer Meilenstein.",
         },
+        {
+          year: "1952",
+          title: "Gründung der IHEU",
+          text: "Humanistische Verbände schließen sich zur International Humanist and Ethical Union zusammen – heute Humanists International.",
+        },
+        {
+          year: "2002",
+          title: "Amsterdam-Deklaration",
+          text: "Der Welt-Humanismus-Kongress fasst die Grundsätze des modernen, säkularen Humanismus in einem Leitbild zusammen.",
+        },
       ],
     },
     documents: {
@@ -502,7 +514,7 @@ export const translations: Record<Lang, Translation> = {
     quiz: {
       label: "Mitmachen",
       heading: "Erkenne den Denkfehler",
-      intro: "Vier Aussagen, vier typische Denkfehler. Welcher steckt jeweils dahinter?",
+      intro: "Acht Aussagen, acht typische Denkfehler. Welcher steckt jeweils dahinter?",
       questionLabel: "Frage",
       next: "Weiter",
       restart: "Nochmal",
@@ -539,6 +551,35 @@ export const translations: Record<Lang, Translation> = {
           explanation:
             "Die Gegenposition wird verzerrt überzeichnet, um sie leichter angreifen zu können – ein Strohmann.",
         },
+        {
+          statement: "„Fleisch zu essen ist natürlich – also ist es auch moralisch richtig.“",
+          options: ["Naturalistischer Fehlschluss", "Zirkelschluss", "Ad hominem"],
+          correct: 0,
+          explanation:
+            "Aus „natürlich“ folgt nicht „gut“. Wie etwas ist, sagt nichts darüber, wie es sein soll.",
+        },
+        {
+          statement:
+            "„Erlauben wir heute die Sterbehilfe, werden bald alte Menschen zum Sterben gedrängt.“",
+          options: ["Falsches Dilemma", "Dammbruchargument", "Scheinkausalität"],
+          correct: 1,
+          explanation:
+            "Ein erster Schritt wird ohne Beleg als Beginn einer unaufhaltsamen Kettenreaktion dargestellt.",
+        },
+        {
+          statement: "„Ein berühmter Professor glaubt an Homöopathie – dann muss etwas dran sein.“",
+          options: ["Autoritätsargument", "Strohmann", "Falsches Dilemma"],
+          correct: 0,
+          explanation:
+            "Ansehen ersetzt keine Belege. Auch Fachleute können irren – entscheidend ist die Evidenz, nicht der Titel.",
+        },
+        {
+          statement: "„Das Buch sagt die Wahrheit, denn im Buch steht, dass es die Wahrheit sagt.“",
+          options: ["Scheinkausalität", "Zirkelschluss", "Strohmann"],
+          correct: 1,
+          explanation:
+            "Die Behauptung begründet sich mit sich selbst – die Schlussfolgerung steckt schon in der Voraussetzung.",
+        },
       ],
     },
     glossary: {
@@ -563,6 +604,50 @@ export const translations: Record<Lang, Translation> = {
         {
           term: "Aufklärung",
           def: "Geistesströmung des 18. Jh., die Vernunft und Mündigkeit betont.",
+        },
+      ],
+    },
+    reading: {
+      label: "Weiterlesen",
+      heading: "Bücher zum Einstieg",
+      intro:
+        "Sechs zugängliche Werke, die Vernunft, Wissenschaft und ein menschenfreundliches Ethos verständlich machen – ein Startpunkt, keine Pflichtlektüre.",
+      items: [
+        {
+          author: "Carl Sagan",
+          title: "Der Drache in meiner Garage",
+          year: "1995",
+          note: "Wie wissenschaftliches Denken vor Selbsttäuschung schützt – Skepsis als „Kerze im Dunkeln“.",
+        },
+        {
+          author: "Steven Pinker",
+          title: "Aufklärung jetzt",
+          year: "2018",
+          note: "Daten zeigen: Vernunft, Wissenschaft und Humanismus haben das Leben messbar verbessert.",
+        },
+        {
+          author: "Bertrand Russell",
+          title: "Warum ich kein Christ bin",
+          year: "1927",
+          note: "Ein Klassiker über kritisches Fragen und eine Moral ohne Dogma.",
+        },
+        {
+          author: "Martha Nussbaum",
+          title: "Nicht für den Profit",
+          year: "2010",
+          note: "Warum Bildung in Geisteswissenschaften eine demokratische, mitfühlende Gesellschaft trägt.",
+        },
+        {
+          author: "A. C. Grayling",
+          title: "Das gute Buch",
+          year: "2011",
+          note: "Eine säkulare Sammlung von Lebensweisheit aus Philosophie und Literatur statt Offenbarung.",
+        },
+        {
+          author: "Yuval Noah Harari",
+          title: "Eine kurze Geschichte der Menschheit",
+          year: "2011",
+          note: "Wie gemeinsame Ideen den Menschen prägen – nüchtern, weit gespannt, anregend.",
         },
       ],
     },
@@ -941,6 +1026,16 @@ export const translations: Record<Lang, Translation> = {
           title: "Universal Declaration of Human Rights",
           text: "The UN enshrine universal dignity and rights – a humanist milestone.",
         },
+        {
+          year: "1952",
+          title: "Founding of the IHEU",
+          text: "Humanist organisations unite as the International Humanist and Ethical Union – today Humanists International.",
+        },
+        {
+          year: "2002",
+          title: "Amsterdam Declaration",
+          text: "The World Humanist Congress sets out the principles of modern, secular humanism in a defining statement.",
+        },
       ],
     },
     documents: {
@@ -999,7 +1094,7 @@ export const translations: Record<Lang, Translation> = {
     quiz: {
       label: "Join in",
       heading: "Spot the fallacy",
-      intro: "Four statements, four classic reasoning errors. Which one is at work each time?",
+      intro: "Eight statements, eight classic reasoning errors. Which one is at work each time?",
       questionLabel: "Question",
       next: "Next",
       restart: "Again",
@@ -1033,6 +1128,35 @@ export const translations: Record<Lang, Translation> = {
           explanation:
             "The opposing view is distorted and exaggerated to make it easier to attack – a straw man.",
         },
+        {
+          statement: "“Eating meat is natural – so it's morally right too.”",
+          options: ["Appeal to nature", "Circular reasoning", "Ad hominem"],
+          correct: 0,
+          explanation:
+            "“Natural” does not imply “good”. How something is says nothing about how it ought to be.",
+        },
+        {
+          statement: "“If we allow assisted dying today, soon the elderly will be pushed to die.”",
+          options: ["False dilemma", "Slippery slope", "False cause"],
+          correct: 1,
+          explanation:
+            "A first step is portrayed, without evidence, as the start of an unstoppable chain reaction.",
+        },
+        {
+          statement:
+            "“A famous professor believes in homeopathy – so there must be something to it.”",
+          options: ["Appeal to authority", "Straw man", "False dilemma"],
+          correct: 0,
+          explanation:
+            "Prestige is no substitute for evidence. Even experts can err – what counts is the evidence, not the title.",
+        },
+        {
+          statement: "“The book tells the truth, because the book says it tells the truth.”",
+          options: ["False cause", "Circular reasoning", "Straw man"],
+          correct: 1,
+          explanation:
+            "The claim justifies itself – the conclusion is already contained in the premise.",
+        },
       ],
     },
     glossary: {
@@ -1057,6 +1181,50 @@ export const translations: Record<Lang, Translation> = {
         {
           term: "Enlightenment",
           def: "An 18th-century movement emphasising reason and autonomy.",
+        },
+      ],
+    },
+    reading: {
+      label: "Further reading",
+      heading: "Books to get started",
+      intro:
+        "Six accessible works that make reason, science and a humane ethos tangible – a starting point, not required reading.",
+      items: [
+        {
+          author: "Carl Sagan",
+          title: "The Demon-Haunted World",
+          year: "1995",
+          note: "How scientific thinking guards against self-deception – skepticism as a “candle in the dark”.",
+        },
+        {
+          author: "Steven Pinker",
+          title: "Enlightenment Now",
+          year: "2018",
+          note: "The data show that reason, science and humanism have measurably improved life.",
+        },
+        {
+          author: "Bertrand Russell",
+          title: "Why I Am Not a Christian",
+          year: "1927",
+          note: "A classic on critical questioning and a morality without dogma.",
+        },
+        {
+          author: "Martha Nussbaum",
+          title: "Not for Profit",
+          year: "2010",
+          note: "Why an education in the humanities sustains a democratic, compassionate society.",
+        },
+        {
+          author: "A. C. Grayling",
+          title: "The Good Book",
+          year: "2011",
+          note: "A secular gathering of life wisdom from philosophy and literature rather than revelation.",
+        },
+        {
+          author: "Yuval Noah Harari",
+          title: "Sapiens",
+          year: "2011",
+          note: "How shared ideas shape humanity – sober, wide-ranging and thought-provoking.",
         },
       ],
     },
@@ -1436,6 +1604,16 @@ export const translations: Record<Lang, Translation> = {
           title: "Dichiarazione universale dei diritti umani",
           text: "L'ONU sancisce dignità e diritti universali – una pietra miliare umanista.",
         },
+        {
+          year: "1952",
+          title: "Fondazione dell'IHEU",
+          text: "Le associazioni umaniste si uniscono nell'International Humanist and Ethical Union – oggi Humanists International.",
+        },
+        {
+          year: "2002",
+          title: "Dichiarazione di Amsterdam",
+          text: "Il Congresso mondiale umanista riassume i principi dell'umanesimo laico moderno in un manifesto.",
+        },
       ],
     },
     documents: {
@@ -1494,7 +1672,7 @@ export const translations: Record<Lang, Translation> = {
     quiz: {
       label: "Partecipa",
       heading: "Riconosci l'errore di ragionamento",
-      intro: "Quattro affermazioni, quattro errori tipici. Quale si nasconde ogni volta?",
+      intro: "Otto affermazioni, otto errori tipici. Quale si nasconde ogni volta?",
       questionLabel: "Domanda",
       next: "Avanti",
       restart: "Ricomincia",
@@ -1531,6 +1709,36 @@ export const translations: Record<Lang, Translation> = {
           explanation:
             "La posizione avversaria viene distorta ed esagerata per attaccarla più facilmente – un uomo di paglia.",
         },
+        {
+          statement: "«Mangiare carne è naturale – quindi è anche moralmente giusto.»",
+          options: ["Appello alla natura", "Ragionamento circolare", "Ad hominem"],
+          correct: 0,
+          explanation:
+            "Da «naturale» non segue «buono». Come una cosa è non dice nulla su come dovrebbe essere.",
+        },
+        {
+          statement:
+            "«Se oggi permettiamo l'eutanasia, presto gli anziani saranno spinti a morire.»",
+          options: ["Falso dilemma", "Pendio scivoloso", "Falsa causa"],
+          correct: 1,
+          explanation:
+            "Un primo passo viene presentato, senza prove, come l'inizio di una reazione a catena inarrestabile.",
+        },
+        {
+          statement:
+            "«Un professore famoso crede nell'omeopatia – allora qualcosa di vero ci sarà.»",
+          options: ["Argomento d'autorità", "Uomo di paglia", "Falso dilemma"],
+          correct: 0,
+          explanation:
+            "Il prestigio non sostituisce le prove. Anche gli esperti sbagliano – conta l'evidenza, non il titolo.",
+        },
+        {
+          statement: "«Il libro dice la verità, perché nel libro c'è scritto che dice la verità.»",
+          options: ["Falsa causa", "Ragionamento circolare", "Uomo di paglia"],
+          correct: 1,
+          explanation:
+            "L'affermazione si giustifica da sé – la conclusione è già contenuta nella premessa.",
+        },
       ],
     },
     glossary: {
@@ -1555,6 +1763,50 @@ export const translations: Record<Lang, Translation> = {
         {
           term: "Illuminismo",
           def: "Movimento del XVIII secolo che valorizza ragione e autonomia.",
+        },
+      ],
+    },
+    reading: {
+      label: "Approfondimenti",
+      heading: "Libri per iniziare",
+      intro:
+        "Sei opere accessibili che rendono concreti ragione, scienza e un'etica della persona – un punto di partenza, non una lettura obbligatoria.",
+      items: [
+        {
+          author: "Carl Sagan",
+          title: "Il mondo infestato dai demoni",
+          year: "1995",
+          note: "Come il pensiero scientifico protegge dall'autoinganno – lo scetticismo come «candela nel buio».",
+        },
+        {
+          author: "Steven Pinker",
+          title: "Illuminismo adesso",
+          year: "2018",
+          note: "I dati mostrano che ragione, scienza e umanesimo hanno migliorato la vita in modo misurabile.",
+        },
+        {
+          author: "Bertrand Russell",
+          title: "Perché non sono cristiano",
+          year: "1927",
+          note: "Un classico sul pensiero critico e su una morale senza dogmi.",
+        },
+        {
+          author: "Martha Nussbaum",
+          title: "Non per profitto",
+          year: "2010",
+          note: "Perché un'istruzione umanistica sostiene una società democratica e solidale.",
+        },
+        {
+          author: "A. C. Grayling",
+          title: "The Good Book",
+          year: "2011",
+          note: "Una raccolta laica di saggezza tratta da filosofia e letteratura anziché dalla rivelazione.",
+        },
+        {
+          author: "Yuval Noah Harari",
+          title: "Sapiens. Da animali a dèi",
+          year: "2011",
+          note: "Come le idee condivise plasmano l'umanità – lucido, ampio e stimolante.",
         },
       ],
     },
