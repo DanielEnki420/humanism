@@ -608,12 +608,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Angaben gemäß § 5 DDG",
-            lines: ["Daniel Buttadauro", "[Straße und Hausnummer]", "[PLZ und Ort]"],
+            lines: ["Daniel Buttadauro", "Am Mitterfeld 22", "84028 Landshut"],
           },
           { title: "Kontakt", lines: ["Über das Kontaktformular auf dieser Seite."] },
           {
             title: "Verantwortlich nach § 18 Abs. 2 MStV",
-            lines: ["Daniel Buttadauro", "[Anschrift wie oben]"],
+            lines: ["Daniel Buttadauro", "Anschrift wie oben"],
           },
         ],
       },
@@ -630,7 +630,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Schriftarten",
-            body: "Die Seite lädt Schriftarten von Google-Servern (Google Fonts); dabei wird deine IP-Adresse an Google übertragen. Für volle DSGVO-Konformität empfiehlt sich, die Schriften lokal zu hosten.",
+            body: "Die Schriftarten (Fraunces, Inter) werden lokal von diesem Server ausgeliefert. Es findet keine Verbindung zu Google-Servern und keine Übertragung deiner IP-Adresse an Dritte statt.",
           },
           {
             title: "Lokale Speicherung",
@@ -1100,12 +1100,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Information pursuant to § 5 DDG (German law)",
-            lines: ["Daniel Buttadauro", "[Street and number]", "[Postal code and city]"],
+            lines: ["Daniel Buttadauro", "Am Mitterfeld 22", "84028 Landshut"],
           },
           { title: "Contact", lines: ["Via the contact form on this page."] },
           {
             title: "Responsible per § 18 (2) MStV",
-            lines: ["Daniel Buttadauro", "[Address as above]"],
+            lines: ["Daniel Buttadauro", "Address as above"],
           },
         ],
       },
@@ -1122,7 +1122,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Fonts",
-            body: "The site loads fonts from Google servers (Google Fonts); your IP address is transmitted to Google. For full GDPR compliance, hosting the fonts locally is recommended.",
+            body: "The fonts (Fraunces, Inter) are served locally from this server. No connection is made to Google servers and your IP address is not transmitted to third parties.",
           },
           {
             title: "Local storage",
@@ -1597,12 +1597,12 @@ export const translations: Record<Lang, Translation> = {
         blocks: [
           {
             title: "Informazioni ai sensi del § 5 DDG (legge tedesca)",
-            lines: ["Daniel Buttadauro", "[Via e numero civico]", "[CAP e città]"],
+            lines: ["Daniel Buttadauro", "Am Mitterfeld 22", "84028 Landshut"],
           },
           { title: "Contatto", lines: ["Tramite il modulo di contatto in questa pagina."] },
           {
             title: "Responsabile ai sensi del § 18 c. 2 MStV",
-            lines: ["Daniel Buttadauro", "[Indirizzo come sopra]"],
+            lines: ["Daniel Buttadauro", "Indirizzo come sopra"],
           },
         ],
       },
@@ -1619,7 +1619,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Caratteri",
-            body: "Il sito carica i caratteri dai server di Google (Google Fonts); il tuo indirizzo IP viene trasmesso a Google. Per piena conformità al GDPR si consiglia di ospitare i caratteri localmente.",
+            body: "I caratteri (Fraunces, Inter) sono serviti localmente da questo server. Non viene effettuata alcuna connessione ai server di Google né trasmesso il tuo indirizzo IP a terzi.",
           },
           {
             title: "Memoria locale",

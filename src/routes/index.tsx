@@ -93,7 +93,7 @@ const SITE_URL = "https://humanism.lovable.app";
 
 // Kontaktformular läuft über Web3Forms (kostenlos, kein Konto).
 // Zugangs-Schlüssel auf web3forms.com holen und hier eintragen:
-const CONTACT_ACCESS_KEY = "DEIN-WEB3FORMS-KEY";
+const CONTACT_ACCESS_KEY = "7b90faea-d8bb-4b29-af97-3e67a714b8d1";
 
 const LOCALIZED_META: Record<
   Lang,
