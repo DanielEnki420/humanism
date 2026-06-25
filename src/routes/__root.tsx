@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,21 +13,45 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+// Knappe Eigen-Übersetzung der 404-Seite (liegt außerhalb der i18n-Hauptdatei,
+// damit der Fehlerfall keine zusätzlichen Imports/Datenwege braucht).
+const NOT_FOUND_TEXT = {
+  de: {
+    title: "Seite nicht gefunden",
+    body: "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    home: "Zur Startseite",
+  },
+  en: {
+    title: "Page not found",
+    body: "The page you're looking for doesn't exist or has been moved.",
+    home: "Go home",
+  },
+  it: {
+    title: "Pagina non trovata",
+    body: "La pagina che cerchi non esiste o è stata spostata.",
+    home: "Vai alla home",
+  },
+} as const;
+
 function NotFoundComponent() {
+  const search = useRouterState({ select: (s) => s.location.search }) as {
+    lang?: string;
+  };
+  const lang = search.lang === "en" || search.lang === "it" ? search.lang : "de";
+  const tr = NOT_FOUND_TEXT[lang];
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">{tr.title}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{tr.body}</p>
         <div className="mt-6">
           <Link
             to="/"
+            search={lang === "de" ? {} : { lang }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            {tr.home}
           </Link>
         </div>
       </div>
@@ -144,8 +169,14 @@ const themeInitScript = `(function(){try{
 }catch(e){}})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Sprache serverseitig aus ?lang ableiten, damit SSR-HTML & Crawler die
+  // richtige Sprache sehen (sonst stets "de"). Fallback: "de".
+  const search = useRouterState({ select: (s) => s.location.search }) as {
+    lang?: string;
+  };
+  const lang = search.lang === "en" || search.lang === "it" ? search.lang : "de";
   return (
-    <html lang="de">
+    <html lang={lang}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <HeadContent />

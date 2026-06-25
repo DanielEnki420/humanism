@@ -144,7 +144,7 @@ export type Translation = {
     privacyLabel: string;
     disclaimer: string;
     impressum: { heading: string; blocks: { title: string; lines: string[] }[] };
-    privacy: { heading: string; blocks: { title: string; body: string }[] };
+    privacy: { heading: string; updated: string; blocks: { title: string; body: string }[] };
   };
   contact: {
     label: string;
@@ -602,7 +602,7 @@ export const translations: Record<Lang, Translation> = {
       impressumLabel: "Impressum",
       privacyLabel: "Datenschutz",
       disclaimer:
-        "Vorlage ohne Gewähr – ersetzt keine Rechtsberatung. Bitte die Platzhalter in eckigen Klammern mit deinen Angaben ersetzen und vor Veröffentlichung prüfen lassen.",
+        "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für deren Inhalt sind ausschließlich die jeweiligen Betreiber verantwortlich.",
       impressum: {
         heading: "Impressum",
         blocks: [
@@ -619,6 +619,7 @@ export const translations: Record<Lang, Translation> = {
       },
       privacy: {
         heading: "Datenschutzerklärung",
+        updated: "Stand: Juni 2026",
         blocks: [
           {
             title: "Verantwortlicher",
@@ -1094,7 +1095,7 @@ export const translations: Record<Lang, Translation> = {
       impressumLabel: "Imprint",
       privacyLabel: "Privacy",
       disclaimer:
-        "Template without warranty – not legal advice. Please replace the bracketed placeholders with your details and have it reviewed before publishing.",
+        "Despite careful review of the content, we accept no liability for the content of external links. Their operators are solely responsible for their content.",
       impressum: {
         heading: "Imprint",
         blocks: [
@@ -1111,6 +1112,7 @@ export const translations: Record<Lang, Translation> = {
       },
       privacy: {
         heading: "Privacy Policy",
+        updated: "Last updated: June 2026",
         blocks: [
           {
             title: "Controller",
@@ -1591,7 +1593,7 @@ export const translations: Record<Lang, Translation> = {
       impressumLabel: "Note legali",
       privacyLabel: "Privacy",
       disclaimer:
-        "Modello senza garanzia – non costituisce consulenza legale. Sostituisci i segnaposto tra parentesi con i tuoi dati e fallo verificare prima della pubblicazione.",
+        "Nonostante un attento controllo dei contenuti, non ci assumiamo alcuna responsabilità per i contenuti dei link esterni. Dei loro contenuti sono responsabili esclusivamente i rispettivi gestori.",
       impressum: {
         heading: "Note legali",
         blocks: [
@@ -1608,6 +1610,7 @@ export const translations: Record<Lang, Translation> = {
       },
       privacy: {
         heading: "Informativa sulla privacy",
+        updated: "Ultimo aggiornamento: giugno 2026",
         blocks: [
           {
             title: "Titolare",

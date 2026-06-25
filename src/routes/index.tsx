@@ -994,6 +994,7 @@ function Index() {
       <section id="datenschutz" className="scroll-mt-20">
         <div className="mx-auto max-w-3xl px-6 py-20">
           <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
+          <p className="mt-1 text-xs text-muted-foreground">{t.legal.privacy.updated}</p>
           <div className="mt-8 space-y-6">
             {t.legal.privacy.blocks.map((b) => (
               <div key={b.title}>
