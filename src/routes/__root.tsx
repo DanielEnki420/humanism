@@ -108,6 +108,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [
+      // Schriften vorab laden (latin-Subset) – beschleunigt den ersten Textrender (LCP).
+      {
+        rel: "preload",
+        href: "/fonts/fraunces-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: "/fonts/inter-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "manifest", href: "/site.webmanifest" },
