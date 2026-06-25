@@ -23,6 +23,7 @@ import {
   LANGUAGES,
   LANGUAGE_LABELS,
   translations,
+  type EthicsItem,
   type FaqItem,
   type Lang,
   type PrincipleText,
@@ -761,11 +762,14 @@ function Index() {
         <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
           <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
           <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {t.ethics.items.map((item, i) => (
+            {t.ethics.items.map((item: EthicsItem, i: number) => (
               <div key={item.title} className="border-t-2 border-primary/30 pt-6">
                 <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
                 <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                <p className="mt-4 rounded-md bg-secondary/60 px-4 py-3 text-xs italic leading-relaxed text-muted-foreground">
+                  {item.example}
+                </p>
               </div>
             ))}
           </div>
