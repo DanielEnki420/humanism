@@ -500,7 +500,7 @@ function Index() {
 
       {/* Skip-to-content – per Fokus eingeblendet, bleibt für Screenreader erreichbar */}
       <a
-        href="#was-ist"
+        href="#inhalt"
         className="fixed left-4 -top-20 z-[60] rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all focus:top-4"
       >
         {t.ui.skipToContent}
@@ -578,460 +578,474 @@ function Index() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section id="top" className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
-          style={{
-            background: "radial-gradient(closest-side, var(--sage), transparent 70%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 text-primary opacity-[0.07]"
-        >
-          <svg
-            viewBox="0 0 200 200"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            className="globe-spin h-full w-full"
+      <main id="inhalt">
+        {/* Hero */}
+        <section id="top" className="relative overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
+            style={{
+              background: "radial-gradient(closest-side, var(--sage), transparent 70%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 text-primary opacity-[0.07]"
           >
-            <circle cx="100" cy="100" r="96" />
-            <ellipse cx="100" cy="100" rx="96" ry="32" />
-            <ellipse cx="100" cy="100" rx="34" ry="96" />
-            <ellipse cx="100" cy="100" rx="66" ry="96" />
-            <line x1="4" y1="100" x2="196" y2="100" />
-          </svg>
-        </div>
-        <div className="relative mx-auto max-w-4xl px-6 pb-28 pt-20 text-center sm:pb-32 sm:pt-32">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            {t.hero.badge}
-          </div>
-          <h1 className="font-serif text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
-            <RichText segments={t.hero.title} em="italic text-primary" />
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            {t.hero.subtitle}
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#prinzipien"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:opacity-90"
+            <svg
+              viewBox="0 0 200 200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              className="globe-spin h-full w-full"
             >
-              {t.hero.ctaPrimary}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href="#was-ist"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
-            >
-              {t.hero.ctaSecondary}
-            </a>
+              <circle cx="100" cy="100" r="96" />
+              <ellipse cx="100" cy="100" rx="96" ry="32" />
+              <ellipse cx="100" cy="100" rx="34" ry="96" />
+              <ellipse cx="100" cy="100" rx="66" ry="96" />
+              <line x1="4" y1="100" x2="196" y2="100" />
+            </svg>
           </div>
-        </div>
-      </section>
-
-      {/* Leitbild / Mission */}
-      <section id="leitbild" className="scroll-mt-20 border-y border-border/60 bg-secondary/30">
-        <div className="mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            {t.mission.label}
-          </p>
-          <p className="mx-auto mt-6 max-w-3xl font-serif text-3xl font-medium leading-[1.15] text-foreground sm:text-4xl md:text-5xl">
-            <RichText segments={t.mission.statement} />
-          </p>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            {t.mission.note}
-          </p>
-        </div>
-      </section>
-
-      {/* Was ist */}
-      <section id="was-ist" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <div className="grid gap-16 md:grid-cols-12 md:gap-12">
-          <div className="md:col-span-5">
-            <SectionHead label={t.idea.label} heading={t.idea.heading} />
-          </div>
-          <div className="md:col-span-7">
-            <p className="text-xl leading-relaxed text-foreground/90">
-              <RichText segments={t.idea.lead} />
-            </p>
-            <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t.idea.body}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Prinzipien */}
-      <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <SectionHead label={t.principles.label} heading={t.principles.heading} center />
-
-          <PrinciplesHub
-            center={t.principles.center}
-            items={t.principles.items.map((p, i) => ({
-              title: p.title,
-              Icon: PRINCIPLE_ICONS[i],
-            }))}
-          />
-
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {t.principles.items.map((p, i) => (
-              <PrincipleCard
-                key={p.title}
-                id={`principle-${i}`}
-                principle={p}
-                Icon={PRINCIPLE_ICONS[i]}
-                showMore={t.ui.showMore}
-                showLess={t.ui.showLess}
-                exampleLabel={t.ui.exampleLabel}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Grundlage */}
-      <section id="grundlage" className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-28">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-12">
-            <p className="mb-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {t.foundation.label}
-            </p>
-            <blockquote className="font-serif text-3xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl">
-              <RichText segments={t.foundation.quote} em="italic text-primary" />
-            </blockquote>
-          </div>
-          <div className="mt-12 md:col-span-12">
-            <div className="h-1.5 rounded-full bg-primary/20" />
-            <div className="grid gap-4 py-4 sm:grid-cols-3">
-              {t.foundation.cards.map((b, i) => {
-                const Icon = FOUNDATION_ICONS[i];
-                return (
-                  <div
-                    key={b.k}
-                    className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
-                  >
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
-                      <Icon className="h-5 w-5" strokeWidth={1.5} />
-                    </span>
-                    <p className="mt-4 font-serif text-lg font-medium text-primary">{b.k}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
-                  </div>
-                );
-              })}
+          <div className="relative mx-auto max-w-4xl px-6 pb-28 pt-20 text-center sm:pb-32 sm:pt-32">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              {t.hero.badge}
             </div>
-            <div className="h-1.5 rounded-full bg-primary/20" />
-          </div>
-        </div>
-      </section>
-
-      {/* Wissenschafts-1x1 */}
-      <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <SectionHead
-            label={t.science.label}
-            heading={t.science.heading}
-            intro={t.science.intro}
-          />
-
-          <ScienceCycle titles={t.science.items.map((it) => it.title)} />
-
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {t.science.items.map((item, i) => (
-              <div
-                key={item.title}
-                id={`science-${i}`}
-                className="scroll-mt-24 rounded-xl border border-border bg-card p-6"
+            <h1 className="font-serif text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
+              <RichText segments={t.hero.title} em="italic text-primary" />
+            </h1>
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              {t.hero.subtitle}
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="#prinzipien"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:opacity-90"
               >
+                {t.hero.ctaPrimary}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="#was-ist"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+              >
+                {t.hero.ctaSecondary}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Leitbild / Mission */}
+        <section id="leitbild" className="scroll-mt-20 border-y border-border/60 bg-secondary/30">
+          <div className="mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              {t.mission.label}
+            </p>
+            <p className="mx-auto mt-6 max-w-3xl font-serif text-3xl font-medium leading-[1.15] text-foreground sm:text-4xl md:text-5xl">
+              <RichText segments={t.mission.statement} />
+            </p>
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              {t.mission.note}
+            </p>
+          </div>
+        </section>
+
+        {/* Was ist */}
+        <section id="was-ist" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <div className="grid gap-16 md:grid-cols-12 md:gap-12">
+            <div className="md:col-span-5">
+              <SectionHead label={t.idea.label} heading={t.idea.heading} />
+            </div>
+            <div className="md:col-span-7">
+              <p className="text-xl leading-relaxed text-foreground/90">
+                <RichText segments={t.idea.lead} />
+              </p>
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t.idea.body}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Prinzipien */}
+        <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <SectionHead label={t.principles.label} heading={t.principles.heading} center />
+
+            <PrinciplesHub
+              center={t.principles.center}
+              items={t.principles.items.map((p, i) => ({
+                title: p.title,
+                Icon: PRINCIPLE_ICONS[i],
+              }))}
+            />
+
+            <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+              {t.principles.items.map((p, i) => (
+                <PrincipleCard
+                  key={p.title}
+                  id={`principle-${i}`}
+                  principle={p}
+                  Icon={PRINCIPLE_ICONS[i]}
+                  showMore={t.ui.showMore}
+                  showLess={t.ui.showLess}
+                  exampleLabel={t.ui.exampleLabel}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Grundlage */}
+        <section id="grundlage" className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-28">
+          <div className="grid gap-12 md:grid-cols-12">
+            <div className="md:col-span-12">
+              <p className="mb-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                {t.foundation.label}
+              </p>
+              <blockquote className="font-serif text-3xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl">
+                <RichText segments={t.foundation.quote} em="italic text-primary" />
+              </blockquote>
+            </div>
+            <div className="mt-12 md:col-span-12">
+              <div className="h-1.5 rounded-full bg-primary/20" />
+              <div className="grid gap-4 py-4 sm:grid-cols-3">
+                {t.foundation.cards.map((b, i) => {
+                  const Icon = FOUNDATION_ICONS[i];
+                  return (
+                    <div
+                      key={b.k}
+                      className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
+                    >
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
+                        <Icon className="h-5 w-5" strokeWidth={1.5} />
+                      </span>
+                      <p className="mt-4 font-serif text-lg font-medium text-primary">{b.k}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="h-1.5 rounded-full bg-primary/20" />
+            </div>
+          </div>
+        </section>
+
+        {/* Wissenschafts-1x1 */}
+        <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <SectionHead
+              label={t.science.label}
+              heading={t.science.heading}
+              intro={t.science.intro}
+            />
+
+            <ScienceCycle titles={t.science.items.map((it) => it.title)} />
+
+            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {t.science.items.map((item, i) => (
+                <div
+                  key={item.title}
+                  id={`science-${i}`}
+                  className="scroll-mt-24 rounded-xl border border-border bg-card p-6"
+                >
+                  <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
+                  <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                </div>
+              ))}
+            </div>
+            <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
+          </div>
+        </section>
+
+        {/* Ethik */}
+        <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {t.ethics.items.map((item, i) => (
+              <div key={item.title} className="border-t-2 border-primary/30 pt-6">
                 <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
-                <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
+                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
               </div>
             ))}
           </div>
-          <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
-        </div>
-      </section>
+          <SourceNote label={t.ui.sourceLabel} text={t.ethics.source} />
+        </section>
 
-      {/* Ethik */}
-      <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
-        <div className="mt-14 grid gap-8 md:grid-cols-3">
-          {t.ethics.items.map((item, i) => (
-            <div key={item.title} className="border-t-2 border-primary/30 pt-6">
-              <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
-              <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-            </div>
-          ))}
-        </div>
-        <SourceNote label={t.ui.sourceLabel} text={t.ethics.source} />
-      </section>
+        {/* Abgrenzung */}
+        <section id="abgrenzung" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-4xl px-6 py-24">
+            <SectionHead
+              label={t.distinctions.label}
+              heading={t.distinctions.heading}
+              intro={t.distinctions.intro}
+              center
+            />
+            <div className="mt-12 grid gap-6 md:grid-cols-5">
+              {/* Was es IST */}
+              <div className="flex flex-col justify-center rounded-2xl bg-primary p-6 text-primary-foreground md:col-span-2">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
+                  <Check className="h-5 w-5" strokeWidth={2} />
+                </span>
+                <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/70">
+                  {t.distinctions.affirmLabel}
+                </p>
+                <p className="mt-1 font-serif text-xl font-medium leading-snug">
+                  {t.distinctions.affirmText}
+                </p>
+              </div>
 
-      {/* Abgrenzung */}
-      <section id="abgrenzung" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-4xl px-6 py-24">
-          <SectionHead
-            label={t.distinctions.label}
-            heading={t.distinctions.heading}
-            intro={t.distinctions.intro}
-            center
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-5">
-            {/* Was es IST */}
-            <div className="flex flex-col justify-center rounded-2xl bg-primary p-6 text-primary-foreground md:col-span-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
-                <Check className="h-5 w-5" strokeWidth={2} />
-              </span>
-              <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/70">
-                {t.distinctions.affirmLabel}
-              </p>
-              <p className="mt-1 font-serif text-xl font-medium leading-snug">
-                {t.distinctions.affirmText}
-              </p>
-            </div>
-
-            {/* Was es NICHT ist */}
-            <div className="grid gap-3 sm:grid-cols-2 md:col-span-3">
-              {t.distinctions.items.map((item) => (
-                <div key={item.title} className="rounded-xl border border-border bg-card p-4">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-secondary font-serif text-base text-muted-foreground">
-                      ≠
-                    </span>
-                    <span className="font-serif text-base font-medium text-foreground">
-                      {item.title}
-                    </span>
+              {/* Was es NICHT ist */}
+              <div className="grid gap-3 sm:grid-cols-2 md:col-span-3">
+                {t.distinctions.items.map((item) => (
+                  <div key={item.title} className="rounded-xl border border-border bg-card p-4">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-secondary font-serif text-base text-muted-foreground">
+                        ≠
+                      </span>
+                      <span className="font-serif text-base font-medium text-foreground">
+                        {item.title}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {item.text}
+                    </p>
                   </div>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{item.text}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Geschichte / Zeitstrahl */}
+        <section id="geschichte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead
+            label={t.history.label}
+            heading={t.history.heading}
+            intro={t.history.intro}
+          />
+          <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
+            {t.history.items.map((item) => (
+              <li key={item.title} className="relative">
+                <span
+                  aria-hidden
+                  className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
+                />
+                <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
+                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {item.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Schlüsseldokumente */}
+        <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <SectionHead
+              label={t.documents.label}
+              heading={t.documents.heading}
+              intro={t.documents.intro}
+            />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {t.documents.items.map((item, i) => (
+                <a
+                  key={DOCUMENT_LINKS[i].name}
+                  href={DOCUMENT_LINKS[i].url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-serif text-xs font-medium text-primary">
+                      {DOCUMENT_LINKS[i].year}
+                    </span>
+                    <ExternalLink
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <h3 className="mt-2 font-serif text-lg font-medium leading-snug">
+                    {DOCUMENT_LINKS[i].name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Daten & Fakten */}
+        <section id="daten" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-5">
+              <SectionHead label={t.data.label} heading={t.data.heading} intro={t.data.intro} />
+              <p className="mt-6 rounded-xl bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
+                {t.data.worldNote}
+              </p>
+            </div>
+            <div className="md:col-span-7">
+              <DataChart
+                regions={t.data.regions}
+                caption={t.data.chartCaption}
+                source={t.data.chartSource}
+                chooseYear={t.data.chooseYear}
+                changeLabel={t.data.changeLabel}
+                unit={t.data.unit}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-3xl px-6 py-24">
+            <SectionHead label={t.faq.label} heading={t.faq.heading} center />
+            <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+              {t.faq.items.map((item) => (
+                <FaqRow key={item.q} item={item} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Quiz */}
+        <section id="quiz" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead label={t.quiz.label} heading={t.quiz.heading} intro={t.quiz.intro} center />
+          <FallacyQuiz quiz={t.quiz} />
+        </section>
+
+        {/* Glossar */}
+        <section id="glossar" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead
+            label={t.glossary.label}
+            heading={t.glossary.heading}
+            intro={t.glossary.intro}
+          />
+          <dl className="mt-12 grid gap-x-12 gap-y-6 sm:grid-cols-2">
+            {t.glossary.items.map((item) => (
+              <div key={item.term} className="border-t border-border pt-4">
+                <dt className="font-serif text-lg font-medium text-primary">{item.term}</dt>
+                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.def}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* Weiterlesen */}
+        <section id="weiterlesen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead
+            label={t.reading.label}
+            heading={t.reading.heading}
+            intro={t.reading.intro}
+          />
+          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.reading.items.map((b) => (
+              <li
+                key={b.author + b.title}
+                className="flex gap-4 rounded-xl border border-border bg-card p-5"
+              >
+                <BookOpen
+                  className="mt-1 h-5 w-5 shrink-0 text-primary"
+                  strokeWidth={1.5}
+                  aria-hidden
+                />
+                <div>
+                  <p className="font-serif text-lg font-medium leading-snug">{b.title}</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">
+                    {b.author} · {b.year}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.note}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Quellen */}
+        <section id="quellen" className="scroll-mt-20 bg-secondary/40">
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <SectionHead
+              label={t.sources.label}
+              heading={t.sources.heading}
+              intro={t.sources.intro}
+            />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {t.sources.items.map((item, i) => (
+                <a
+                  key={SOURCE_LINKS[i].name}
+                  href={SOURCE_LINKS[i].url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
+                    <ExternalLink
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Kontakt */}
+        <section id="kontakt" className="scroll-mt-20">
+          <div className="mx-auto max-w-3xl px-6 py-24">
+            <SectionHead
+              label={t.contact.label}
+              heading={t.contact.heading}
+              intro={t.contact.intro}
+              center
+            />
+            <ContactForm c={t.contact} />
+          </div>
+        </section>
+
+        {/* Impressum */}
+        <section id="impressum" className="scroll-mt-20 border-t border-border bg-secondary/40">
+          <div className="mx-auto max-w-3xl px-6 py-20">
+            <h2 className="font-serif text-2xl font-medium">{t.legal.impressum.heading}</h2>
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              {t.legal.disclaimer}
+            </p>
+            <div className="mt-8 space-y-6">
+              {t.legal.impressum.blocks.map((b) => (
+                <div key={b.title}>
+                  <p className="text-sm font-medium text-foreground">{b.title}</p>
+                  {b.lines.map((line) => (
+                    <p key={line} className="text-sm leading-relaxed text-muted-foreground">
+                      {line}
+                    </p>
+                  ))}
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Geschichte / Zeitstrahl */}
-      <section id="geschichte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <SectionHead label={t.history.label} heading={t.history.heading} intro={t.history.intro} />
-        <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
-          {t.history.items.map((item) => (
-            <li key={item.title} className="relative">
-              <span
-                aria-hidden
-                className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
-              />
-              <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
-              <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {item.text}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Schlüsseldokumente */}
-      <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <SectionHead
-            label={t.documents.label}
-            heading={t.documents.heading}
-            intro={t.documents.intro}
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {t.documents.items.map((item, i) => (
-              <a
-                key={DOCUMENT_LINKS[i].name}
-                href={DOCUMENT_LINKS[i].url}
-                target="_blank"
-                rel="noreferrer"
-                className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-serif text-xs font-medium text-primary">
-                    {DOCUMENT_LINKS[i].year}
-                  </span>
-                  <ExternalLink
-                    className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                    strokeWidth={1.5}
-                  />
+        {/* Datenschutz */}
+        <section id="datenschutz" className="scroll-mt-20">
+          <div className="mx-auto max-w-3xl px-6 py-20">
+            <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
+            <p className="mt-1 text-xs text-muted-foreground">{t.legal.privacy.updated}</p>
+            <div className="mt-8 space-y-6">
+              {t.legal.privacy.blocks.map((b) => (
+                <div key={b.title}>
+                  <p className="text-sm font-medium text-foreground">{b.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
                 </div>
-                <h3 className="mt-2 font-serif text-lg font-medium leading-snug">
-                  {DOCUMENT_LINKS[i].name}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Daten & Fakten */}
-      <section id="daten" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-16">
-          <div className="md:col-span-5">
-            <SectionHead label={t.data.label} heading={t.data.heading} intro={t.data.intro} />
-            <p className="mt-6 rounded-xl bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
-              {t.data.worldNote}
-            </p>
-          </div>
-          <div className="md:col-span-7">
-            <DataChart
-              regions={t.data.regions}
-              caption={t.data.chartCaption}
-              source={t.data.chartSource}
-              chooseYear={t.data.chooseYear}
-              changeLabel={t.data.changeLabel}
-              unit={t.data.unit}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-3xl px-6 py-24">
-          <SectionHead label={t.faq.label} heading={t.faq.heading} center />
-          <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-            {t.faq.items.map((item) => (
-              <FaqRow key={item.q} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Quiz */}
-      <section id="quiz" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <SectionHead label={t.quiz.label} heading={t.quiz.heading} intro={t.quiz.intro} center />
-        <FallacyQuiz quiz={t.quiz} />
-      </section>
-
-      {/* Glossar */}
-      <section id="glossar" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <SectionHead
-          label={t.glossary.label}
-          heading={t.glossary.heading}
-          intro={t.glossary.intro}
-        />
-        <dl className="mt-12 grid gap-x-12 gap-y-6 sm:grid-cols-2">
-          {t.glossary.items.map((item) => (
-            <div key={item.term} className="border-t border-border pt-4">
-              <dt className="font-serif text-lg font-medium text-primary">{item.term}</dt>
-              <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.def}</dd>
+              ))}
             </div>
-          ))}
-        </dl>
-      </section>
-
-      {/* Weiterlesen */}
-      <section id="weiterlesen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-        <SectionHead label={t.reading.label} heading={t.reading.heading} intro={t.reading.intro} />
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {t.reading.items.map((b) => (
-            <li
-              key={b.author + b.title}
-              className="flex gap-4 rounded-xl border border-border bg-card p-5"
-            >
-              <BookOpen
-                className="mt-1 h-5 w-5 shrink-0 text-primary"
-                strokeWidth={1.5}
-                aria-hidden
-              />
-              <div>
-                <p className="font-serif text-lg font-medium leading-snug">{b.title}</p>
-                <p className="mt-0.5 text-sm text-muted-foreground">
-                  {b.author} · {b.year}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.note}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Quellen */}
-      <section id="quellen" className="scroll-mt-20 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <SectionHead
-            label={t.sources.label}
-            heading={t.sources.heading}
-            intro={t.sources.intro}
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {t.sources.items.map((item, i) => (
-              <a
-                key={SOURCE_LINKS[i].name}
-                href={SOURCE_LINKS[i].url}
-                target="_blank"
-                rel="noreferrer"
-                className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
-                  <ExternalLink
-                    className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-              </a>
-            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Kontakt */}
-      <section id="kontakt" className="scroll-mt-20">
-        <div className="mx-auto max-w-3xl px-6 py-24">
-          <SectionHead
-            label={t.contact.label}
-            heading={t.contact.heading}
-            intro={t.contact.intro}
-            center
-          />
-          <ContactForm c={t.contact} />
-        </div>
-      </section>
-
-      {/* Impressum */}
-      <section id="impressum" className="scroll-mt-20 border-t border-border bg-secondary/40">
-        <div className="mx-auto max-w-3xl px-6 py-20">
-          <h2 className="font-serif text-2xl font-medium">{t.legal.impressum.heading}</h2>
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{t.legal.disclaimer}</p>
-          <div className="mt-8 space-y-6">
-            {t.legal.impressum.blocks.map((b) => (
-              <div key={b.title}>
-                <p className="text-sm font-medium text-foreground">{b.title}</p>
-                {b.lines.map((line) => (
-                  <p key={line} className="text-sm leading-relaxed text-muted-foreground">
-                    {line}
-                  </p>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Datenschutz */}
-      <section id="datenschutz" className="scroll-mt-20">
-        <div className="mx-auto max-w-3xl px-6 py-20">
-          <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
-          <p className="mt-1 text-xs text-muted-foreground">{t.legal.privacy.updated}</p>
-          <div className="mt-8 space-y-6">
-            {t.legal.privacy.blocks.map((b) => (
-              <div key={b.title}>
-                <p className="text-sm font-medium text-foreground">{b.title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-border bg-card/40">
