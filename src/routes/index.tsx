@@ -1571,6 +1571,10 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
         autoComplete="off"
         aria-hidden
       />
+      {/* Web3Forms-Metafelder: bessere Zustellbarkeit & erkennbarer Betreff.
+          replyto wird von Web3Forms automatisch aus dem email-Feld gesetzt. */}
+      <input type="hidden" name="subject" value="Neue Nachricht über das Humanitas-Kontaktformular" />
+      <input type="hidden" name="from_name" value="Humanitas Kontaktformular" />
       <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
         <input type="checkbox" required className="mt-0.5 h-4 w-4 shrink-0 accent-primary" />
         <span>{c.consent}</span>
