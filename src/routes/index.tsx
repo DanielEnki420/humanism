@@ -23,6 +23,7 @@ import {
   LANGUAGES,
   LANGUAGE_LABELS,
   translations,
+  type EthicsItem,
   type FaqItem,
   type Lang,
   type PrincipleText,
@@ -338,22 +339,68 @@ const CYCLE_POSITIONS = [
 
 /** Wissenschafts-Kreislauf: fünf Methoden-Schritte als selbst-korrigierender Zyklus. */
 function ScienceCycle({ titles }: { titles: string[] }) {
+  // Geometrie: fünf Knoten gleichmäßig auf einem Kreis (r=39), Start oben (-90°).
+  // Zwischen je zwei Knoten ein Bogen mit Pfeilspitze – zeigt die Fluss-Richtung
+  // des Zyklus (im Uhrzeigersinn) und macht die Selbst-Korrektur sichtbar.
+  const R = 39;
+  const C = 50;
+  const step = 360 / titles.length;
+  const gap = 17; // Grad-Lücke an jedem Knoten, damit Bögen nicht unter den Kreisen liegen
+  const toXY = (deg: number): [number, number] => {
+    const r = (deg * Math.PI) / 180;
+    return [C + R * Math.cos(r), C + R * Math.sin(r)];
+  };
+  const arcs = titles.map((_, i) => {
+    const [x0, y0] = toXY(-90 + step * i + gap);
+    const [x1, y1] = toXY(-90 + step * (i + 1) - gap);
+    return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${R} ${R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+  });
+
   return (
     <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
       <svg
         viewBox="0 0 100 100"
         aria-hidden
-        className="absolute inset-0 h-full w-full text-primary/30"
+        className="absolute inset-0 h-full w-full text-primary"
       >
+        <defs>
+          <marker
+            id="cycle-arrow"
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="4"
+            markerHeight="4"
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+          >
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+          </marker>
+        </defs>
+        {/* Leit-Kreis (dezent) */}
         <circle
           cx="50"
           cy="50"
           r="39"
           fill="none"
           stroke="currentColor"
+          strokeOpacity="0.18"
           strokeWidth="0.5"
           strokeDasharray="2 2"
         />
+        {/* Fluss-Bögen mit Pfeilspitzen (im Uhrzeigersinn) */}
+        {arcs.map((d, i) => (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity="0.5"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            markerEnd="url(#cycle-arrow)"
+          />
+        ))}
       </svg>
 
       <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -665,6 +712,9 @@ function Index() {
           </div>
         </section>
 
+        {/* Zitat-Break: Menschlichkeit / Offenheit */}
+        <QuoteBreak text={t.quotes[0].text} author={t.quotes[0].author} />
+
         {/* Prinzipien */}
         <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-6 py-24">
@@ -757,15 +807,21 @@ function Index() {
           </div>
         </section>
 
+        {/* Zitat-Break: wissenschaftliches Denken */}
+        <QuoteBreak text={t.quotes[1].text} author={t.quotes[1].author} />
+
         {/* Ethik */}
         <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
           <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
           <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {t.ethics.items.map((item, i) => (
+            {t.ethics.items.map((item: EthicsItem, i: number) => (
               <div key={item.title} className="border-t-2 border-primary/30 pt-6">
                 <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
                 <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                <p className="mt-4 rounded-md bg-secondary/60 px-4 py-3 text-xs italic leading-relaxed text-muted-foreground">
+                  {item.example}
+                </p>
               </div>
             ))}
           </div>
@@ -840,6 +896,9 @@ function Index() {
             ))}
           </ol>
         </section>
+
+        {/* Zitat-Break: Zweifel / Vernunft */}
+        <QuoteBreak text={t.quotes[2].text} author={t.quotes[2].author} />
 
         {/* Schlüsseldokumente */}
         <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
@@ -1506,6 +1565,22 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
   );
 }
 
+/** Ganzseitiger Zitat-Break zwischen Sektionen – visuelle Atempause. */
+function QuoteBreak({ text, author }: { text: string; author: string }) {
+  return (
+    <section className="border-y border-border/60 bg-primary/5 px-6 py-20">
+      <figure className="mx-auto max-w-3xl text-center">
+        <blockquote className="font-serif text-2xl font-medium leading-snug text-foreground sm:text-3xl">
+          {text}
+        </blockquote>
+        <figcaption className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          {author}
+        </figcaption>
+      </figure>
+    </section>
+  );
+}
+
 function ContactForm({ c }: { c: Translation["contact"] }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const configured = !CONTACT_ACCESS_KEY.startsWith("DEIN-");
@@ -1567,6 +1642,10 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
         autoComplete="off"
         aria-hidden
       />
+      {/* Web3Forms-Metafelder: bessere Zustellbarkeit & erkennbarer Betreff.
+          replyto wird von Web3Forms automatisch aus dem email-Feld gesetzt. */}
+      <input type="hidden" name="subject" value="Neue Nachricht über das Humanitas-Kontaktformular" />
+      <input type="hidden" name="from_name" value="Humanitas Kontaktformular" />
       <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
         <input type="checkbox" required className="mt-0.5 h-4 w-4 shrink-0 accent-primary" />
         <span>{c.consent}</span>

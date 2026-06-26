@@ -25,6 +25,7 @@ export type TimelineItem = { year: string; title: string; text: string };
 export type ReadingItem = { author: string; title: string; year: string; note: string };
 export type FaqItem = { q: string; a: string };
 export type TitledItem = { title: string; text: string };
+export type EthicsItem = { title: string; text: string; example: string };
 export type TermItem = { term: string; def: string };
 export type QuizItem = {
   statement: string;
@@ -74,7 +75,7 @@ export type Translation = {
     label: string;
     heading: string;
     intro: string;
-    items: TitledItem[];
+    items: EthicsItem[];
     source: string;
   };
   distinctions: {
@@ -117,6 +118,7 @@ export type Translation = {
   };
   glossary: { label: string; heading: string; intro: string; items: TermItem[] };
   reading: { label: string; heading: string; intro: string; items: ReadingItem[] };
+  quotes: { text: string; author: string }[];
   sources: {
     label: string;
     heading: string;
@@ -352,14 +354,17 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empathie & Evolution",
           text: "Kooperation und Mitgefühl sind tief in sozialen Lebewesen verankert – Moral hat eine natürliche Wurzel.",
+          example: "Tierrechte: Peter Singer argumentiert, dass fühlende Tiere dasselbe Recht auf Leidfreiheit haben wie Menschen – ein Argument, das allein auf Empathie und Konsequenz beruht, nicht auf Religion.",
         },
         {
           title: "Gesellschaftsvertrag",
           text: "Regeln gelten, weil sie das Zusammenleben für alle besser machen, nicht weil sie befohlen werden.",
+          example: "Sterbehilfe: Die Debatte um assistierten Suizid zeigt, wie Gesellschaften Regeln auf Basis von Würde und Selbstbestimmung aushandeln – ohne göttliches Gebot als Leitlinie.",
         },
         {
           title: "Wohlergehen als Maßstab",
           text: "Gut ist, was Leid mindert und Aufblühen ermöglicht – beurteilt an den realen Folgen für fühlende Wesen.",
+          example: "KI-Ethik: Ob KI menschliche Arbeit ersetzen soll, wird humanistisch anhand konkreter Folgen für Wohlbefinden und Chancengleichheit bewertet – nicht durch Tradition oder Autorität.",
         },
       ],
       source: "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
@@ -605,8 +610,46 @@ export const translations: Record<Lang, Translation> = {
           term: "Aufklärung",
           def: "Geistesströmung des 18. Jh., die Vernunft und Mündigkeit betont.",
         },
+        {
+          term: "Humanismus",
+          def: "Weltanschauung, die menschliche Vernunft, Würde und das Wohlergehen aller als Grundlage betrachtet.",
+        },
+        {
+          term: "Skeptizismus",
+          def: "Methodische Haltung, Behauptungen erst nach sorgfältiger Prüfung der Belege zu akzeptieren.",
+        },
+        {
+          term: "Utilitarismus",
+          def: "Ethiktheorie, die das größte Wohl für die größte Zahl als Maßstab des richtigen Handelns ansieht.",
+        },
+        {
+          term: "Freidenkertum",
+          def: "Überzeugungen auf Basis von Vernunft und Evidenz bilden – unabhängig von Tradition oder Autorität.",
+        },
+        {
+          term: "Kognitive Verzerrung",
+          def: "Systematischer Denkfehler, der zu irrationalen Urteilen führt – etwa der Bestätigungsfehler.",
+        },
+        {
+          term: "Menschenwürde",
+          def: "Unveräußerliches Recht jedes Menschen auf Achtung und Respekt, unabhängig von Herkunft oder Status.",
+        },
       ],
     },
+    quotes: [
+      {
+        text: "„Ein guter Mensch zu sein bedeutet, eine Art Offenheit gegenüber der Welt zu haben – die Fähigkeit, unsicheren Dingen zu vertrauen, die sich der eigenen Kontrolle entziehen.“",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "„Wissenschaft ist viel mehr eine Art zu denken als ein Wissensbestand.“",
+        author: "Carl Sagan",
+      },
+      {
+        text: "„Das ganze Problem dieser Welt ist, dass die Dummen und Fanatiker ihrer selbst stets so sicher sind, die Klügeren aber so voller Zweifel.“",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Weiterlesen",
       heading: "Bücher zum Einstieg",
@@ -933,14 +976,17 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empathy & evolution",
           text: "Cooperation and compassion are deeply rooted in social beings – morality has a natural origin.",
+          example: "Animal rights: Peter Singer argues that sentient animals have the same right to freedom from suffering as humans – a case built entirely on empathy and consequences, not religion.",
         },
         {
           title: "Social contract",
           text: "Rules hold because they make living together better for all, not because they are commanded.",
+          example: "Assisted dying: The debate around assisted suicide shows how societies negotiate rules on the basis of dignity and autonomy – without divine command as the deciding principle.",
         },
         {
           title: "Well-being as the measure",
           text: "Good is what reduces suffering and enables flourishing – judged by real consequences for sentient beings.",
+          example: "AI ethics: Whether AI systems should replace human jobs is assessed humanistically by real consequences for well-being and equal opportunity – not by tradition or authority.",
         },
       ],
       source: "Following Peter Singer and Sam Harris, “The Moral Landscape” (2010).",
@@ -1182,8 +1228,46 @@ export const translations: Record<Lang, Translation> = {
           term: "Enlightenment",
           def: "An 18th-century movement emphasising reason and autonomy.",
         },
+        {
+          term: "Humanism",
+          def: "A worldview that takes human reason, dignity and the well-being of all as its foundation.",
+        },
+        {
+          term: "Skepticism",
+          def: "The methodical disposition to accept claims only after carefully examining the evidence.",
+        },
+        {
+          term: "Utilitarianism",
+          def: "An ethical theory that takes the greatest good for the greatest number as the measure of right action.",
+        },
+        {
+          term: "Freethought",
+          def: "Forming beliefs on the basis of reason and evidence, independent of tradition or authority.",
+        },
+        {
+          term: "Cognitive bias",
+          def: "A systematic thinking error that leads to irrational judgements – for example, confirmation bias.",
+        },
+        {
+          term: "Human dignity",
+          def: "The inalienable right of every person to respect and recognition, regardless of origin or status.",
+        },
       ],
     },
+    quotes: [
+      {
+        text: "“To be a good human being is to have a kind of openness to the world, the ability to trust uncertain things beyond your own control.”",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "“Science is a way of thinking much more than it is a body of knowledge.”",
+        author: "Carl Sagan",
+      },
+      {
+        text: "“The whole problem with the world is that fools and fanatics are always so certain of themselves, but wiser people so full of doubts.”",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Further reading",
       heading: "Books to get started",
@@ -1511,14 +1595,17 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empatia ed evoluzione",
           text: "Cooperazione e compassione sono profondamente radicate negli esseri sociali – la morale ha un'origine naturale.",
+          example: "Diritti degli animali: Peter Singer sostiene che gli animali senzienti abbiano lo stesso diritto all'assenza di sofferenza degli esseri umani – un argomento fondato su empatia e conseguenze, non sulla religione.",
         },
         {
           title: "Contratto sociale",
           text: "Le regole valgono perché migliorano la convivenza per tutti, non perché sono imposte.",
+          example: "Suicidio assistito: Il dibattito sull'aiuto al suicidio mostra come le società negozino regole basate su dignità e autodeterminazione – senza comandamento divino come principio guida.",
         },
         {
           title: "Il benessere come metro",
           text: "È bene ciò che riduce la sofferenza e favorisce la fioritura – valutato dalle conseguenze reali per gli esseri senzienti.",
+          example: "Etica dell'IA: Se i sistemi di intelligenza artificiale debbano sostituire i lavori umani viene valutato umanisticamente in base alle conseguenze reali sul benessere e sulla parità di opportunità.",
         },
       ],
       source: "Sulla scia di Peter Singer e Sam Harris, «The Moral Landscape» (2010).",
@@ -1764,8 +1851,46 @@ export const translations: Record<Lang, Translation> = {
           term: "Illuminismo",
           def: "Movimento del XVIII secolo che valorizza ragione e autonomia.",
         },
+        {
+          term: "Umanesimo",
+          def: "Visione del mondo che considera la ragione umana, la dignità e il benessere di tutti come proprio fondamento.",
+        },
+        {
+          term: "Scetticismo",
+          def: "Atteggiamento metodologico di accettare affermazioni solo dopo aver esaminato attentamente le prove.",
+        },
+        {
+          term: "Utilitarismo",
+          def: "Teoria etica che considera il massimo bene per il maggior numero come misura dell'agire corretto.",
+        },
+        {
+          term: "Libero pensiero",
+          def: "Formazione di convinzioni basata su ragione ed evidenza, indipendentemente da tradizione o autorità.",
+        },
+        {
+          term: "Distorsione cognitiva",
+          def: "Errore di pensiero sistematico che porta a giudizi irrazionali – ad esempio il bias di conferma.",
+        },
+        {
+          term: "Dignità umana",
+          def: "Diritto inalienabile di ogni persona al rispetto e al riconoscimento, indipendentemente dall'origine o dallo status.",
+        },
       ],
     },
+    quotes: [
+      {
+        text: "«Essere un buon essere umano significa avere una sorta di apertura verso il mondo, la capacità di fidarsi di cose incerte che sfuggono al proprio controllo.»",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "«La scienza è un modo di pensare molto più che un insieme di conoscenze.»",
+        author: "Carl Sagan",
+      },
+      {
+        text: "«Il problema del mondo è che gli sciocchi e i fanatici sono sempre così sicuri di sé, mentre le persone più sagge sono piene di dubbi.»",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Approfondimenti",
       heading: "Libri per iniziare",
