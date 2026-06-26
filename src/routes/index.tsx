@@ -666,6 +666,9 @@ function Index() {
           </div>
         </section>
 
+        {/* Zitat-Break: Menschlichkeit / Offenheit */}
+        <QuoteBreak text={t.quotes[0].text} author={t.quotes[0].author} />
+
         {/* Prinzipien */}
         <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-6 py-24">
@@ -758,6 +761,9 @@ function Index() {
           </div>
         </section>
 
+        {/* Zitat-Break: wissenschaftliches Denken */}
+        <QuoteBreak text={t.quotes[1].text} author={t.quotes[1].author} />
+
         {/* Ethik */}
         <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
           <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
@@ -844,6 +850,9 @@ function Index() {
             ))}
           </ol>
         </section>
+
+        {/* Zitat-Break: Zweifel / Vernunft */}
+        <QuoteBreak text={t.quotes[2].text} author={t.quotes[2].author} />
 
         {/* Schlüsseldokumente */}
         <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
@@ -1507,6 +1516,22 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
         </div>
       )}
     </div>
+  );
+}
+
+/** Ganzseitiger Zitat-Break zwischen Sektionen – visuelle Atempause. */
+function QuoteBreak({ text, author }: { text: string; author: string }) {
+  return (
+    <section className="border-y border-border/60 bg-primary/5 px-6 py-20">
+      <figure className="mx-auto max-w-3xl text-center">
+        <blockquote className="font-serif text-2xl font-medium leading-snug text-foreground sm:text-3xl">
+          {text}
+        </blockquote>
+        <figcaption className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          {author}
+        </figcaption>
+      </figure>
+    </section>
   );
 }
 

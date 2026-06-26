@@ -118,6 +118,7 @@ export type Translation = {
   };
   glossary: { label: string; heading: string; intro: string; items: TermItem[] };
   reading: { label: string; heading: string; intro: string; items: ReadingItem[] };
+  quotes: { text: string; author: string }[];
   sources: {
     label: string;
     heading: string;
@@ -635,6 +636,20 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    quotes: [
+      {
+        text: "„Ein guter Mensch zu sein bedeutet, eine Art Offenheit gegenüber der Welt zu haben – die Fähigkeit, unsicheren Dingen zu vertrauen, die sich der eigenen Kontrolle entziehen.“",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "„Wissenschaft ist viel mehr eine Art zu denken als ein Wissensbestand.“",
+        author: "Carl Sagan",
+      },
+      {
+        text: "„Das ganze Problem dieser Welt ist, dass die Dummen und Fanatiker ihrer selbst stets so sicher sind, die Klügeren aber so voller Zweifel.“",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Weiterlesen",
       heading: "Bücher zum Einstieg",
@@ -1239,6 +1254,20 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    quotes: [
+      {
+        text: "“To be a good human being is to have a kind of openness to the world, the ability to trust uncertain things beyond your own control.”",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "“Science is a way of thinking much more than it is a body of knowledge.”",
+        author: "Carl Sagan",
+      },
+      {
+        text: "“The whole problem with the world is that fools and fanatics are always so certain of themselves, but wiser people so full of doubts.”",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Further reading",
       heading: "Books to get started",
@@ -1848,6 +1877,20 @@ export const translations: Record<Lang, Translation> = {
         },
       ],
     },
+    quotes: [
+      {
+        text: "«Essere un buon essere umano significa avere una sorta di apertura verso il mondo, la capacità di fidarsi di cose incerte che sfuggono al proprio controllo.»",
+        author: "Martha Nussbaum",
+      },
+      {
+        text: "«La scienza è un modo di pensare molto più che un insieme di conoscenze.»",
+        author: "Carl Sagan",
+      },
+      {
+        text: "«Il problema del mondo è che gli sciocchi e i fanatici sono sempre così sicuri di sé, mentre le persone più sagge sono piene di dubbi.»",
+        author: "Bertrand Russell",
+      },
+    ],
     reading: {
       label: "Approfondimenti",
       heading: "Libri per iniziare",
