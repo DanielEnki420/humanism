@@ -339,22 +339,68 @@ const CYCLE_POSITIONS = [
 
 /** Wissenschafts-Kreislauf: fünf Methoden-Schritte als selbst-korrigierender Zyklus. */
 function ScienceCycle({ titles }: { titles: string[] }) {
+  // Geometrie: fünf Knoten gleichmäßig auf einem Kreis (r=39), Start oben (-90°).
+  // Zwischen je zwei Knoten ein Bogen mit Pfeilspitze – zeigt die Fluss-Richtung
+  // des Zyklus (im Uhrzeigersinn) und macht die Selbst-Korrektur sichtbar.
+  const R = 39;
+  const C = 50;
+  const step = 360 / titles.length;
+  const gap = 17; // Grad-Lücke an jedem Knoten, damit Bögen nicht unter den Kreisen liegen
+  const toXY = (deg: number): [number, number] => {
+    const r = (deg * Math.PI) / 180;
+    return [C + R * Math.cos(r), C + R * Math.sin(r)];
+  };
+  const arcs = titles.map((_, i) => {
+    const [x0, y0] = toXY(-90 + step * i + gap);
+    const [x1, y1] = toXY(-90 + step * (i + 1) - gap);
+    return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${R} ${R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+  });
+
   return (
     <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
       <svg
         viewBox="0 0 100 100"
         aria-hidden
-        className="absolute inset-0 h-full w-full text-primary/30"
+        className="absolute inset-0 h-full w-full text-primary"
       >
+        <defs>
+          <marker
+            id="cycle-arrow"
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="4"
+            markerHeight="4"
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+          >
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+          </marker>
+        </defs>
+        {/* Leit-Kreis (dezent) */}
         <circle
           cx="50"
           cy="50"
           r="39"
           fill="none"
           stroke="currentColor"
+          strokeOpacity="0.18"
           strokeWidth="0.5"
           strokeDasharray="2 2"
         />
+        {/* Fluss-Bögen mit Pfeilspitzen (im Uhrzeigersinn) */}
+        {arcs.map((d, i) => (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity="0.5"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            markerEnd="url(#cycle-arrow)"
+          />
+        ))}
       </svg>
 
       <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground">
