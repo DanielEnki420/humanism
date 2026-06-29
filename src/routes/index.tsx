@@ -927,7 +927,7 @@ function Index() {
                     />
                   </div>
                   <h3 className="mt-2 font-serif text-lg font-medium leading-snug">
-                    {DOCUMENT_LINKS[i].name}
+                    {item.name ?? DOCUMENT_LINKS[i].name}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
                 </a>
@@ -1041,7 +1041,7 @@ function Index() {
                   className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-serif text-lg font-medium">{SOURCE_LINKS[i].name}</span>
+                    <span className="font-serif text-lg font-medium">{item.name ?? SOURCE_LINKS[i].name}</span>
                     <ExternalLink
                       className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
                       strokeWidth={1.5}

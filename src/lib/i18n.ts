@@ -91,7 +91,7 @@ export type Translation = {
     label: string;
     heading: string;
     intro: string;
-    items: { desc: string }[];
+    items: { name?: string; desc: string }[];
   };
   data: {
     label: string;
@@ -123,7 +123,7 @@ export type Translation = {
     label: string;
     heading: string;
     intro: string;
-    items: { desc: string }[];
+    items: { name?: string; desc: string }[];
   };
   footer: {
     tagline: string;
@@ -472,7 +472,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Antwort auf Krieg und Krisen – Menschenrechte und globale Ethik." },
         { desc: "„Humanism and Its Aspirations“ – die heutige Kurzfassung." },
         { desc: "Offizielle Grundsatzerklärung der weltweiten humanistischen Bewegung." },
-        { desc: "Universelle Würde und Rechte – ein humanistischer Meilenstein." },
+        { name: "Allgemeine Erklärung der Menschenrechte", desc: "Universelle Würde und Rechte – ein humanistischer Meilenstein." },
       ],
     },
     data: {
@@ -704,7 +704,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Herausgeber des Humanist Manifesto III." },
         { desc: "Deutsche Denkfabrik des säkularen Humanismus." },
         { desc: "Daten zu Religion & Gesellschaft weltweit." },
-        { desc: "Volltext der Allgemeinen Erklärung der Menschenrechte." },
+        { name: "UN – Menschenrechte", desc: "Volltext der Allgemeinen Erklärung der Menschenrechte." },
       ],
     },
     footer: {
@@ -1093,7 +1093,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "A response to war and crisis – human rights and a global ethic." },
         { desc: "“Humanism and Its Aspirations” – today's concise statement." },
         { desc: "The official statement of principles of the worldwide humanist movement." },
-        { desc: "Universal dignity and rights – a humanist milestone." },
+        { name: "Universal Declaration of Human Rights", desc: "Universal dignity and rights – a humanist milestone." },
       ],
     },
     data: {
@@ -1322,7 +1322,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Publisher of Humanist Manifesto III." },
         { desc: "German think tank for secular humanism." },
         { desc: "Data on religion & society worldwide." },
-        { desc: "Full text of the Universal Declaration of Human Rights." },
+        { name: "UN – Human Rights", desc: "Full text of the Universal Declaration of Human Rights." },
       ],
     },
     footer: {
@@ -1712,7 +1712,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Una risposta a guerra e crisi – diritti umani ed etica globale." },
         { desc: "«Humanism and Its Aspirations» – la formulazione concisa di oggi." },
         { desc: "La dichiarazione ufficiale di principi del movimento umanista mondiale." },
-        { desc: "Dignità e diritti universali – una pietra miliare umanista." },
+        { name: "Dichiarazione universale dei diritti umani", desc: "Dignità e diritti universali – una pietra miliare umanista." },
       ],
     },
     data: {
@@ -1945,7 +1945,7 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Editore dell'Humanist Manifesto III." },
         { desc: "Think tank tedesco dell'umanesimo laico." },
         { desc: "Dati su religione e società nel mondo." },
-        { desc: "Testo integrale della Dichiarazione universale dei diritti umani." },
+        { name: "ONU – Diritti umani", desc: "Testo integrale della Dichiarazione universale dei diritti umani." },
       ],
     },
     footer: {
