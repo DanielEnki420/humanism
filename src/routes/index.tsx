@@ -18,6 +18,7 @@ import {
   Heart,
   X,
   BookOpen,
+  Menu,
 } from "lucide-react";
 import {
   LANGUAGES,
@@ -451,7 +452,18 @@ function Index() {
   const [lang, setLang] = useState<Lang>("de");
   const [dark, setDark] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
+  const [menuOpen, setMenuOpen] = useState(false);
   const t = translations[lang];
+
+  // Menü schließen, sobald der Viewport wieder Desktop-Breite erreicht.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setMenuOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // Sprache aus ?lang oder localStorage übernehmen (vermeidet Hydration-Mismatch).
   useEffect(() => {
@@ -560,7 +572,7 @@ function Index() {
             <BrandMark />
             <span>Humanitas</span>
           </a>
-          <div className="flex items-center gap-4 lg:gap-6">
+          <div className="flex items-center gap-3 lg:gap-6">
             <nav className="hidden gap-7 text-sm lg:flex">
               {[
                 { id: "was-ist", label: t.nav.idea },
@@ -621,8 +633,59 @@ function Index() {
                 <Moon className="h-4 w-4" strokeWidth={1.5} />
               )}
             </button>
+
+            {/* Mobile-Menü-Button (nur unter lg sichtbar) */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 text-foreground backdrop-blur transition-colors hover:bg-secondary lg:hidden"
+            >
+              {menuOpen ? (
+                <X className="h-4 w-4" strokeWidth={1.5} />
+              ) : (
+                <Menu className="h-4 w-4" strokeWidth={1.5} />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile-Nav-Panel */}
+        {menuOpen && (
+          <nav
+            id="mobile-nav"
+            className="border-t border-border/60 bg-background/95 backdrop-blur lg:hidden"
+            aria-label={t.ui.toggleLanguage}
+          >
+            <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4 text-sm">
+              {[
+                { id: "was-ist", label: t.nav.idea },
+                { id: "prinzipien", label: t.nav.principles },
+                { id: "wissenschaft", label: t.nav.science },
+                { id: "geschichte", label: t.nav.history },
+                { id: "daten", label: t.nav.data },
+                { id: "faq", label: t.nav.faq },
+              ].map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => setMenuOpen(false)}
+                    aria-current={activeId === item.id ? "true" : undefined}
+                    className={`block rounded-lg px-3 py-2 transition-colors ${
+                      activeId === item.id
+                        ? "bg-secondary font-medium text-foreground"
+                        : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </header>
 
       <main id="inhalt">
