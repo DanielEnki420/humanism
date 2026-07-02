@@ -455,6 +455,16 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const t = translations[lang];
 
+  // Nav-Einträge einmal ableiten – Desktop-Leiste & Mobile-Panel teilen dieselbe Liste.
+  const navItems = [
+    { id: "was-ist", label: t.nav.idea },
+    { id: "prinzipien", label: t.nav.principles },
+    { id: "wissenschaft", label: t.nav.science },
+    { id: "geschichte", label: t.nav.history },
+    { id: "daten", label: t.nav.data },
+    { id: "faq", label: t.nav.faq },
+  ];
+
   // Menü schließen, sobald der Viewport wieder Desktop-Breite erreicht.
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -464,6 +474,16 @@ function Index() {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+
+  // Escape schließt das Mobile-Menü (Tastatur-Bedienbarkeit).
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   // Sprache aus ?lang oder localStorage übernehmen (vermeidet Hydration-Mismatch).
   useEffect(() => {
@@ -574,14 +594,7 @@ function Index() {
           </a>
           <div className="flex items-center gap-3 lg:gap-6">
             <nav className="hidden gap-7 text-sm lg:flex">
-              {[
-                { id: "was-ist", label: t.nav.idea },
-                { id: "prinzipien", label: t.nav.principles },
-                { id: "wissenschaft", label: t.nav.science },
-                { id: "geschichte", label: t.nav.history },
-                { id: "daten", label: t.nav.data },
-                { id: "faq", label: t.nav.faq },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
@@ -640,7 +653,7 @@ function Index() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
-              aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+              aria-label={menuOpen ? t.ui.menuClose : t.ui.menuOpen}
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 text-foreground backdrop-blur transition-colors hover:bg-secondary lg:hidden"
             >
               {menuOpen ? (
@@ -657,17 +670,10 @@ function Index() {
           <nav
             id="mobile-nav"
             className="border-t border-border/60 bg-background/95 backdrop-blur lg:hidden"
-            aria-label={t.ui.toggleLanguage}
+            aria-label={t.ui.navLabel}
           >
             <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4 text-sm">
-              {[
-                { id: "was-ist", label: t.nav.idea },
-                { id: "prinzipien", label: t.nav.principles },
-                { id: "wissenschaft", label: t.nav.science },
-                { id: "geschichte", label: t.nav.history },
-                { id: "daten", label: t.nav.data },
-                { id: "faq", label: t.nav.faq },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
@@ -1104,7 +1110,9 @@ function Index() {
                   className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-serif text-lg font-medium">{item.name ?? SOURCE_LINKS[i].name}</span>
+                    <span className="font-serif text-lg font-medium">
+                      {item.name ?? SOURCE_LINKS[i].name}
+                    </span>
                     <ExternalLink
                       className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
                       strokeWidth={1.5}
@@ -1707,7 +1715,11 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
       />
       {/* Web3Forms-Metafelder: bessere Zustellbarkeit & erkennbarer Betreff.
           replyto wird von Web3Forms automatisch aus dem email-Feld gesetzt. */}
-      <input type="hidden" name="subject" value="Neue Nachricht über das Humanitas-Kontaktformular" />
+      <input
+        type="hidden"
+        name="subject"
+        value="Neue Nachricht über das Humanitas-Kontaktformular"
+      />
       <input type="hidden" name="from_name" value="Humanitas Kontaktformular" />
       <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
         <input type="checkbox" required className="mt-0.5 h-4 w-4 shrink-0 accent-primary" />
