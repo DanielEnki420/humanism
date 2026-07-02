@@ -140,6 +140,9 @@ export type Translation = {
     exampleLabel: string;
     toggleTheme: string;
     toggleLanguage: string;
+    menuOpen: string;
+    menuClose: string;
+    navLabel: string;
     sourceLabel: string;
     skipToContent: string;
   };
@@ -354,17 +357,20 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empathie & Evolution",
           text: "Kooperation und Mitgefühl sind tief in sozialen Lebewesen verankert – Moral hat eine natürliche Wurzel.",
-          example: "Tierrechte: Peter Singer argumentiert, dass fühlende Tiere dasselbe Recht auf Leidfreiheit haben wie Menschen – ein Argument, das allein auf Empathie und Konsequenz beruht, nicht auf Religion.",
+          example:
+            "Tierrechte: Peter Singer argumentiert, dass fühlende Tiere dasselbe Recht auf Leidfreiheit haben wie Menschen – ein Argument, das allein auf Empathie und Konsequenz beruht, nicht auf Religion.",
         },
         {
           title: "Gesellschaftsvertrag",
           text: "Regeln gelten, weil sie das Zusammenleben für alle besser machen, nicht weil sie befohlen werden.",
-          example: "Sterbehilfe: Die Debatte um assistierten Suizid zeigt, wie Gesellschaften Regeln auf Basis von Würde und Selbstbestimmung aushandeln – ohne göttliches Gebot als Leitlinie.",
+          example:
+            "Sterbehilfe: Die Debatte um assistierten Suizid zeigt, wie Gesellschaften Regeln auf Basis von Würde und Selbstbestimmung aushandeln – ohne göttliches Gebot als Leitlinie.",
         },
         {
           title: "Wohlergehen als Maßstab",
           text: "Gut ist, was Leid mindert und Aufblühen ermöglicht – beurteilt an den realen Folgen für fühlende Wesen.",
-          example: "KI-Ethik: Ob KI menschliche Arbeit ersetzen soll, wird humanistisch anhand konkreter Folgen für Wohlbefinden und Chancengleichheit bewertet – nicht durch Tradition oder Autorität.",
+          example:
+            "KI-Ethik: Ob KI menschliche Arbeit ersetzen soll, wird humanistisch anhand konkreter Folgen für Wohlbefinden und Chancengleichheit bewertet – nicht durch Tradition oder Autorität.",
         },
       ],
       source: "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
@@ -472,7 +478,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Antwort auf Krieg und Krisen – Menschenrechte und globale Ethik." },
         { desc: "„Humanism and Its Aspirations“ – die heutige Kurzfassung." },
         { desc: "Offizielle Grundsatzerklärung der weltweiten humanistischen Bewegung." },
-        { name: "Allgemeine Erklärung der Menschenrechte", desc: "Universelle Würde und Rechte – ein humanistischer Meilenstein." },
+        {
+          name: "Allgemeine Erklärung der Menschenrechte",
+          desc: "Universelle Würde und Rechte – ein humanistischer Meilenstein.",
+        },
       ],
     },
     data: {
@@ -704,7 +713,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Herausgeber des Humanist Manifesto III." },
         { desc: "Deutsche Denkfabrik des säkularen Humanismus." },
         { desc: "Daten zu Religion & Gesellschaft weltweit." },
-        { name: "UN – Menschenrechte", desc: "Volltext der Allgemeinen Erklärung der Menschenrechte." },
+        {
+          name: "UN – Menschenrechte",
+          desc: "Volltext der Allgemeinen Erklärung der Menschenrechte.",
+        },
       ],
     },
     footer: {
@@ -723,6 +735,9 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Beispiel",
       toggleTheme: "Farbschema wechseln",
       toggleLanguage: "Sprache wählen",
+      menuOpen: "Menü öffnen",
+      menuClose: "Menü schließen",
+      navLabel: "Hauptnavigation",
       sourceLabel: "Quelle",
       skipToContent: "Zum Inhalt springen",
     },
@@ -976,17 +991,20 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empathy & evolution",
           text: "Cooperation and compassion are deeply rooted in social beings – morality has a natural origin.",
-          example: "Animal rights: Peter Singer argues that sentient animals have the same right to freedom from suffering as humans – a case built entirely on empathy and consequences, not religion.",
+          example:
+            "Animal rights: Peter Singer argues that sentient animals have the same right to freedom from suffering as humans – a case built entirely on empathy and consequences, not religion.",
         },
         {
           title: "Social contract",
           text: "Rules hold because they make living together better for all, not because they are commanded.",
-          example: "Assisted dying: The debate around assisted suicide shows how societies negotiate rules on the basis of dignity and autonomy – without divine command as the deciding principle.",
+          example:
+            "Assisted dying: The debate around assisted suicide shows how societies negotiate rules on the basis of dignity and autonomy – without divine command as the deciding principle.",
         },
         {
           title: "Well-being as the measure",
           text: "Good is what reduces suffering and enables flourishing – judged by real consequences for sentient beings.",
-          example: "AI ethics: Whether AI systems should replace human jobs is assessed humanistically by real consequences for well-being and equal opportunity – not by tradition or authority.",
+          example:
+            "AI ethics: Whether AI systems should replace human jobs is assessed humanistically by real consequences for well-being and equal opportunity – not by tradition or authority.",
         },
       ],
       source: "Following Peter Singer and Sam Harris, “The Moral Landscape” (2010).",
@@ -1093,7 +1111,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "A response to war and crisis – human rights and a global ethic." },
         { desc: "“Humanism and Its Aspirations” – today's concise statement." },
         { desc: "The official statement of principles of the worldwide humanist movement." },
-        { name: "Universal Declaration of Human Rights", desc: "Universal dignity and rights – a humanist milestone." },
+        {
+          name: "Universal Declaration of Human Rights",
+          desc: "Universal dignity and rights – a humanist milestone.",
+        },
       ],
     },
     data: {
@@ -1322,7 +1343,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Publisher of Humanist Manifesto III." },
         { desc: "German think tank for secular humanism." },
         { desc: "Data on religion & society worldwide." },
-        { name: "UN – Human Rights", desc: "Full text of the Universal Declaration of Human Rights." },
+        {
+          name: "UN – Human Rights",
+          desc: "Full text of the Universal Declaration of Human Rights.",
+        },
       ],
     },
     footer: {
@@ -1340,6 +1364,9 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Example",
       toggleTheme: "Toggle colour scheme",
       toggleLanguage: "Choose language",
+      menuOpen: "Open menu",
+      menuClose: "Close menu",
+      navLabel: "Main navigation",
       sourceLabel: "Source",
       skipToContent: "Skip to content",
     },
@@ -1595,17 +1622,20 @@ export const translations: Record<Lang, Translation> = {
         {
           title: "Empatia ed evoluzione",
           text: "Cooperazione e compassione sono profondamente radicate negli esseri sociali – la morale ha un'origine naturale.",
-          example: "Diritti degli animali: Peter Singer sostiene che gli animali senzienti abbiano lo stesso diritto all'assenza di sofferenza degli esseri umani – un argomento fondato su empatia e conseguenze, non sulla religione.",
+          example:
+            "Diritti degli animali: Peter Singer sostiene che gli animali senzienti abbiano lo stesso diritto all'assenza di sofferenza degli esseri umani – un argomento fondato su empatia e conseguenze, non sulla religione.",
         },
         {
           title: "Contratto sociale",
           text: "Le regole valgono perché migliorano la convivenza per tutti, non perché sono imposte.",
-          example: "Suicidio assistito: Il dibattito sull'aiuto al suicidio mostra come le società negozino regole basate su dignità e autodeterminazione – senza comandamento divino come principio guida.",
+          example:
+            "Suicidio assistito: Il dibattito sull'aiuto al suicidio mostra come le società negozino regole basate su dignità e autodeterminazione – senza comandamento divino come principio guida.",
         },
         {
           title: "Il benessere come metro",
           text: "È bene ciò che riduce la sofferenza e favorisce la fioritura – valutato dalle conseguenze reali per gli esseri senzienti.",
-          example: "Etica dell'IA: Se i sistemi di intelligenza artificiale debbano sostituire i lavori umani viene valutato umanisticamente in base alle conseguenze reali sul benessere e sulla parità di opportunità.",
+          example:
+            "Etica dell'IA: Se i sistemi di intelligenza artificiale debbano sostituire i lavori umani viene valutato umanisticamente in base alle conseguenze reali sul benessere e sulla parità di opportunità.",
         },
       ],
       source: "Sulla scia di Peter Singer e Sam Harris, «The Moral Landscape» (2010).",
@@ -1712,7 +1742,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Una risposta a guerra e crisi – diritti umani ed etica globale." },
         { desc: "«Humanism and Its Aspirations» – la formulazione concisa di oggi." },
         { desc: "La dichiarazione ufficiale di principi del movimento umanista mondiale." },
-        { name: "Dichiarazione universale dei diritti umani", desc: "Dignità e diritti universali – una pietra miliare umanista." },
+        {
+          name: "Dichiarazione universale dei diritti umani",
+          desc: "Dignità e diritti universali – una pietra miliare umanista.",
+        },
       ],
     },
     data: {
@@ -1945,7 +1978,10 @@ export const translations: Record<Lang, Translation> = {
         { desc: "Editore dell'Humanist Manifesto III." },
         { desc: "Think tank tedesco dell'umanesimo laico." },
         { desc: "Dati su religione e società nel mondo." },
-        { name: "ONU – Diritti umani", desc: "Testo integrale della Dichiarazione universale dei diritti umani." },
+        {
+          name: "ONU – Diritti umani",
+          desc: "Testo integrale della Dichiarazione universale dei diritti umani.",
+        },
       ],
     },
     footer: {
@@ -1963,6 +1999,9 @@ export const translations: Record<Lang, Translation> = {
       exampleLabel: "Esempio",
       toggleTheme: "Cambia combinazione di colori",
       toggleLanguage: "Scegli la lingua",
+      menuOpen: "Apri il menu",
+      menuClose: "Chiudi il menu",
+      navLabel: "Navigazione principale",
       sourceLabel: "Fonte",
       skipToContent: "Vai al contenuto",
     },
