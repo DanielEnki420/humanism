@@ -233,11 +233,34 @@ function SectionHead({
   );
 }
 
-/** Quellen-Fußnote unter einem Faktenblock. */
-function SourceNote({ label, text }: { label: string; text: string }) {
+/** Quellen-Fußnote unter einem Faktenblock, optional mit Weiterlesen-Link. */
+function SourceNote({
+  label,
+  text,
+  linkUrl,
+  linkLabel,
+}: {
+  label: string;
+  text: string;
+  linkUrl?: string;
+  linkLabel?: string;
+}) {
   return (
     <p className="mt-8 border-l-2 border-primary/30 pl-4 text-xs leading-relaxed text-muted-foreground">
       <span className="font-medium text-foreground/70">{label}:</span> {text}
+      {linkUrl && (
+        <>
+          {" "}
+          <a
+            href={linkUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-dotted underline-offset-2 hover:text-foreground"
+          >
+            {linkLabel} ↗
+          </a>
+        </>
+      )}
     </p>
   );
 }
@@ -894,7 +917,12 @@ function Index() {
               </div>
             ))}
           </div>
-          <SourceNote label={t.ui.sourceLabel} text={t.ethics.source} />
+          <SourceNote
+            label={t.ui.sourceLabel}
+            text={t.ethics.source}
+            linkUrl={SOURCE_LINKS[2].url}
+            linkLabel={t.ui.sourceLinkLabel}
+          />
         </section>
 
         {/* Abgrenzung */}
@@ -939,6 +967,23 @@ function Index() {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Was strittig ist */}
+        <section id="streitpunkte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <SectionHead
+            label={t.disputes.label}
+            heading={t.disputes.heading}
+            intro={t.disputes.intro}
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+            {t.disputes.items.map((item) => (
+              <div key={item.title} className="rounded-xl border border-border bg-card p-5">
+                <h3 className="font-serif text-base font-medium text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+              </div>
+            ))}
           </div>
         </section>
 

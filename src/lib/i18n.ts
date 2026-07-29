@@ -86,6 +86,7 @@ export type Translation = {
     affirmText: string;
     items: TitledItem[];
   };
+  disputes: { label: string; heading: string; intro: string; items: TitledItem[] };
   history: { label: string; heading: string; intro: string; items: TimelineItem[] };
   documents: {
     label: string;
@@ -144,6 +145,7 @@ export type Translation = {
     menuClose: string;
     navLabel: string;
     sourceLabel: string;
+    sourceLinkLabel: string;
     skipToContent: string;
   };
   legal: {
@@ -373,7 +375,8 @@ export const translations: Record<Lang, Translation> = {
             "KI-Ethik: Ob KI menschliche Arbeit ersetzen soll, wird humanistisch anhand konkreter Folgen für Wohlbefinden und Chancengleichheit bewertet – nicht durch Tradition oder Autorität.",
         },
       ],
-      source: "Im Anschluss an Peter Singer und Sam Harris, „The Moral Landscape“ (2010).",
+      source:
+        "Diese Seite vertritt eine naturalistische, evolutionär begründete Ethik – in der Tradition von Paul Kurtz' säkularem Humanismus und Michael Schmidt-Salomons „Jenseits von Gut und Böse – Warum wir ohne Moral die besseren Menschen sind“ (2009). Der Schluss von natürlichen Fakten auf ethische Normen (Sein-Sollen-Problem) bleibt dabei philosophisch umstritten – siehe „Was strittig ist“.",
     },
     distinctions: {
       label: "Abgrenzung",
@@ -385,19 +388,43 @@ export const translations: Record<Lang, Translation> = {
       items: [
         {
           title: "Atheismus",
-          text: "ist allein die Verneinung eines Gottesglaubens. Humanismus fügt eine positive Werteordnung hinzu.",
+          text: "ist allein die Verneinung eines Gottesglaubens und liefert kein Kriterium für richtiges Handeln. Humanismus muss dieses Kriterium explizit begründen – und tut es.",
         },
         {
           title: "Säkularismus",
-          text: "ist ein politisches Prinzip – die Trennung von Staat und Religion –, keine umfassende Lebenshaltung.",
+          text: "ist ein politisches Prinzip – die Trennung von Staat und Religion. Ein Säkularist kann gläubig sein; ein Humanist bezieht zusätzlich inhaltlich Stellung.",
         },
         {
           title: "Nihilismus",
-          text: "bestreitet jeden Sinn. Humanismus findet Sinn im Diesseits: in Beziehungen, Wissen und Wirken.",
+          text: "bestreitet, dass es objektiven Sinn gibt. Humanismus behauptet nicht das Gegenteil, sondern findet Sinn im Diesseits: in Beziehungen, Wissen und Wirken.",
         },
         {
           title: "Antitheismus",
-          text: "bekämpft Religion aktiv. Humanismus verteidigt Glaubensfreiheit – auch die der Gläubigen.",
+          text: "bekämpft Religion aktiv als schädlich. Humanismus verteidigt Glaubensfreiheit – auch die der Gläubigen, solange sie anderen ihre Freiheit lässt.",
+        },
+      ],
+    },
+    disputes: {
+      label: "Innerer Diskurs",
+      heading: "Was strittig ist",
+      intro:
+        "Humanismus ist keine geschlossene Lehre. Diese vier Fragen werden innerhalb der humanistischen Tradition selbst kontrovers diskutiert.",
+      items: [
+        {
+          title: "Wohlergehen maximieren oder Rechte respektieren?",
+          text: "Manche Humanisten urteilen konsequentialistisch: gut ist, was das meiste Wohlergehen erzeugt. Andere bestehen auf unveräußerlichen Rechten, die sich nicht gegen einen Nutzen aufrechnen lassen – ein ungelöster Grundkonflikt.",
+        },
+        {
+          title: "Weltanschauung oder nur Methode?",
+          text: "Ist Humanismus eine positive Lebenshaltung mit eigenen Werten – oder nur eine Denkmethode (Vernunft, Evidenz), die selbst keine Inhalte vorgibt? Beide Lesarten haben Vertreter.",
+        },
+        {
+          title: "Der Mensch im Zentrum – zu Recht?",
+          text: "Diese Seite stellt den Menschen ins Zentrum. Peter Singers einflussreiche Speziesismus-Kritik hält genau das für ein unbegründetes Vorurteil zugunsten der eigenen Art.",
+        },
+        {
+          title: "Ist „Humanismus“ noch der richtige Begriff?",
+          text: "Heidegger wirft dem Begriff selbst vor, ein festes „Wesen des Menschen“ zu unterstellen, bevor überhaupt gefragt wird, was Menschsein heißt. Manche Humanisten halten dagegen, andere übernehmen die Kritik teilweise.",
         },
       ],
     },
@@ -410,12 +437,12 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~600 v. Chr.",
           title: "Charvaka (Indien)",
-          text: "Eine frühe materialistische Schule, die Wissen aus Wahrnehmung statt aus Offenbarung ableitet.",
+          text: "Eine frühe materialistische Schule: Nur die direkte Wahrnehmung gilt als Erkenntnisquelle, nicht Schlussfolgerung oder Überlieferung.",
         },
         {
           year: "~500 v. Chr.",
           title: "Konfuzius (China)",
-          text: "Ethik des Mitmenschlichen (rén): rechtes Handeln gründet auf Menschlichkeit und Gegenseitigkeit, nicht auf göttlichem Gebot.",
+          text: "Ethik des Mitmenschlichen (rén): „Was du selbst nicht wünschst, das tu auch anderen nicht an“ (Analekten, Buch XV) – Gegenseitigkeit statt göttliches Gebot.",
         },
         {
           year: "~450 v. Chr.",
@@ -425,7 +452,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~300 v. Chr.",
           title: "Epikur",
-          text: "Ethik gründet auf Erfahrung und dem Streben nach einem gelingenden Leben, nicht auf Furcht vor Göttern.",
+          text: "„Der Tod geht uns nichts an: Solange wir sind, ist der Tod nicht da; ist er da, sind wir nicht mehr“ (Brief an Menoikeus) – Ethik aus Erfahrung, nicht aus Götterfurcht.",
         },
         {
           year: "um 1500",
@@ -435,7 +462,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "um 1750",
           title: "Aufklärung",
-          text: "Hume, Kant und Voltaire setzen auf Vernunft, Skepsis und individuelle Freiheit.",
+          text: "„Habe Mut, dich deines eigenen Verstandes zu bedienen!“ (Kant, Was ist Aufklärung?, 1784) – Hume, Kant und Voltaire setzen auf Vernunft und individuelle Freiheit.",
         },
         {
           year: "1859",
@@ -453,6 +480,11 @@ export const translations: Record<Lang, Translation> = {
           text: "John Dewey und andere formulieren den modernen, säkularen Humanismus erstmals programmatisch.",
         },
         {
+          year: "1946/47",
+          title: "Heidegger – Kritik am Humanismus",
+          text: "„Brief über den Humanismus“: Heidegger wirft dem Humanismus vor, den Menschen stets nur als ein Seiendes unter anderen zu bestimmen, statt nach seinem Bezug zum Sein selbst zu fragen.",
+        },
+        {
           year: "1948",
           title: "Allgemeine Erklärung der Menschenrechte",
           text: "Die UN verankern universelle Würde und Rechte – ein humanistischer Meilenstein.",
@@ -461,6 +493,11 @@ export const translations: Record<Lang, Translation> = {
           year: "1952",
           title: "Gründung der IHEU",
           text: "Humanistische Verbände schließen sich zur International Humanist and Ethical Union zusammen – heute Humanists International.",
+        },
+        {
+          year: "1999",
+          title: "Sloterdijk – „Menschenpark“-Kontroverse",
+          text: "„Regeln für den Menschenpark“, ausdrücklich als Antwortschreiben zu Heideggers Brief verfasst, löst eine öffentliche Debatte mit Jürgen Habermas über Gentechnik und die Grenzen des Humanismus aus.",
         },
         {
           year: "2002",
@@ -472,7 +509,8 @@ export const translations: Record<Lang, Translation> = {
     documents: {
       label: "Schlüsseldokumente",
       heading: "Worauf der Humanismus sich beruft",
-      intro: "Programmatische Texte – verlinkt zum Original.",
+      intro:
+        "Programmatische Texte – verlinkt zum Original. Manifest I (1933) und Manifest III (2003) zeigen: Der Humanismus korrigiert sich selbst, genau wie die Wissenschaft, die er vertritt.",
       items: [
         { desc: "Erste programmatische Erklärung des säkularen Humanismus." },
         { desc: "Antwort auf Krieg und Krisen – Menschenrechte und globale Ethik." },
@@ -739,6 +777,7 @@ export const translations: Record<Lang, Translation> = {
       menuClose: "Menü schließen",
       navLabel: "Hauptnavigation",
       sourceLabel: "Quelle",
+      sourceLinkLabel: "Weiterlesen",
       skipToContent: "Zum Inhalt springen",
     },
     legal: {
@@ -1007,7 +1046,8 @@ export const translations: Record<Lang, Translation> = {
             "AI ethics: Whether AI systems should replace human jobs is assessed humanistically by real consequences for well-being and equal opportunity – not by tradition or authority.",
         },
       ],
-      source: "Following Peter Singer and Sam Harris, “The Moral Landscape” (2010).",
+      source:
+        "This site holds a naturalistic, evolution-grounded ethics – in the tradition of Paul Kurtz's secular humanism and Michael Schmidt-Salomon's work (Giordano-Bruno-Stiftung). Deriving ethical norms from natural facts (the is–ought problem) remains philosophically contested – see “What's Disputed”.",
     },
     distinctions: {
       label: "Distinctions",
@@ -1019,19 +1059,43 @@ export const translations: Record<Lang, Translation> = {
       items: [
         {
           title: "Atheism",
-          text: "is merely the denial of belief in a god. Humanism adds a positive framework of values.",
+          text: "is merely the denial of belief in a god and supplies no criterion for right action. Humanism must give that criterion explicitly – and does.",
         },
         {
           title: "Secularism",
-          text: "is a political principle – the separation of state and religion – not a whole way of life.",
+          text: "is a political principle – the separation of state and religion. A secularist can be religious; a humanist also takes a substantive stance.",
         },
         {
           title: "Nihilism",
-          text: "denies all meaning. Humanism finds meaning in this world: in relationships, knowledge and action.",
+          text: "denies that there is objective meaning. Humanism doesn't claim the opposite, but finds meaning in this world: in relationships, knowledge and action.",
         },
         {
           title: "Anti-theism",
-          text: "actively fights religion. Humanism defends freedom of belief – including that of believers.",
+          text: "actively fights religion as harmful. Humanism defends freedom of belief – including that of believers, as long as it leaves others theirs.",
+        },
+      ],
+    },
+    disputes: {
+      label: "Internal Debate",
+      heading: "What's Disputed",
+      intro:
+        "Humanism is not a closed doctrine. These four questions are genuinely contested within the humanist tradition itself.",
+      items: [
+        {
+          title: "Maximise well-being, or respect rights?",
+          text: "Some humanists judge consequentially: good is whatever produces the most well-being. Others insist on inalienable rights that can't be traded off against a benefit – an unresolved core conflict.",
+        },
+        {
+          title: "Worldview or just a method?",
+          text: "Is humanism a positive stance on life with its own values – or just a method of thinking (reason, evidence) that doesn't itself prescribe content? Both readings have defenders.",
+        },
+        {
+          title: "The human at the centre – rightly so?",
+          text: "This site puts the human being at the centre. Peter Singer's influential critique of speciesism holds that this is exactly an unjustified bias in favour of one's own species.",
+        },
+        {
+          title: "Is “humanism” even the right word?",
+          text: "Heidegger charges the term itself with presupposing a fixed “essence of man” before even asking what being human means. Some humanists push back; others partly accept the critique.",
         },
       ],
     },
@@ -1043,12 +1107,12 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~600 BCE",
           title: "Charvaka (India)",
-          text: "An early materialist school deriving knowledge from perception rather than revelation.",
+          text: "An early materialist school: only direct perception counts as a valid source of knowledge, not inference or testimony.",
         },
         {
           year: "~500 BCE",
           title: "Confucius (China)",
-          text: "An ethic of humaneness (rén): right conduct rests on humanity and reciprocity, not on divine command.",
+          text: "An ethic of humaneness (rén): “What you do not want done to yourself, do not do to others” (Analects, Book XV) – reciprocity, not divine command.",
         },
         {
           year: "~450 BCE",
@@ -1058,7 +1122,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~300 BCE",
           title: "Epicurus",
-          text: "Ethics rests on experience and the pursuit of a flourishing life, not on fear of gods.",
+          text: "“Death is nothing to us: while we exist, death is not yet present, and when death is present, we no longer exist” (Letter to Menoeceus) – ethics from experience, not fear of the gods.",
         },
         {
           year: "c. 1500",
@@ -1068,7 +1132,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "c. 1750",
           title: "The Enlightenment",
-          text: "Hume, Kant and Voltaire champion reason, scepticism and individual freedom.",
+          text: "“Dare to know! Have the courage to use your own understanding!” (Kant, What Is Enlightenment?, 1784) – Hume, Kant and Voltaire champion reason and individual freedom.",
         },
         {
           year: "1859",
@@ -1086,6 +1150,11 @@ export const translations: Record<Lang, Translation> = {
           text: "John Dewey and others give modern secular humanism its first programmatic form.",
         },
         {
+          year: "1946/47",
+          title: "Heidegger – Critique of Humanism",
+          text: "“Letter on Humanism”: Heidegger charges humanism with always defining the human as merely one being among others, instead of asking about its relation to Being itself.",
+        },
+        {
           year: "1948",
           title: "Universal Declaration of Human Rights",
           text: "The UN enshrine universal dignity and rights – a humanist milestone.",
@@ -1094,6 +1163,11 @@ export const translations: Record<Lang, Translation> = {
           year: "1952",
           title: "Founding of the IHEU",
           text: "Humanist organisations unite as the International Humanist and Ethical Union – today Humanists International.",
+        },
+        {
+          year: "1999",
+          title: "Sloterdijk – the “Human Zoo” controversy",
+          text: "“Rules for the Human Zoo”, written explicitly as a reply to Heidegger's Letter, sparks a public debate with Jürgen Habermas over genetic engineering and the limits of humanism.",
         },
         {
           year: "2002",
@@ -1105,7 +1179,8 @@ export const translations: Record<Lang, Translation> = {
     documents: {
       label: "Key Documents",
       heading: "What humanism appeals to",
-      intro: "Programmatic texts – linked to the originals.",
+      intro:
+        "Programmatic texts – linked to the originals. Manifesto I (1933) and Manifesto III (2003) show humanism correcting itself, just like the science it champions.",
       items: [
         { desc: "The first programmatic declaration of secular humanism." },
         { desc: "A response to war and crisis – human rights and a global ethic." },
@@ -1368,6 +1443,7 @@ export const translations: Record<Lang, Translation> = {
       menuClose: "Close menu",
       navLabel: "Main navigation",
       sourceLabel: "Source",
+      sourceLinkLabel: "Read more",
       skipToContent: "Skip to content",
     },
     legal: {
@@ -1638,7 +1714,8 @@ export const translations: Record<Lang, Translation> = {
             "Etica dell'IA: Se i sistemi di intelligenza artificiale debbano sostituire i lavori umani viene valutato umanisticamente in base alle conseguenze reali sul benessere e sulla parità di opportunità.",
         },
       ],
-      source: "Sulla scia di Peter Singer e Sam Harris, «The Moral Landscape» (2010).",
+      source:
+        "Questa pagina sostiene un'etica naturalistica e di fondazione evolutiva – nella tradizione dell'umanesimo laico di Paul Kurtz e del lavoro di Michael Schmidt-Salomon (Giordano-Bruno-Stiftung). Il passaggio da fatti naturali a norme etiche (il problema is-ought) resta filosoficamente controverso – vedi «Cosa è controverso».",
     },
     distinctions: {
       label: "Distinzioni",
@@ -1650,19 +1727,43 @@ export const translations: Record<Lang, Translation> = {
       items: [
         {
           title: "Ateismo",
-          text: "è soltanto la negazione della fede in un dio. L'umanesimo aggiunge un ordine positivo di valori.",
+          text: "è soltanto la negazione della fede in un dio e non offre alcun criterio per agire rettamente. L'umanesimo deve fondare esplicitamente questo criterio – e lo fa.",
         },
         {
           title: "Secolarismo",
-          text: "è un principio politico – la separazione tra Stato e religione – non un'intera visione della vita.",
+          text: "è un principio politico – la separazione tra Stato e religione. Un secolarista può essere credente; un umanista prende anche posizione nel merito.",
         },
         {
           title: "Nichilismo",
-          text: "nega ogni senso. L'umanesimo trova senso in questo mondo: nelle relazioni, nella conoscenza e nell'agire.",
+          text: "nega che esista un senso oggettivo. L'umanesimo non afferma il contrario, ma trova senso in questo mondo: nelle relazioni, nella conoscenza e nell'agire.",
         },
         {
           title: "Antiteismo",
-          text: "combatte attivamente la religione. L'umanesimo difende la libertà di credo – anche quella dei credenti.",
+          text: "combatte attivamente la religione come dannosa. L'umanesimo difende la libertà di credo – anche quella dei credenti, finché lascia agli altri la loro.",
+        },
+      ],
+    },
+    disputes: {
+      label: "Discussione interna",
+      heading: "Cosa è controverso",
+      intro:
+        "L'umanesimo non è una dottrina chiusa. Queste quattro domande sono discusse in modo controverso all'interno della stessa tradizione umanista.",
+      items: [
+        {
+          title: "Massimizzare il benessere o rispettare i diritti?",
+          text: "Alcuni umanisti giudicano in modo conseguenzialista: è bene ciò che produce il massimo benessere. Altri insistono su diritti inalienabili che non si possono bilanciare contro un beneficio – un conflitto di fondo irrisolto.",
+        },
+        {
+          title: "Visione del mondo o solo metodo?",
+          text: "L'umanesimo è un atteggiamento positivo verso la vita con valori propri – o solo un metodo di pensiero (ragione, evidenza) che di per sé non prescrive contenuti? Entrambe le letture hanno sostenitori.",
+        },
+        {
+          title: "L'essere umano al centro – a ragione?",
+          text: "Questa pagina pone l'essere umano al centro. L'influente critica di Peter Singer allo specismo sostiene che si tratti proprio di un pregiudizio ingiustificato a favore della propria specie.",
+        },
+        {
+          title: "«Umanesimo» è ancora il termine giusto?",
+          text: "Heidegger accusa il termine stesso di presupporre una fissa «essenza dell'uomo» prima ancora di chiedersi cosa significhi essere umani. Alcuni umanisti respingono la critica, altri la accolgono in parte.",
         },
       ],
     },
@@ -1674,12 +1775,12 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~600 a.C.",
           title: "Charvaka (India)",
-          text: "Una prima scuola materialista che trae la conoscenza dalla percezione, non dalla rivelazione.",
+          text: "Una prima scuola materialista: solo la percezione diretta vale come fonte di conoscenza, non l'inferenza o la testimonianza.",
         },
         {
           year: "~500 a.C.",
           title: "Confucio (Cina)",
-          text: "Un'etica dell'umanità (rén): l'agire retto si fonda sull'umanità e la reciprocità, non sul comando divino.",
+          text: "Un'etica dell'umanità (rén): «Non fare agli altri ciò che non vorresti fosse fatto a te» (Analecta, Libro XV) – reciprocità, non comando divino.",
         },
         {
           year: "~450 a.C.",
@@ -1689,7 +1790,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "~300 a.C.",
           title: "Epicuro",
-          text: "L'etica si fonda sull'esperienza e sulla ricerca di una vita felice, non sul timore degli dèi.",
+          text: "«La morte non è nulla per noi: finché esistiamo, la morte non è presente; e quando la morte è presente, noi non esistiamo più» (Lettera a Meneceo) – etica dall'esperienza, non dal timore degli dèi.",
         },
         {
           year: "ca. 1500",
@@ -1699,7 +1800,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "ca. 1750",
           title: "Illuminismo",
-          text: "Hume, Kant e Voltaire puntano su ragione, scetticismo e libertà individuale.",
+          text: "«Abbi il coraggio di servirti della tua propria intelligenza!» (Kant, Che cos'è l'Illuminismo?, 1784) – Hume, Kant e Voltaire puntano su ragione e libertà individuale.",
         },
         {
           year: "1859",
@@ -1717,6 +1818,11 @@ export const translations: Record<Lang, Translation> = {
           text: "John Dewey e altri danno all'umanesimo laico moderno la sua prima forma programmatica.",
         },
         {
+          year: "1946/47",
+          title: "Heidegger – critica dell'umanesimo",
+          text: "«Lettera sull'umanismo»: Heidegger accusa l'umanesimo di determinare l'uomo sempre solo come un ente tra gli altri, invece di interrogarsi sul suo rapporto con l'Essere stesso.",
+        },
+        {
           year: "1948",
           title: "Dichiarazione universale dei diritti umani",
           text: "L'ONU sancisce dignità e diritti universali – una pietra miliare umanista.",
@@ -1725,6 +1831,11 @@ export const translations: Record<Lang, Translation> = {
           year: "1952",
           title: "Fondazione dell'IHEU",
           text: "Le associazioni umaniste si uniscono nell'International Humanist and Ethical Union – oggi Humanists International.",
+        },
+        {
+          year: "1999",
+          title: "Sloterdijk – la controversia sul «parco umano»",
+          text: "«Regole per il parco umano», scritto esplicitamente come risposta alla Lettera di Heidegger, scatena un dibattito pubblico con Jürgen Habermas su ingegneria genetica e limiti dell'umanesimo.",
         },
         {
           year: "2002",
@@ -1736,7 +1847,8 @@ export const translations: Record<Lang, Translation> = {
     documents: {
       label: "Documenti chiave",
       heading: "A cosa si richiama l'umanesimo",
-      intro: "Testi programmatici – con link agli originali.",
+      intro:
+        "Testi programmatici – con link agli originali. Il Manifesto I (1933) e il Manifesto III (2003) mostrano l'umanesimo correggere se stesso, proprio come la scienza che sostiene.",
       items: [
         { desc: "La prima dichiarazione programmatica dell'umanesimo laico." },
         { desc: "Una risposta a guerra e crisi – diritti umani ed etica globale." },
@@ -2003,6 +2115,7 @@ export const translations: Record<Lang, Translation> = {
       menuClose: "Chiudi il menu",
       navLabel: "Navigazione principale",
       sourceLabel: "Fonte",
+      sourceLinkLabel: "Approfondisci",
       skipToContent: "Vai al contenuto",
     },
     legal: {
