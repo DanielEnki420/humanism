@@ -4,7 +4,19 @@ Eine kleine, mehrsprachige Landingpage, die in den **säkularen Humanismus**
 einführt: eine Weltanschauung auf der Grundlage von Menschenwürde, Vernunft,
 Wissenschaft, kritischem Denken und Mitgefühl.
 
-🔗 **Live:** _(z. B. über Lovable / GitHub Pages veröffentlichen und hier verlinken)_
+🔗 **Live:** <https://humanism.lovable.app/>
+
+## Transparenz zur Entstehung
+
+Diese Seite ist mit KI-Unterstützung entstanden (Lovable, Claude). Die Inhalte
+sind redigiert und quellenbasiert geprüft: Zitate und Jahreszahlen wurden einzeln
+verifiziert, die Primärdokumente (Humanist Manifestos, Amsterdam-Deklaration,
+AEMR) sind direkt verlinkt, die statistischen Angaben stammen vom Pew Research
+Center.
+
+Bei einer Seite über kritisches Denken und Nachprüfbarkeit gehört diese Angabe
+dazu: Man soll wissen, wie sie entstanden ist — und die Inhalte selbst prüfen
+können, statt mir glauben zu müssen.
 
 ## Features
 
