@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/DanielEnki420/humanism/main/assets/banner.svg" alt="Humanitas — Säkularer Humanismus: Vernunft, Wissenschaft, Ethik" width="100%">
+
 # Humanitas — Säkularer Humanismus
 
 Eine kleine, mehrsprachige Landingpage, die in den **säkularen Humanismus**
@@ -59,3 +61,11 @@ Sprache hinzufügen = einen weiteren Eintrag im `translations`-Objekt anlegen.
 ## Lizenz
 
 MIT
+
+---
+
+<sub>Der Banner oben ist eine eigene SVG-Grafik nur fuer dieses README
+(<a href="scripts/generate-banner.py"><code>scripts/generate-banner.py</code></a>,
+Logo als <code>assets/logo.png</code>) — bewusst unabhaengig von der
+Waldgruen/Creme-Palette der Live-Seite und der <code>og-image-*.svg</code>-Social-Cards
+in <code>scripts/</code>, die weiterhin die massgebliche Marke sind.</sub>
