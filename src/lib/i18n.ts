@@ -817,7 +817,11 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Lokale Speicherung",
-            body: "Sprache und Farbschema werden ausschließlich lokal in deinem Browser gespeichert (localStorage). Es werden keine Cookies gesetzt, und es findet kein Tracking und keine Analyse statt.",
+            body: "Sprache und Farbschema werden ausschließlich lokal in deinem Browser gespeichert (localStorage). Es werden keine Cookies gesetzt.",
+          },
+          {
+            title: "Analyse-Tool",
+            body: "Wir nutzen Umami zur anonymen Reichweitenmessung, selbst gehostet auf eigener Infrastruktur (analytics.oli-vera.eu). Das Tool setzt keine Cookies, legt keine dauerhafte Nutzerkennung an und speichert deine IP-Adresse nicht — sie wird nur für die Dauer des Seitenaufrufs zur groben Standortbestimmung (Land) verarbeitet und danach verworfen. Es entsteht kein Profil, das dir zugeordnet werden kann. Rechtsgrundlage ist unser berechtigtes Interesse an anonymisierten Nutzungsstatistiken (Art. 6 Abs. 1 lit. f DSGVO). Du kannst der Verarbeitung jederzeit widersprechen (Art. 21 DSGVO) — schreib uns dazu über das Kontaktformular. Ein von deinem Browser gesendeter „Do-Not-Track“-Hinweis wird respektiert.",
           },
           {
             title: "Kontaktformular",
@@ -1483,7 +1487,11 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Local storage",
-            body: "Language and colour scheme are stored solely in your browser (localStorage). No cookies are set, and no tracking or analytics take place.",
+            body: "Language and colour scheme are stored solely in your browser (localStorage). No cookies are set.",
+          },
+          {
+            title: "Analytics",
+            body: "We use Umami for anonymous traffic measurement, self-hosted on our own infrastructure (analytics.oli-vera.eu). The tool sets no cookies, creates no persistent user identifier, and does not store your IP address — it is only processed for the duration of the page view to derive a rough location (country) and then discarded. No profile that can be linked to you is created. The legal basis is our legitimate interest in anonymised usage statistics (Art. 6(1)(f) GDPR). You can object to this processing at any time (Art. 21 GDPR) — reach out via the contact form. A \"Do Not Track\" signal sent by your browser is respected.",
           },
           {
             title: "Contact form",
@@ -2155,7 +2163,11 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Memoria locale",
-            body: "Lingua e combinazione di colori sono salvate solo nel tuo browser (localStorage). Non vengono impostati cookie e non avviene alcun tracciamento o analisi.",
+            body: "Lingua e combinazione di colori sono salvate solo nel tuo browser (localStorage). Non vengono impostati cookie.",
+          },
+          {
+            title: "Strumento di analisi",
+            body: "Utilizziamo Umami per la misurazione anonima del traffico, ospitato autonomamente sulla nostra infrastruttura (analytics.oli-vera.eu). Lo strumento non imposta cookie, non crea un identificativo utente permanente e non memorizza il tuo indirizzo IP — viene elaborato solo per la durata della visualizzazione della pagina per determinare una posizione approssimativa (paese) e poi scartato. Non viene creato alcun profilo riconducibile a te. La base giuridica è il nostro legittimo interesse a statistiche di utilizzo anonime (Art. 6 par. 1 lett. f RGPD). Puoi opporti a questo trattamento in qualsiasi momento (Art. 21 RGPD) — scrivici tramite il modulo di contatto. Un segnale \"Do Not Track\" inviato dal tuo browser viene rispettato.",
           },
           {
             title: "Modulo di contatto",
