@@ -182,6 +182,15 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={lang} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Selbst gehostetes, cookieloses Umami (analytics.oli-vera.eu) —
+            speichert keine Rohdaten-IP, keine Cookies, keine Cross-Site-ID.
+            data-do-not-track respektiert den Browser-Header. */}
+        <script
+          defer
+          src="https://analytics.oli-vera.eu/script.js"
+          data-website-id="838c20e9-695b-40db-b953-19133c8194ee"
+          data-do-not-track="true"
+        />
         <HeadContent />
       </head>
       <body>
