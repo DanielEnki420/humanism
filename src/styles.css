@@ -77,6 +77,7 @@
   --color-sage: var(--sage);
   --color-clay: var(--clay);
   --color-sky-blue: var(--sky-blue);
+  --color-gold: var(--gold);
 }
 
 :root {
@@ -113,6 +114,9 @@
   --sage: oklch(0.78 0.045 150);
   --clay: oklch(0.82 0.045 70);
   --sky-blue: oklch(0.72 0.06 230);
+
+  /* Warmes Gold – sparsamer Akzent (Ornamente, Linien, Ziffern), Brücke zum Deco-Logo */
+  --gold: oklch(0.62 0.1 72);
 }
 
 .dark {
@@ -148,6 +152,8 @@
   --sage: oklch(0.45 0.05 150);
   --clay: oklch(0.5 0.045 70);
   --sky-blue: oklch(0.55 0.06 230);
+
+  --gold: oklch(0.8 0.09 80);
 
   color-scheme: dark;
 }
@@ -187,7 +193,7 @@
   transform: none;
 }
 
-/* Langsam rotierender Globus im Hero (Callback zum Ring-H). */
+/* Langsam rotierender Strahlenkranz im Hero. */
 @keyframes globe-spin {
   to {
     transform: rotate(360deg);
@@ -195,7 +201,49 @@
 }
 .globe-spin {
   transform-origin: center;
-  animation: globe-spin 90s linear infinite;
+  animation: globe-spin 140s linear infinite;
+}
+
+/* Papier-Struktur: feines Rauschen über dem Seitenhintergrund (rein dekorativ). */
+.paper {
+  background-color: var(--background);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+.dark .paper {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Karten heben sich beim Überfahren sanft an (Schatten im Waldgrün-Ton). */
+.card-lift {
+  transition:
+    transform 0.25s ease-out,
+    box-shadow 0.25s ease-out,
+    border-color 0.25s ease-out;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklch, var(--primary) 28%, var(--border));
+  box-shadow:
+    0 1px 2px color-mix(in oklch, var(--primary) 8%, transparent),
+    0 12px 28px -12px color-mix(in oklch, var(--primary) 28%, transparent);
+}
+
+/* Goldene Oberkante, die beim Überfahren von der Mitte aus aufzieht. */
+.card-accent {
+  position: relative;
+}
+.card-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.35s ease-out;
+}
+.card-accent:hover::before,
+.card-accent:focus-within::before {
+  transform: scaleX(1);
 }
 
 /* Respektiert die System-Einstellung „Bewegung reduzieren". */

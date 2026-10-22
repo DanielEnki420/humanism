@@ -31,6 +31,7 @@ import {
   type Segment,
   type Translation,
 } from "@/lib/i18n";
+import { LogoMark } from "@/lib/brand";
 
 const GITHUB_URL = "https://github.com/DanielEnki420/humanism";
 
@@ -224,8 +225,14 @@ function SectionHead({
 }) {
   return (
     <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+      <p
+        className={`mb-4 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground ${
+          center ? "justify-center" : ""
+        }`}
+      >
+        <span aria-hidden className="h-px w-8 bg-gold" />
         {label}
+        {center && <span aria-hidden className="h-px w-8 bg-gold" />}
       </p>
       <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">{heading}</h2>
       {intro && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>}
@@ -265,27 +272,34 @@ function SourceNote({
   );
 }
 
-/** Markenzeichen: stilisierter Globus (Pendant zur Favicon). */
+/** Markenzeichen in Kopf- und Fußzeile: Logo „Mensch und Buch" (Pendant zur Favicon). */
 function BrandMark() {
+  return <LogoMark className="h-7 w-7 text-primary" strokeWidth={2.6} />;
+}
+
+/** Ornament-Trenner: Linie – Raute – Linie in Gold. */
+function Ornament({ className = "" }: { className?: string }) {
   return (
-    <span
-      aria-hidden
-      className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground"
-    >
-      <svg viewBox="0 0 100 100" className="h-5 w-5" fill="none" aria-hidden>
-        <g stroke="currentColor" strokeWidth="6">
-          <circle cx="50" cy="50" r="33" />
-          <ellipse cx="50" cy="50" rx="33" ry="11.5" />
-          <ellipse cx="50" cy="50" rx="12.5" ry="33" />
-        </g>
-        <path
-          d="M40,28 q-10,9 -6,20 q8,6 10,-2 q-4,-10 -4,-18 z M62,40 q9,4 7,14 q-6,5 -9,-2 q3,-8 2,-12 z"
-          fill="currentColor"
-        />
-      </svg>
-    </span>
+    <div aria-hidden className={`flex items-center justify-center gap-3 ${className}`}>
+      <span className="h-px w-12 bg-linear-to-r from-transparent to-gold/70" />
+      <span className="h-1.5 w-1.5 rotate-45 bg-gold" />
+      <span className="h-px w-12 bg-linear-to-l from-transparent to-gold/70" />
+    </div>
   );
 }
+
+// Strahlenkranz im Hero: 48 Strahlen, abwechselnd lang/kurz (Licht der Aufklärung).
+const HERO_RAYS = Array.from({ length: 48 }, (_, i) => {
+  const a = (i / 48) * Math.PI * 2;
+  const r0 = 50;
+  const r1 = i % 2 === 0 ? 66 : 60;
+  return {
+    x1: (100 + r0 * Math.cos(a)).toFixed(2),
+    y1: (100 + r0 * Math.sin(a)).toFixed(2),
+    x2: (100 + r1 * Math.cos(a)).toFixed(2),
+    y2: (100 + r1 * Math.sin(a)).toFixed(2),
+  };
+});
 
 // Hexagon-Positionen (Prozent) der sechs Hub-Knoten um das Zentrum.
 const HUB_POSITIONS = [
@@ -322,11 +336,16 @@ function PrinciplesHub({
             y2={parseFloat(p.top)}
             stroke="currentColor"
             strokeWidth="0.4"
+            strokeDasharray="1.2 1.2"
           />
         ))}
       </svg>
 
-      <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-2 text-center font-serif text-sm font-medium leading-tight text-primary-foreground">
+      <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-primary px-2 text-center font-serif text-sm font-medium leading-tight text-primary-foreground shadow-xl shadow-primary/25 ring-8 ring-gold/15">
+        <LogoMark
+          className="mb-1 h-5 w-5 text-gold dark:text-primary-foreground/70"
+          strokeWidth={2.8}
+        />
         {center}
       </div>
 
@@ -339,7 +358,7 @@ function PrinciplesHub({
             className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
             style={{ left: HUB_POSITIONS[i].left, top: HUB_POSITIONS[i].top }}
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary ring-1 ring-border transition-colors group-hover:bg-secondary group-hover:ring-primary/40">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-sm ring-1 ring-border transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-gold/60">
               <Icon className="h-6 w-6" strokeWidth={1.5} />
             </span>
             <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
@@ -438,7 +457,7 @@ function ScienceCycle({ titles }: { titles: string[] }) {
           className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
           style={{ left: CYCLE_POSITIONS[i].left, top: CYCLE_POSITIONS[i].top }}
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-card font-serif text-sm font-medium text-primary ring-1 ring-border transition-colors group-hover:bg-secondary group-hover:ring-primary/40">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-card font-serif text-sm font-medium text-primary shadow-sm ring-1 ring-border transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-gold/60">
             {`0${i + 1}`}
           </span>
           <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
@@ -594,7 +613,7 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="paper min-h-screen text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -610,8 +629,11 @@ function Index() {
 
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#top" className="flex items-center gap-2 font-serif text-lg font-semibold">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+          <a
+            href="#top"
+            className="flex shrink-0 items-center gap-2 font-serif text-lg font-semibold tracking-tight sm:gap-2.5"
+          >
             <BrandMark />
             <span>Humanitas</span>
           </a>
@@ -622,10 +644,10 @@ function Index() {
                   key={item.id}
                   href={`#${item.id}`}
                   aria-current={activeId === item.id ? "true" : undefined}
-                  className={`transition-colors ${
+                  className={`underline decoration-2 underline-offset-[10px] transition-colors ${
                     activeId === item.id
-                      ? "font-medium text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "font-medium text-foreground decoration-gold"
+                      : "text-muted-foreground decoration-transparent hover:text-foreground hover:decoration-gold/40"
                   }`}
                 >
                   {item.label}
@@ -729,25 +751,35 @@ function Index() {
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 text-primary opacity-[0.07]"
+            className="pointer-events-none absolute -bottom-40 right-[-10%] h-[520px] w-[720px] rounded-full opacity-40 blur-3xl dark:opacity-15"
+            style={{
+              background:
+                "radial-gradient(closest-side, color-mix(in oklch, var(--gold) 45%, transparent), transparent 70%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-[46%] h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 text-gold opacity-[0.28] sm:h-[680px] sm:w-[680px] dark:opacity-[0.16]"
           >
             <svg
               viewBox="0 0 200 200"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.4"
+              strokeWidth="0.35"
+              strokeLinecap="round"
               className="globe-spin h-full w-full"
             >
               <circle cx="100" cy="100" r="96" />
-              <ellipse cx="100" cy="100" rx="96" ry="32" />
-              <ellipse cx="100" cy="100" rx="34" ry="96" />
-              <ellipse cx="100" cy="100" rx="66" ry="96" />
-              <line x1="4" y1="100" x2="196" y2="100" />
+              <circle cx="100" cy="100" r="82" strokeDasharray="0.6 2.4" />
+              <circle cx="100" cy="100" r="44" />
+              {HERO_RAYS.map((r, i) => (
+                <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} />
+              ))}
             </svg>
           </div>
-          <div className="relative mx-auto max-w-4xl px-6 pb-28 pt-20 text-center sm:pb-32 sm:pt-32">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-20 text-center sm:pb-28 sm:pt-32">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/70 py-1 pl-2 pr-3.5 text-xs text-muted-foreground shadow-sm backdrop-blur">
+              <LogoMark className="h-4 w-4 text-gold" strokeWidth={3} />
               {t.hero.badge}
             </div>
             <h1 className="font-serif text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
@@ -759,24 +791,35 @@ function Index() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <a
                 href="#prinzipien"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:opacity-90"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:gap-3 hover:opacity-90"
               >
                 {t.hero.ctaPrimary}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </a>
               <a
                 href="#was-ist"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-medium text-foreground backdrop-blur transition-colors hover:bg-secondary"
               >
                 {t.hero.ctaSecondary}
               </a>
             </div>
+
+            {/* Drei Säulen als ruhige Zeile unter den CTAs */}
+            <ul className="mt-16 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-serif text-sm italic text-muted-foreground sm:gap-x-5 sm:text-base">
+              {t.foundation.cards.map((c, i) => (
+                <li key={c.k} className="flex items-center gap-3 sm:gap-5">
+                  {i > 0 && <span aria-hidden className="h-1.5 w-1.5 rotate-45 bg-gold" />}
+                  {c.k}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
         {/* Leitbild / Mission */}
         <section id="leitbild" className="scroll-mt-20 border-y border-border/60 bg-secondary/30">
           <div className="mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+            <LogoMark className="mx-auto mb-6 h-10 w-10 text-gold" strokeWidth={1.8} />
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
               {t.mission.label}
             </p>
@@ -848,14 +891,14 @@ function Index() {
               </blockquote>
             </div>
             <div className="mt-12 md:col-span-12">
-              <div className="h-1.5 rounded-full bg-primary/20" />
-              <div className="grid gap-4 py-4 sm:grid-cols-3">
+              <div className="h-px bg-linear-to-r from-transparent via-gold/60 to-transparent" />
+              <div className="grid gap-4 py-6 sm:grid-cols-3">
                 {t.foundation.cards.map((b, i) => {
                   const Icon = FOUNDATION_ICONS[i];
                   return (
                     <div
                       key={b.k}
-                      className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
+                      className="card-lift flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
                     >
                       <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
                         <Icon className="h-5 w-5" strokeWidth={1.5} />
@@ -866,7 +909,7 @@ function Index() {
                   );
                 })}
               </div>
-              <div className="h-1.5 rounded-full bg-primary/20" />
+              <div className="h-px bg-linear-to-r from-transparent via-gold/60 to-transparent" />
             </div>
           </div>
         </section>
@@ -887,9 +930,9 @@ function Index() {
                 <div
                   key={item.title}
                   id={`science-${i}`}
-                  className="scroll-mt-24 rounded-xl border border-border bg-card p-6"
+                  className="card-lift scroll-mt-24 rounded-xl border border-border bg-card p-6"
                 >
-                  <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
+                  <span className="font-serif text-sm font-medium text-gold">{`0${i + 1}`}</span>
                   <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                 </div>
@@ -907,8 +950,8 @@ function Index() {
           <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
           <div className="mt-14 grid gap-8 md:grid-cols-3">
             {t.ethics.items.map((item: EthicsItem, i: number) => (
-              <div key={item.title} className="border-t-2 border-primary/30 pt-6">
-                <span className="font-serif text-sm text-primary">{`0${i + 1}`}</span>
+              <div key={item.title} className="border-t-2 border-gold/50 pt-6">
+                <span className="font-serif text-sm font-medium text-gold">{`0${i + 1}`}</span>
                 <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                 <p className="mt-4 rounded-md bg-secondary/60 px-4 py-3 text-xs italic leading-relaxed text-muted-foreground">
@@ -951,7 +994,10 @@ function Index() {
               {/* Was es NICHT ist */}
               <div className="grid gap-3 sm:grid-cols-2 md:col-span-3">
                 {t.distinctions.items.map((item) => (
-                  <div key={item.title} className="rounded-xl border border-border bg-card p-4">
+                  <div
+                    key={item.title}
+                    className="card-lift rounded-xl border border-border bg-card p-4"
+                  >
                     <div className="flex items-center gap-2">
                       <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-secondary font-serif text-base text-muted-foreground">
                         ≠
@@ -979,7 +1025,10 @@ function Index() {
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2">
             {t.disputes.items.map((item) => (
-              <div key={item.title} className="rounded-xl border border-border bg-card p-5">
+              <div
+                key={item.title}
+                className="card-lift rounded-xl border border-border bg-card p-5"
+              >
                 <h3 className="font-serif text-base font-medium text-foreground">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
               </div>
@@ -994,12 +1043,12 @@ function Index() {
             heading={t.history.heading}
             intro={t.history.intro}
           />
-          <ol className="mt-16 space-y-10 border-l border-border pl-6 sm:pl-8">
+          <ol className="mt-16 space-y-10 border-l border-gold/40 pl-6 sm:pl-8">
             {t.history.items.map((item) => (
               <li key={item.title} className="relative">
                 <span
                   aria-hidden
-                  className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary sm:-left-[39px]"
+                  className="absolute -left-[31px] top-1.5 h-3 w-3 rotate-45 border-2 border-background bg-gold ring-1 ring-gold/40 sm:-left-[39px]"
                 />
                 <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
                 <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
@@ -1029,7 +1078,7 @@ function Index() {
                   href={DOCUMENT_LINKS[i].url}
                   target="_blank"
                   rel="noreferrer"
-                  className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+                  className="card-lift group rounded-xl border border-border bg-card p-5"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-serif text-xs font-medium text-primary">
@@ -1118,7 +1167,7 @@ function Index() {
             {t.reading.items.map((b) => (
               <li
                 key={b.author + b.title}
-                className="flex gap-4 rounded-xl border border-border bg-card p-5"
+                className="card-lift flex gap-4 rounded-xl border border-border bg-card p-5"
               >
                 <BookOpen
                   className="mt-1 h-5 w-5 shrink-0 text-primary"
@@ -1152,7 +1201,7 @@ function Index() {
                   href={SOURCE_LINKS[i].url}
                   target="_blank"
                   rel="noreferrer"
-                  className="group rounded-xl border border-border bg-card p-5 transition-colors hover:bg-card/60"
+                  className="card-lift group rounded-xl border border-border bg-card p-5"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-serif text-lg font-medium">
@@ -1227,7 +1276,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="grid gap-12 md:grid-cols-12">
             <div className="md:col-span-6">
-              <div className="flex items-center gap-2 font-serif text-lg font-semibold">
+              <div className="flex items-center gap-2.5 font-serif text-xl font-semibold tracking-tight">
                 <BrandMark />
                 Humanitas
               </div>
@@ -1520,7 +1569,10 @@ function DataChart({
             >
               <span className="truncate text-sm text-muted-foreground">{region}</span>
               <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full rounded-full bg-primary" style={{ width: `${v}%` }} />
+                <div
+                  className="h-full rounded-full bg-linear-to-r from-primary/60 to-primary"
+                  style={{ width: `${v}%` }}
+                />
               </div>
               <span className="text-right font-serif text-sm tabular-nums text-foreground">
                 {Math.round(v)}
@@ -1686,7 +1738,8 @@ function QuoteBreak({ text, author }: { text: string; author: string }) {
   return (
     <section className="border-y border-border/60 bg-primary/5 px-6 py-20">
       <figure className="mx-auto max-w-3xl text-center">
-        <blockquote className="font-serif text-2xl font-medium leading-snug text-foreground sm:text-3xl">
+        <Ornament className="mb-8" />
+        <blockquote className="font-serif text-2xl font-medium italic leading-snug text-foreground sm:text-3xl">
           {text}
         </blockquote>
         <figcaption className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
@@ -1831,9 +1884,9 @@ function PrincipleCard({
   return (
     <article
       id={id}
-      className="group relative scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70"
+      className="card-accent group scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70"
     >
-      <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
+      <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10 transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
         <Icon className="h-5 w-5" strokeWidth={1.5} />
       </div>
       <h3 className="font-serif text-xl font-medium">{title}</h3>
