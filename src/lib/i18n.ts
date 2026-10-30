@@ -23,7 +23,7 @@ export type TimelineItem = {
   figure?: { src: string; alt: string; caption: string };
 };
 export type ReadingItem = { author: string; title: string; year: string; note: string };
-export type FaqItem = { q: string; a: string };
+export type ObjectionItem = { claim: string; answer: string; source?: string };
 export type TitledItem = { title: string; text: string };
 export type EthicsItem = { title: string; text: string; example: string };
 export type TermItem = { term: string; def: string };
@@ -46,7 +46,7 @@ export type Translation = {
     history: string;
     documents: string;
     data: string;
-    faq: string;
+    objections: string;
     glossary: string;
   };
   hero: {
@@ -107,7 +107,7 @@ export type Translation = {
     unit: string;
     regions: string[];
   };
-  faq: { label: string; heading: string; items: FaqItem[] };
+  objections: { heading: string; intro: string; items: ObjectionItem[] };
   quiz: {
     label: string;
     heading: string;
@@ -189,7 +189,7 @@ export const translations: Record<Lang, Translation> = {
       history: "Geschichte",
       documents: "Dokumente",
       data: "Daten",
-      faq: "FAQ",
+      objections: "Einwände",
       glossary: "Glossar",
     },
     hero: {
@@ -513,29 +513,46 @@ export const translations: Record<Lang, Translation> = {
       unit: "%",
       regions: ["China", "Tschechien", "Niederlande", "Deutschland", "USA", "Welt"],
     },
-    faq: {
-      label: "Häufige Fragen",
-      heading: "Häufige Fragen",
+    objections: {
+      heading: "Einwände und Antworten",
+      intro:
+        "Wie jede Überzeugung muss sich auch der Humanismus Kritik gefallen lassen. Hier stehen sechs häufige Einwände, möglichst in ihrer stärksten Form, und die Antworten, die Humanisten darauf geben. Wo ein Einwand einen Punkt trifft, steht das auch da.",
       items: [
         {
-          q: "Ist Humanismus dasselbe wie Atheismus?",
-          a: "Nein. Atheismus ist nur die Abwesenheit eines Götterglaubens. Humanismus ist eine positive Lebenshaltung mit eigenen Werten – viele, aber nicht alle Humanist:innen sind auch Atheist:innen.",
+          claim:
+            "Ohne Gott gibt es keine verbindliche Moral. Wenn es keinen Gott gibt, ist alles erlaubt.",
+          answer:
+            "Der Gedanke ist alt; sinngemäß lässt ihn Dostojewski in den „Brüdern Karamasow“ (1880) aussprechen. Schon Platon hat aber gezeigt, dass Gott das Problem nicht löst: Ist etwas gut, weil Gott es gebietet, oder gebietet Gott es, weil es gut ist? Im ersten Fall wäre Moral willkürlich, im zweiten gäbe es einen Maßstab des Guten unabhängig von Gott, und den können auch Menschen ohne Glauben suchen. Humanisten begründen Moral mit Gründen, die jeder prüfen kann: Leid, Wohlergehen, Fairness, Würde. Ob sich daraus eine im strengen Sinn objektive Moral ergibt, ist unter Philosophen umstritten, unter religiösen wie nichtreligiösen.",
+          source: "Platon, Euthyphron 10a; Dostojewski, Die Brüder Karamasow (1880).",
         },
         {
-          q: "Woher kommen Werte ohne Religion?",
-          a: "Aus Empathie, Vernunft und der gemeinsamen Erfahrung, was Menschen schadet oder nützt. Moral lässt sich begründen, ohne sie auf übernatürliche Gebote zu stützen.",
+          claim: "Humanismus ist auch nur ein Glaube.",
+          answer:
+            "Das Wort „glauben“ hat zwei Bedeutungen. Wer sagt „ich glaube, morgen regnet es“, meint eine Vermutung, die sich an Belegen orientiert und sich ändern lässt. Religiöser Glaube meint dagegen meist eine Gewissheit, die nicht von Belegen abhängt. Humanistische Überzeugungen gehören zur ersten Art: Sie sollen sich ändern, wenn die Gründe sich ändern. Richtig an dem Einwand ist, dass auch Humanisten Grundentscheidungen treffen, die sich nicht beweisen lassen, etwa dass jeder Mensch dieselbe Würde hat. Der Unterschied liegt darin, dass sie dafür Gründe angeben und sich nicht auf eine Offenbarung berufen.",
         },
         {
-          q: "Glauben Humanist:innen an gar nichts?",
-          a: "Doch – an Menschenwürde, an die Kraft der Vernunft und an Verantwortung füreinander. Es geht nicht um Glaubenslosigkeit, sondern um eine andere Grundlage.",
+          claim: "Wissenschaft kann keine Werte begründen.",
+          answer:
+            "Das stimmt, und Humanisten bestreiten es nicht. David Hume hat in seinem „Treatise of Human Nature“ (1739/40) darauf hingewiesen, dass aus einer Beschreibung, wie etwas ist, nicht folgt, wie es sein soll. Wissenschaft kann zeigen, was eine Handlung bewirkt, etwa wie stark ein Medikament Schmerzen lindert; dass Schmerzen zu lindern gut ist, ist eine Wertung. Dieselbe Lücke haben aber auch religiöse Ethiken: Aus „Gott gebietet X“ folgt „man soll X tun“ nur, wenn man zusätzlich annimmt, dass man Gottes Geboten folgen soll. Humanismus braucht die Wissenschaft für die Tatsachen und die Vernunft für die Abwägung; das Kapitel zur Ethik auf dieser Seite benennt diese Grenze ausdrücklich.",
+          source:
+            "David Hume, A Treatise of Human Nature, Buch III, Teil I, Abschnitt I (1739/40).",
         },
         {
-          q: "Ist Humanismus eine Religion?",
-          a: "Nein. Es gibt keine Dogmen, heiligen Schriften oder Autoritäten. Überzeugungen dürfen sich mit neuen Erkenntnissen ändern.",
+          claim: "Ohne Religion hat das Leben keinen Sinn.",
+          answer:
+            "Der Einwand setzt voraus, dass Sinn von außen vorgegeben sein muss. Humanisten sehen das anders: Sinn entsteht in dem, was Menschen tun und wofür sie sich einsetzen, in Beziehungen, Arbeit, Erkenntnis und Verantwortung. Dass ein Leben endlich ist, macht es nicht wertlos; Epikur meinte sogar, dass die Angst vor dem Tod vergeht, wenn man ihn nüchtern betrachtet. Auch empirisch spricht wenig für den Einwand: Die nordischen Länder, in denen Religion im Alltag eine geringe Rolle spielt, stehen seit Jahren an der Spitze des World Happiness Report. Das beweist nicht, dass Religionsferne glücklich macht, denn Korrelation ist keine Kausalität. Es zeigt aber, dass ein weitgehend säkulares Leben nicht sinnlos sein muss.",
+          source: "Epikur, Brief an Menoikeus; World Happiness Report (jährlich seit 2012).",
         },
         {
-          q: "Wie steht Humanismus zur Wissenschaft?",
-          a: "Wissenschaft ist die beste Methode, um Wirklichkeit verlässlich zu verstehen. Humanismus nutzt sie als Werkzeug – kennt aber auch ihre Grenzen bei Sinn- und Wertefragen.",
+          claim:
+            "Die schlimmsten Verbrechen des 20. Jahrhunderts haben atheistische Regime begangen.",
+          answer:
+            "Unter Stalin und Mao wurden Millionen Menschen getötet, und beide Regime verfolgten Religion. Atheismus war dort aber Teil einer Staatsdoktrin, die keinen Widerspruch duldete, einen Personenkult pflegte und Menschenrechte für nichtig erklärte. Das ist das Gegenteil dessen, wofür der Humanismus steht: Kritik an jeder Autorität, die Würde jedes Einzelnen, Freiheit des Denkens. Aus der bloßen Abwesenheit eines Gottesglaubens folgt keine Politik, weder eine gute noch eine schlechte. Entscheidend ist, ob eine Lehre sich prüfen und korrigieren lässt.",
+        },
+        {
+          claim: "Humanismus ist eine westliche Idee, die anderen Kulturen übergestülpt wird.",
+          answer:
+            "Die Zeittafel auf dieser Seite beginnt nicht in Europa, sondern mit der indischen Charvaka-Schule und mit Konfuzius. Auch heute gibt es humanistische Bewegungen in Indien, Nigeria, Uganda oder Lateinamerika; in Indien wurde der Rationalist Narendra Dabholkar 2013 ermordet, weil er gegen Aberglauben und Wunderheiler kämpfte. Richtig ist, dass der organisierte säkulare Humanismus seit dem 19. Jahrhundert vor allem in Europa und Nordamerika entstanden ist. Sein Anspruch, für alle Menschen zu gelten, muss sich deshalb daran messen lassen, ob er Stimmen aus anderen Kulturen ernst nimmt.",
         },
       ],
     },
@@ -847,7 +864,7 @@ export const translations: Record<Lang, Translation> = {
       history: "History",
       documents: "Documents",
       data: "Data",
-      faq: "FAQ",
+      objections: "Objections",
       glossary: "Glossary",
     },
     hero: {
@@ -1166,29 +1183,44 @@ export const translations: Record<Lang, Translation> = {
       unit: "%",
       regions: ["China", "Czechia", "Netherlands", "Germany", "USA", "World"],
     },
-    faq: {
-      label: "Frequent Questions",
-      heading: "Frequent questions",
+    objections: {
+      heading: "Objections and replies",
+      intro:
+        "Like any conviction, humanism has to face criticism. Here are six common objections, stated as strongly as possible, and the replies humanists give. Where an objection has a point, that is said too.",
       items: [
         {
-          q: "Is humanism the same as atheism?",
-          a: "No. Atheism is merely the absence of belief in gods. Humanism is a positive stance on life with its own values – many, but not all, humanists are also atheists.",
+          claim:
+            "Without God there is no binding morality. If there is no God, everything is permitted.",
+          answer:
+            "The thought is old; Dostoevsky has it voiced, in substance, in The Brothers Karamazov (1880). But Plato had already shown that God does not solve the problem: is something good because God commands it, or does God command it because it is good? In the first case morality would be arbitrary; in the second there is a standard of goodness independent of God, and people without faith can look for it too. Humanists ground morality in reasons anyone can examine: suffering, well-being, fairness, dignity. Whether this yields a morality that is objective in the strict sense is disputed among philosophers, religious and non-religious alike.",
+          source: "Plato, Euthyphro 10a; Dostoevsky, The Brothers Karamazov (1880).",
         },
         {
-          q: "Where do values come from without religion?",
-          a: "From empathy, reason and the shared experience of what harms or helps people. Morality can be justified without grounding it in supernatural commandments.",
+          claim: "Humanism is just another faith.",
+          answer:
+            "The word “believe” has two meanings. Someone who says “I believe it will rain tomorrow” means a guess that follows the evidence and can change. Religious faith usually means a certainty that does not depend on evidence. Humanist convictions are of the first kind: they are meant to change when the reasons change. The objection is right that humanists, too, make basic commitments that cannot be proven, for instance that every person has the same dignity. The difference is that they give reasons for them rather than appeal to revelation.",
         },
         {
-          q: "Do humanists believe in nothing at all?",
-          a: "On the contrary – in human dignity, the power of reason and responsibility for one another. It is not about having no beliefs, but about a different foundation.",
+          claim: "Science cannot ground values.",
+          answer:
+            "True, and humanists do not deny it. In his Treatise of Human Nature (1739/40) David Hume pointed out that from a description of how things are, it does not follow how they ought to be. Science can show what an action does, such as how much a drug relieves pain; that relieving pain is good is a value judgement. Religious ethics face the same gap, though: from “God commands X” it follows that “one ought to do X” only if one also assumes that one ought to obey God's commands. Humanism needs science for the facts and reason for the weighing; the chapter on ethics on this page states that limit explicitly.",
+          source: "David Hume, A Treatise of Human Nature, Book III, Part I, Section I (1739/40).",
         },
         {
-          q: "Is humanism a religion?",
-          a: "No. There are no dogmas, sacred scriptures or authorities. Convictions are allowed to change with new evidence.",
+          claim: "Without religion, life has no meaning.",
+          answer:
+            "The objection assumes that meaning must be given from outside. Humanists see it differently: meaning arises in what people do and commit themselves to, in relationships, work, understanding and responsibility. That a life is finite does not make it worthless; Epicurus even held that the fear of death fades once one looks at death soberly. Empirically, too, little supports the objection: the Nordic countries, where religion plays a small part in everyday life, have topped the World Happiness Report for years. That does not prove that secularity makes people happy, since correlation is not causation. But it shows that a largely secular life need not be meaningless.",
+          source: "Epicurus, Letter to Menoeceus; World Happiness Report (annual since 2012).",
         },
         {
-          q: "How does humanism relate to science?",
-          a: "Science is the best method for reliably understanding reality. Humanism uses it as a tool – while recognising its limits on questions of meaning and values.",
+          claim: "The worst crimes of the twentieth century were committed by atheist regimes.",
+          answer:
+            "Millions of people were killed under Stalin and Mao, and both regimes persecuted religion. But there, atheism was part of a state doctrine that tolerated no dissent, cultivated a personality cult and declared human rights void. That is the opposite of what humanism stands for: criticism of every authority, the dignity of each individual, freedom of thought. No politics follows from the mere absence of belief in a god, neither a good one nor a bad one. What matters is whether a doctrine can be examined and corrected.",
+        },
+        {
+          claim: "Humanism is a Western idea imposed on other cultures.",
+          answer:
+            "The timeline on this page does not begin in Europe but with the Indian Charvaka school and with Confucius. Today, too, there are humanist movements in India, Nigeria, Uganda and Latin America; in India the rationalist Narendra Dabholkar was murdered in 2013 because he campaigned against superstition and fraudulent miracle healers. It is true that organised secular humanism emerged mainly in Europe and North America from the nineteenth century on. Its claim to hold for all people must therefore be measured by whether it takes voices from other cultures seriously.",
         },
       ],
     },
@@ -1495,7 +1527,7 @@ export const translations: Record<Lang, Translation> = {
       history: "Storia",
       documents: "Documenti",
       data: "Dati",
-      faq: "FAQ",
+      objections: "Obiezioni",
       glossary: "Glossario",
     },
     hero: {
@@ -1816,29 +1848,44 @@ export const translations: Record<Lang, Translation> = {
       unit: "%",
       regions: ["Cina", "Cechia", "Paesi Bassi", "Germania", "USA", "Mondo"],
     },
-    faq: {
-      label: "Domande frequenti",
-      heading: "Domande frequenti",
+    objections: {
+      heading: "Obiezioni e risposte",
+      intro:
+        "Come ogni convinzione, anche l'umanesimo deve confrontarsi con le critiche. Ecco sei obiezioni frequenti, formulate nella loro versione più forte, e le risposte che danno gli umanisti. Dove un'obiezione coglie nel segno, lo diciamo.",
       items: [
         {
-          q: "L'umanesimo è lo stesso dell'ateismo?",
-          a: "No. L'ateismo è solo l'assenza di fede negli dèi. L'umanesimo è un atteggiamento positivo verso la vita con valori propri – molti, ma non tutti gli umanisti, sono anche atei.",
+          claim: "Senza Dio non c'è una morale vincolante. Se Dio non esiste, tutto è permesso.",
+          answer:
+            "L'idea è antica; Dostoevskij la fa esprimere, nella sostanza, nei Fratelli Karamazov (1880). Ma già Platone aveva mostrato che Dio non risolve il problema: una cosa è buona perché Dio la comanda, o Dio la comanda perché è buona? Nel primo caso la morale sarebbe arbitraria; nel secondo esiste un criterio del bene indipendente da Dio, e possono cercarlo anche persone senza fede. Gli umanisti fondano la morale su ragioni che chiunque può esaminare: sofferenza, benessere, equità, dignità. Se ne derivi una morale oggettiva in senso stretto è controverso tra i filosofi, religiosi e non.",
+          source: "Platone, Eutifrone 10a; Dostoevskij, I fratelli Karamazov (1880).",
         },
         {
-          q: "Da dove vengono i valori senza religione?",
-          a: "Dall'empatia, dalla ragione e dall'esperienza condivisa di ciò che nuoce o giova alle persone. La morale può fondarsi senza ricorrere a comandamenti soprannaturali.",
+          claim: "Anche l'umanesimo è solo una fede.",
+          answer:
+            "Il verbo «credere» ha due significati. Chi dice «credo che domani pioverà» intende una supposizione che segue gli indizi e può cambiare. La fede religiosa indica di solito una certezza che non dipende dalle prove. Le convinzioni umaniste sono del primo tipo: devono cambiare quando cambiano le ragioni. L'obiezione ha ragione su un punto: anche gli umanisti compiono scelte di fondo che non si possono dimostrare, per esempio che ogni persona ha la stessa dignità. La differenza è che per queste scelte offrono ragioni, non una rivelazione.",
         },
         {
-          q: "Gli umanisti non credono in niente?",
-          a: "Al contrario – nella dignità umana, nella forza della ragione e nella responsabilità reciproca. Non si tratta di assenza di valori, ma di un fondamento diverso.",
+          claim: "La scienza non può fondare i valori.",
+          answer:
+            "È vero, e gli umanisti non lo negano. Nel suo Trattato sulla natura umana (1739/40) David Hume osservò che da una descrizione di come stanno le cose non segue come dovrebbero stare. La scienza può mostrare che cosa produce un'azione, per esempio quanto un farmaco allevia il dolore; che alleviare il dolore sia un bene è un giudizio di valore. Lo stesso divario riguarda però anche le etiche religiose: da «Dio comanda X» segue «si deve fare X» solo se si assume in più che si debba obbedire ai comandi di Dio. L'umanesimo ha bisogno della scienza per i fatti e della ragione per la ponderazione; il capitolo sull'etica di questa pagina dichiara apertamente questo limite.",
+          source:
+            "David Hume, Trattato sulla natura umana, libro III, parte I, sezione I (1739/40).",
         },
         {
-          q: "L'umanesimo è una religione?",
-          a: "No. Non ci sono dogmi, testi sacri o autorità. Le convinzioni possono cambiare con nuove conoscenze.",
+          claim: "Senza religione la vita non ha senso.",
+          answer:
+            "L'obiezione presuppone che il senso debba essere dato dall'esterno. Gli umanisti la vedono diversamente: il senso nasce da ciò che le persone fanno e per cui si impegnano, nelle relazioni, nel lavoro, nella conoscenza e nella responsabilità. Che una vita sia finita non la rende priva di valore; Epicuro riteneva anzi che la paura della morte svanisca se la si guarda con lucidità. Anche sul piano empirico poco sostiene l'obiezione: i paesi nordici, dove la religione ha un ruolo marginale nella vita quotidiana, sono da anni in cima al World Happiness Report. Ciò non prova che la laicità renda felici, perché correlazione non è causalità. Mostra però che una vita in gran parte laica non è per forza priva di senso.",
+          source: "Epicuro, Lettera a Meneceo; World Happiness Report (annuale dal 2012).",
         },
         {
-          q: "Qual è il rapporto dell'umanesimo con la scienza?",
-          a: "La scienza è il metodo migliore per comprendere la realtà in modo affidabile. L'umanesimo la usa come strumento, pur riconoscendone i limiti sulle questioni di senso e di valore.",
+          claim: "I crimini peggiori del Novecento li hanno commessi regimi atei.",
+          answer:
+            "Sotto Stalin e Mao furono uccise milioni di persone, ed entrambi i regimi perseguitarono la religione. Ma lì l'ateismo era parte di una dottrina di Stato che non tollerava dissenso, coltivava il culto della personalità e dichiarava nulli i diritti umani. È l'opposto di ciò che l'umanesimo sostiene: critica di ogni autorità, dignità di ogni individuo, libertà di pensiero. Dalla semplice assenza di fede in un dio non deriva alcuna politica, né buona né cattiva. Ciò che conta è se una dottrina si lascia esaminare e correggere.",
+        },
+        {
+          claim: "L'umanesimo è un'idea occidentale imposta ad altre culture.",
+          answer:
+            "La cronologia di questa pagina non comincia in Europa, ma con la scuola indiana Charvaka e con Confucio. Anche oggi esistono movimenti umanisti in India, Nigeria, Uganda e America Latina; in India il razionalista Narendra Dabholkar fu assassinato nel 2013 perché combatteva la superstizione e i falsi guaritori. È vero che l'umanesimo laico organizzato è nato soprattutto in Europa e in Nord America a partire dall'Ottocento. La sua pretesa di valere per tutti va quindi misurata sulla capacità di prendere sul serio voci di altre culture.",
         },
       ],
     },

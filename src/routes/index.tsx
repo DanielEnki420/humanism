@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowRight, Check, Menu, Moon, Plus, RotateCw, Sun, X } from "lucide-react";
+import { ArrowRight, Check, Menu, Moon, RotateCw, Sun, X } from "lucide-react";
 import {
   LANGUAGES,
   LANGUAGE_LABELS,
   translations,
   type EthicsItem,
-  type FaqItem,
   type Lang,
   type Segment,
   type Translation,
@@ -351,9 +350,9 @@ const NAV_SECTION_IDS = [
   "was-ist",
   "prinzipien",
   "wissenschaft",
+  "einwaende",
   "geschichte",
   "daten",
-  "faq",
 ] as const;
 
 /** Setzt/aktualisiert ein <meta name>-Tag im <head>. */
@@ -379,9 +378,9 @@ function Index() {
     { id: "was-ist", label: t.nav.idea },
     { id: "prinzipien", label: t.nav.principles },
     { id: "wissenschaft", label: t.nav.science },
+    { id: "einwaende", label: t.nav.objections },
     { id: "geschichte", label: t.nav.history },
     { id: "daten", label: t.nav.data },
-    { id: "faq", label: t.nav.faq },
   ];
 
   // Kapitel in Lesereihenfolge – Quelle für Inhaltsverzeichnis und Randziffern.
@@ -470,24 +469,8 @@ function Index() {
     });
   };
 
-  // FAQPage-Structured-Data (JSON-LD) für Rich Results.
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: t.faq.items.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
-    })),
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-
       {/* Skip-to-content – per Fokus eingeblendet, bleibt für Screenreader erreichbar */}
       <a
         href="#inhalt"
@@ -766,13 +749,6 @@ function Index() {
               </div>
             ))}
           </dl>
-          <Section id="faq" title={t.faq.heading}>
-            <div className="mt-10 max-w-[70ch] divide-y divide-border border-y border-border">
-              {t.faq.items.map((item) => (
-                <FaqRow key={item.q} item={item} />
-              ))}
-            </div>
-          </Section>
         </Chapter>
 
         {/* Was strittig ist */}
@@ -791,6 +767,21 @@ function Index() {
               </div>
             ))}
           </div>
+          {/* Früherer Anker der FAQ, damit alte Links weiter funktionieren. */}
+          <span id="faq" className="block scroll-mt-24" aria-hidden="true" />
+          <Section id="einwaende" title={t.objections.heading} intro={t.objections.intro}>
+            <div className="mt-10 max-w-[62ch] space-y-10">
+              {t.objections.items.map((item) => (
+                <div key={item.claim}>
+                  <h4 className="font-serif text-xl font-medium italic">{item.claim}</h4>
+                  <p className="prose-text mt-2">{item.answer}</p>
+                  {item.source && (
+                    <p className="mt-2 text-sm text-muted-foreground">{item.source}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Section>
           <PullQuote {...t.quotes[2]} />
         </Chapter>
 
@@ -1132,39 +1123,6 @@ function DataChart({
 
       <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{source}</p>
     </figure>
-  );
-}
-
-function FaqRow({ item }: { item: FaqItem }) {
-  const [open, setOpen] = useState(false);
-  const panelId = `faq-${item.q.replace(/[^\p{L}\p{N}]+/gu, "-").toLowerCase()}`;
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setOpen((p) => !p)}
-        aria-expanded={open}
-        aria-controls={panelId}
-        className="flex w-full items-baseline justify-between gap-4 py-5 text-left"
-      >
-        <span className="font-serif text-lg font-medium">{item.q}</span>
-        <Plus
-          className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${open ? "rotate-45" : ""}`}
-          strokeWidth={2}
-        />
-      </button>
-      <div
-        id={panelId}
-        className={`grid transition-all duration-300 ease-out ${
-          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <p className="prose-text pb-6 text-[1.0625rem] text-foreground/80">{item.a}</p>
-        </div>
-      </div>
-    </div>
   );
 }
 
