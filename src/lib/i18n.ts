@@ -120,7 +120,7 @@ export type Translation = {
   };
   glossary: { label: string; heading: string; intro: string; items: TermItem[] };
   reading: { label: string; heading: string; intro: string; items: ReadingItem[] };
-  quotes: { text: string; author: string }[];
+  quotes: { text: string; author: string; source: string }[];
   sources: {
     label: string;
     heading: string;
@@ -482,7 +482,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "John Dewey und andere formulieren den modernen, säkularen Humanismus erstmals programmatisch.",
+          text: "Entworfen von Roy Wood Sellars, unterzeichnet unter anderem von John Dewey: der moderne, säkulare Humanismus erstmals als Programm.",
         },
         {
           year: "1946/47",
@@ -690,16 +690,19 @@ export const translations: Record<Lang, Translation> = {
     },
     quotes: [
       {
-        text: "„Ein guter Mensch zu sein bedeutet, eine Art Offenheit gegenüber der Welt zu haben – die Fähigkeit, unsicheren Dingen zu vertrauen, die sich der eigenen Kontrolle entziehen.“",
-        author: "Martha Nussbaum",
+        text: "„Humanismus ist ethisch. Er bekräftigt den Wert, die Würde und die Autonomie des Einzelnen und das Recht jedes Menschen auf die größtmögliche Freiheit, die mit den Rechten anderer vereinbar ist.“",
+        author: "Amsterdam-Deklaration",
+        source: "Art. 1 (2002), eigene Übersetzung",
       },
       {
         text: "„Wissenschaft ist viel mehr eine Art zu denken als ein Wissensbestand.“",
         author: "Carl Sagan",
+        source: "„Can We Know the Universe?“, in: Broca's Brain (1979), eigene Übersetzung",
       },
       {
-        text: "„Das ganze Problem dieser Welt ist, dass die Dummen und Fanatiker ihrer selbst stets so sicher sind, die Klügeren aber so voller Zweifel.“",
+        text: "„Die Hauptursache des Übels ist, dass in der modernen Welt die Dummen vor Selbstgewissheit strotzen, während die Intelligenten voller Zweifel sind.“",
         author: "Bertrand Russell",
+        source: "„The Triumph of Stupidity“ (1933), eigene Übersetzung",
       },
     ],
     reading: {
@@ -822,7 +825,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Schriftarten",
-            body: "Die Schriftarten (Fraunces, Inter) werden lokal von diesem Server ausgeliefert. Es findet keine Verbindung zu Google-Servern und keine Übertragung deiner IP-Adresse an Dritte statt.",
+            body: "Die Schriftarten (Fraunces, Inter, Source Serif 4) werden lokal von diesem Server ausgeliefert. Es findet keine Verbindung zu Google-Servern und keine Übertragung deiner IP-Adresse an Dritte statt.",
           },
           {
             title: "Lokale Speicherung",
@@ -1161,7 +1164,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "John Dewey and others give modern secular humanism its first programmatic form.",
+          text: "Drafted by Roy Wood Sellars and signed by John Dewey among others: modern secular humanism set out as a programme for the first time.",
         },
         {
           year: "1946/47",
@@ -1366,16 +1369,19 @@ export const translations: Record<Lang, Translation> = {
     },
     quotes: [
       {
-        text: "“To be a good human being is to have a kind of openness to the world, the ability to trust uncertain things beyond your own control.”",
-        author: "Martha Nussbaum",
+        text: "“Humanism is ethical. It affirms the worth, dignity and autonomy of the individual and the right of every human being to the greatest possible freedom compatible with the rights of others.”",
+        author: "Amsterdam Declaration",
+        source: "Art. 1 (2002)",
       },
       {
         text: "“Science is a way of thinking much more than it is a body of knowledge.”",
         author: "Carl Sagan",
+        source: "“Can We Know the Universe?”, in Broca's Brain (1979)",
       },
       {
-        text: "“The whole problem with the world is that fools and fanatics are always so certain of themselves, but wiser people so full of doubts.”",
+        text: "“The fundamental cause of the trouble is that in the modern world the stupid are cocksure while the intelligent are full of doubt.”",
         author: "Bertrand Russell",
+        source: "“The Triumph of Stupidity” (1933)",
       },
     ],
     reading: {
@@ -1497,7 +1503,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Fonts",
-            body: "The fonts (Fraunces, Inter) are served locally from this server. No connection is made to Google servers and your IP address is not transmitted to third parties.",
+            body: "The fonts (Fraunces, Inter, Source Serif 4) are served locally from this server. No connection is made to Google servers and your IP address is not transmitted to third parties.",
           },
           {
             title: "Local storage",
@@ -1838,7 +1844,7 @@ export const translations: Record<Lang, Translation> = {
         {
           year: "1933",
           title: "Humanist Manifesto I",
-          text: "John Dewey e altri danno all'umanesimo laico moderno la sua prima forma programmatica.",
+          text: "Redatto da Roy Wood Sellars e firmato tra gli altri da John Dewey: l'umanesimo laico moderno formulato per la prima volta come programma.",
         },
         {
           year: "1946/47",
@@ -2047,16 +2053,19 @@ export const translations: Record<Lang, Translation> = {
     },
     quotes: [
       {
-        text: "«Essere un buon essere umano significa avere una sorta di apertura verso il mondo, la capacità di fidarsi di cose incerte che sfuggono al proprio controllo.»",
-        author: "Martha Nussbaum",
+        text: "«L'umanesimo è etico. Afferma il valore, la dignità e l'autonomia dell'individuo e il diritto di ogni essere umano alla massima libertà possibile compatibile con i diritti degli altri.»",
+        author: "Dichiarazione di Amsterdam",
+        source: "art. 1 (2002), traduzione nostra",
       },
       {
         text: "«La scienza è un modo di pensare molto più che un insieme di conoscenze.»",
         author: "Carl Sagan",
+        source: "«Can We Know the Universe?», in Broca's Brain (1979), traduzione nostra",
       },
       {
-        text: "«Il problema del mondo è che gli sciocchi e i fanatici sono sempre così sicuri di sé, mentre le persone più sagge sono piene di dubbi.»",
+        text: "«La causa fondamentale del male è che nel mondo moderno gli stupidi sono sicurissimi di sé, mentre gli intelligenti sono pieni di dubbi.»",
         author: "Bertrand Russell",
+        source: "«The Triumph of Stupidity» (1933), traduzione nostra",
       },
     ],
     reading: {
@@ -2178,7 +2187,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Caratteri",
-            body: "I caratteri (Fraunces, Inter) sono serviti localmente da questo server. Non viene effettuata alcuna connessione ai server di Google né trasmesso il tuo indirizzo IP a terzi.",
+            body: "I caratteri (Fraunces, Inter, Source Serif 4) sono serviti localmente da questo server. Non viene effettuata alcuna connessione ai server di Google né trasmesso il tuo indirizzo IP a terzi.",
           },
           {
             title: "Memoria locale",

@@ -248,14 +248,37 @@ function Chapter({
 }
 
 /** Zitat im Lesefluss: eingerückt, mit Haarlinie links und Namen darunter. */
-function PullQuote({ text, author }: { text: string; author: string }) {
+function PullQuote({ text, author, source }: { text: string; author: string; source: string }) {
   return (
     <figure className="mt-14 max-w-[56ch] border-l border-foreground/25 pl-6">
       <blockquote className="font-text text-2xl italic leading-snug text-foreground">
         {text}
       </blockquote>
-      <figcaption className="mt-3 text-sm text-muted-foreground">{author}</figcaption>
+      <figcaption className="mt-3 text-sm text-muted-foreground">
+        {author}, <cite className="not-italic">{source}</cite>
+      </figcaption>
     </figure>
+  );
+}
+
+/** Unterabschnitt innerhalb eines Kapitels, mit eigenem Anker. */
+function Section({
+  id,
+  title,
+  intro,
+  children,
+}: {
+  id?: string;
+  title: string;
+  intro?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <section id={id} className="mt-16 scroll-mt-24 border-t border-border pt-10">
+      <h3 className="font-serif text-2xl font-medium">{title}</h3>
+      {intro && <p className="prose-text mt-3 max-w-[62ch] text-foreground/85">{intro}</p>}
+      {children}
+    </section>
   );
 }
 
@@ -338,19 +361,14 @@ function Index() {
   const chapters = [
     { id: "was-ist", label: t.idea.label },
     { id: "prinzipien", label: t.principles.label },
-    { id: "grundlage", label: t.foundation.label },
     { id: "wissenschaft", label: t.science.label },
     { id: "ethik", label: t.ethics.label },
     { id: "abgrenzung", label: t.distinctions.label },
     { id: "streitpunkte", label: t.disputes.label },
     { id: "geschichte", label: t.history.label },
-    { id: "dokumente", label: t.documents.label },
     { id: "daten", label: t.data.label },
-    { id: "faq", label: t.faq.label },
-    { id: "quiz", label: t.quiz.label },
     { id: "glossar", label: t.glossary.label },
     { id: "weiterlesen", label: t.reading.label },
-    { id: "quellen", label: t.sources.label },
     { id: "kontakt", label: t.contact.label },
   ];
   const num = (id: string) => ROMAN[chapters.findIndex((c) => c.id === id)];
@@ -607,8 +625,13 @@ function Index() {
               <RichText segments={t.idea.lead} em="" />
             </p>
             <p className="text-foreground/85">{t.idea.body}</p>
+            {t.foundation.cards.map((b) => (
+              <p key={b.k} className="text-foreground/85">
+                <span className="font-semibold text-foreground">{b.k}.</span> {b.v}
+              </p>
+            ))}
           </div>
-          <PullQuote text={t.quotes[0].text} author={t.quotes[0].author} />
+          <PullQuote {...t.quotes[0]} />
         </Chapter>
 
         {/* Prinzipien */}
@@ -631,23 +654,6 @@ function Index() {
               />
             ))}
           </ol>
-        </Chapter>
-
-        {/* Grundlage */}
-        <Chapter
-          id="grundlage"
-          num={num("grundlage")}
-          label={t.foundation.label}
-          heading={<RichText segments={t.foundation.quote} em="" />}
-        >
-          <dl className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-3">
-            {t.foundation.cards.map((b) => (
-              <div key={b.k} className="border-t border-border pt-4">
-                <dt className="font-serif text-xl font-medium">{b.k}</dt>
-                <dd className={ITEM_TEXT}>{b.v}</dd>
-              </div>
-            ))}
-          </dl>
         </Chapter>
 
         {/* Wissenschafts-1x1 */}
@@ -674,7 +680,10 @@ function Index() {
             ))}
           </ol>
           <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
-          <PullQuote text={t.quotes[1].text} author={t.quotes[1].author} />
+          <Section id="quiz" title={t.quiz.heading} intro={t.quiz.intro}>
+            <FallacyQuiz quiz={t.quiz} />
+          </Section>
+          <PullQuote {...t.quotes[1]} />
         </Chapter>
 
         {/* Ethik */}
@@ -685,15 +694,15 @@ function Index() {
           heading={t.ethics.heading}
           intro={t.ethics.intro}
         >
-          <div className="mt-10 grid gap-x-10 gap-y-10 md:grid-cols-3">
+          <div className="mt-10 max-w-[62ch] space-y-10">
             {t.ethics.items.map((item: EthicsItem, i: number) => (
-              <div key={item.title} className="border-t border-border pt-4">
+              <div key={item.title}>
                 <h3 className="font-serif text-xl font-medium">
                   <span className="mr-2 text-muted-foreground tabular-nums">{i + 1}.</span>
                   {item.title}
                 </h3>
-                <p className={ITEM_TEXT}>{item.text}</p>
-                <p className="mt-3 font-text text-base italic leading-relaxed text-muted-foreground">
+                <p className="prose-text mt-2">{item.text}</p>
+                <p className="mt-3 border-l border-foreground/25 pl-4 font-text text-base italic leading-relaxed text-foreground/75">
                   {item.example}
                 </p>
               </div>
@@ -732,6 +741,13 @@ function Index() {
               </div>
             ))}
           </dl>
+          <Section id="faq" title={t.faq.heading}>
+            <div className="mt-10 max-w-[70ch] divide-y divide-border border-y border-border">
+              {t.faq.items.map((item) => (
+                <FaqRow key={item.q} item={item} />
+              ))}
+            </div>
+          </Section>
         </Chapter>
 
         {/* Was strittig ist */}
@@ -742,14 +758,15 @@ function Index() {
           heading={t.disputes.heading}
           intro={t.disputes.intro}
         >
-          <div className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+          <div className="mt-10 max-w-[62ch] space-y-10">
             {t.disputes.items.map((item) => (
-              <div key={item.title} className="border-t border-border pt-4">
+              <div key={item.title}>
                 <h3 className="font-serif text-xl font-medium">{item.title}</h3>
-                <p className={ITEM_TEXT}>{item.text}</p>
+                <p className="prose-text mt-2">{item.text}</p>
               </div>
             ))}
           </div>
+          <PullQuote {...t.quotes[2]} />
         </Chapter>
 
         {/* Geschichte / Zeittafel */}
@@ -776,40 +793,31 @@ function Index() {
               </li>
             ))}
           </ol>
-          <PullQuote text={t.quotes[2].text} author={t.quotes[2].author} />
-        </Chapter>
-
-        {/* Schlüsseldokumente */}
-        <Chapter
-          id="dokumente"
-          num={num("dokumente")}
-          label={t.documents.label}
-          heading={t.documents.heading}
-          intro={t.documents.intro}
-        >
-          <ul className="mt-10 max-w-[70ch] border-b border-border">
-            {t.documents.items.map((item, i) => (
-              <li
-                key={DOCUMENT_LINKS[i].name}
-                className="grid gap-x-6 border-t border-border py-5 sm:grid-cols-[8rem_minmax(0,1fr)]"
-              >
-                <p className="font-serif text-base text-muted-foreground tabular-nums sm:pt-0.5">
-                  {DOCUMENT_LINKS[i].year}
-                </p>
-                <div>
-                  <a
-                    href={DOCUMENT_LINKS[i].url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
-                  >
-                    {item.name ?? DOCUMENT_LINKS[i].name} ↗
-                  </a>
-                  <p className={ITEM_TEXT}>{item.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <Section id="dokumente" title={t.documents.heading} intro={t.documents.intro}>
+            <ul className="mt-10 max-w-[70ch] border-b border-border">
+              {t.documents.items.map((item, i) => (
+                <li
+                  key={DOCUMENT_LINKS[i].name}
+                  className="grid gap-x-6 border-t border-border py-5 sm:grid-cols-[8rem_minmax(0,1fr)]"
+                >
+                  <p className="font-serif text-base text-muted-foreground tabular-nums sm:pt-0.5">
+                    {DOCUMENT_LINKS[i].year}
+                  </p>
+                  <div>
+                    <a
+                      href={DOCUMENT_LINKS[i].url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
+                    >
+                      {item.name ?? DOCUMENT_LINKS[i].name} ↗
+                    </a>
+                    <p className={ITEM_TEXT}>{item.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Section>
         </Chapter>
 
         {/* Daten & Fakten */}
@@ -831,26 +839,6 @@ function Index() {
               unit={t.data.unit}
             />
           </div>
-        </Chapter>
-
-        {/* FAQ */}
-        <Chapter id="faq" num={num("faq")} label={t.faq.label} heading={t.faq.heading}>
-          <div className="mt-10 max-w-[70ch] divide-y divide-border border-y border-border">
-            {t.faq.items.map((item) => (
-              <FaqRow key={item.q} item={item} />
-            ))}
-          </div>
-        </Chapter>
-
-        {/* Quiz */}
-        <Chapter
-          id="quiz"
-          num={num("quiz")}
-          label={t.quiz.label}
-          heading={t.quiz.heading}
-          intro={t.quiz.intro}
-        >
-          <FallacyQuiz quiz={t.quiz} />
         </Chapter>
 
         {/* Glossar */}
@@ -889,31 +877,23 @@ function Index() {
               </li>
             ))}
           </ul>
-        </Chapter>
-
-        {/* Quellen */}
-        <Chapter
-          id="quellen"
-          num={num("quellen")}
-          label={t.sources.label}
-          heading={t.sources.heading}
-          intro={t.sources.intro}
-        >
-          <ul className="mt-10 max-w-[70ch] border-b border-border">
-            {t.sources.items.map((item, i) => (
-              <li key={SOURCE_LINKS[i].name} className="border-t border-border py-5">
-                <a
-                  href={SOURCE_LINKS[i].url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
-                >
-                  {item.name ?? SOURCE_LINKS[i].name} ↗
-                </a>
-                <p className={ITEM_TEXT}>{item.desc}</p>
-              </li>
-            ))}
-          </ul>
+          <Section id="quellen" title={t.sources.heading} intro={t.sources.intro}>
+            <ul className="mt-10 max-w-[70ch] border-b border-border">
+              {t.sources.items.map((item, i) => (
+                <li key={SOURCE_LINKS[i].name} className="border-t border-border py-5">
+                  <a
+                    href={SOURCE_LINKS[i].url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
+                  >
+                    {item.name ?? SOURCE_LINKS[i].name} ↗
+                  </a>
+                  <p className={ITEM_TEXT}>{item.desc}</p>
+                </li>
+              ))}
+            </ul>
+          </Section>
         </Chapter>
 
         {/* Kontakt */}
