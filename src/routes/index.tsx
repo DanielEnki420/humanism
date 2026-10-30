@@ -261,6 +261,32 @@ function PullQuote({ text, author, source }: { text: string; author: string; sou
   );
 }
 
+/** Pixelmaße der Scans in public/faksimiles – verhindern Layoutsprünge beim Laden. */
+const FACSIMILE_SIZES: Record<string, [number, number]> = {
+  "/faksimiles/duerer-erasmus-1526.webp": [772, 1000],
+  "/faksimiles/kant-aufklaerung-1784.webp": [808, 1096],
+  "/faksimiles/darwin-origin-1859.webp": [634, 1100],
+};
+
+/** Gemeinfreier Scan als Beleg, selbst gehostet; im hellen Modus auf das Papier gedruckt. */
+function Facsimile({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+  const [width, height] = FACSIMILE_SIZES[src] ?? [];
+  return (
+    <figure className="mt-6 max-w-[15rem]">
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        className="h-auto w-full border border-border grayscale mix-blend-multiply dark:opacity-85 dark:mix-blend-normal"
+      />
+      <figcaption className="mt-2 text-xs leading-snug text-muted-foreground">{caption}</figcaption>
+    </figure>
+  );
+}
+
 /** Unterabschnitt innerhalb eines Kapitels, mit eigenem Anker. */
 function Section({
   id,
@@ -789,6 +815,7 @@ function Index() {
                 <div>
                   <h3 className="font-serif text-xl font-medium">{item.title}</h3>
                   <p className={ITEM_TEXT}>{item.text}</p>
+                  {item.figure && <Facsimile {...item.figure} />}
                 </div>
               </li>
             ))}

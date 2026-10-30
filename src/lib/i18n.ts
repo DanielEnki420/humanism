@@ -21,7 +21,12 @@ export type PrincipleText = {
   example: string;
 };
 
-export type TimelineItem = { year: string; title: string; text: string };
+export type TimelineItem = {
+  year: string;
+  title: string;
+  text: string;
+  figure?: { src: string; alt: string; caption: string };
+};
 export type ReadingItem = { author: string; title: string; year: string; note: string };
 export type FaqItem = { q: string; a: string };
 export type TitledItem = { title: string; text: string };
@@ -463,16 +468,34 @@ export const translations: Record<Lang, Translation> = {
           year: "um 1500",
           title: "Renaissance-Humanismus",
           text: "Erasmus von Rotterdam und andere stellen Bildung, Sprache und die Würde des Menschen in den Mittelpunkt.",
+          figure: {
+            src: "/faksimiles/duerer-erasmus-1526.webp",
+            alt: "Kupferstich: Erasmus schreibt an einem Lesepult, umgeben von Büchern",
+            caption:
+              "Albrecht Dürer, Erasmus von Rotterdam, Kupferstich 1526. National Gallery of Art, Washington (CC0)",
+          },
         },
         {
           year: "um 1750",
           title: "Aufklärung",
           text: "„Habe Mut, dich deines eigenen Verstandes zu bedienen!“ (Kant, Was ist Aufklärung?, 1784) – Hume, Kant und Voltaire setzen auf Vernunft und individuelle Freiheit.",
+          figure: {
+            src: "/faksimiles/kant-aufklaerung-1784.webp",
+            alt: "Erste Seite von Kants Aufsatz in Fraktur, beginnend mit „Aufklärung ist der Ausgang des Menschen …“",
+            caption:
+              "Kant, „Beantwortung der Frage: Was ist Aufklärung?“, erste Seite. Erstdruck 1784; hier aus Kants vermischten Schriften, Bd. 2 (Halle 1799)",
+          },
         },
         {
           year: "1859",
           title: "Darwins Evolutionstheorie",
           text: "„Über die Entstehung der Arten“ liefert eine natürliche Erklärung für die Vielfalt des Lebens.",
+          figure: {
+            src: "/faksimiles/darwin-origin-1859.webp",
+            alt: "Titelseite der Erstausgabe von „On the Origin of Species“",
+            caption:
+              "Darwin, On the Origin of Species, Titelseite der Erstausgabe, London 1859. Biodiversity Heritage Library (gemeinfrei)",
+          },
         },
         {
           year: "1927",
@@ -1145,16 +1168,34 @@ export const translations: Record<Lang, Translation> = {
           year: "c. 1500",
           title: "Renaissance Humanism",
           text: "Erasmus of Rotterdam and others place education, language and human dignity at the centre.",
+          figure: {
+            src: "/faksimiles/duerer-erasmus-1526.webp",
+            alt: "Engraving: Erasmus writing at a lectern, surrounded by books",
+            caption:
+              "Albrecht Dürer, Erasmus of Rotterdam, engraving, 1526. National Gallery of Art, Washington (CC0)",
+          },
         },
         {
           year: "c. 1750",
           title: "The Enlightenment",
           text: "“Dare to know! Have the courage to use your own understanding!” (Kant, What Is Enlightenment?, 1784) – Hume, Kant and Voltaire champion reason and individual freedom.",
+          figure: {
+            src: "/faksimiles/kant-aufklaerung-1784.webp",
+            alt: "First page of Kant's essay in blackletter, beginning “Aufklärung ist der Ausgang des Menschen …”",
+            caption:
+              "Kant, “An Answer to the Question: What Is Enlightenment?”, first page. First printed 1784; shown here from his Vermischte Schriften, vol. 2 (Halle 1799)",
+          },
         },
         {
           year: "1859",
           title: "Darwin's theory of evolution",
           text: "“On the Origin of Species” offers a natural explanation for the diversity of life.",
+          figure: {
+            src: "/faksimiles/darwin-origin-1859.webp",
+            alt: "Title page of the first edition of On the Origin of Species",
+            caption:
+              "Darwin, On the Origin of Species, title page of the first edition, London 1859. Biodiversity Heritage Library (public domain)",
+          },
         },
         {
           year: "1927",
@@ -1825,16 +1866,34 @@ export const translations: Record<Lang, Translation> = {
           year: "ca. 1500",
           title: "Umanesimo rinascimentale",
           text: "Erasmo da Rotterdam e altri pongono al centro istruzione, lingua e dignità umana.",
+          figure: {
+            src: "/faksimiles/duerer-erasmus-1526.webp",
+            alt: "Incisione: Erasmo scrive a un leggio, circondato da libri",
+            caption:
+              "Albrecht Dürer, Erasmo da Rotterdam, incisione, 1526. National Gallery of Art, Washington (CC0)",
+          },
         },
         {
           year: "ca. 1750",
           title: "Illuminismo",
           text: "«Abbi il coraggio di servirti della tua propria intelligenza!» (Kant, Che cos'è l'Illuminismo?, 1784) – Hume, Kant e Voltaire puntano su ragione e libertà individuale.",
+          figure: {
+            src: "/faksimiles/kant-aufklaerung-1784.webp",
+            alt: "Prima pagina del saggio di Kant in caratteri gotici, che inizia con «Aufklärung ist der Ausgang des Menschen …»",
+            caption:
+              "Kant, «Risposta alla domanda: che cos'è l'Illuminismo?», prima pagina. Prima edizione 1784; qui dagli Scritti vari, vol. 2 (Halle 1799)",
+          },
         },
         {
           year: "1859",
           title: "La teoria dell'evoluzione di Darwin",
           text: "«L'origine delle specie» offre una spiegazione naturale della diversità della vita.",
+          figure: {
+            src: "/faksimiles/darwin-origin-1859.webp",
+            alt: "Frontespizio della prima edizione di On the Origin of Species",
+            caption:
+              "Darwin, On the Origin of Species, frontespizio della prima edizione, Londra 1859. Biodiversity Heritage Library (pubblico dominio)",
+          },
         },
         {
           year: "1927",
