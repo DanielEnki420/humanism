@@ -55,6 +55,7 @@ export type Translation = {
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    byline: string;
   };
   mission: { label: string; statement: Segment[]; note: string };
   idea: { label: string; heading: string; lead: Segment[]; body: string };
@@ -134,6 +135,8 @@ export type Translation = {
     sourceLink: string;
     copyright: string;
     madeWith: string;
+    colophonLabel: string;
+    colophon: string;
   };
   ui: {
     showMore: string;
@@ -147,6 +150,7 @@ export type Translation = {
     sourceLabel: string;
     sourceLinkLabel: string;
     skipToContent: string;
+    contents: string;
   };
   legal: {
     impressumLabel: string;
@@ -202,6 +206,7 @@ export const translations: Record<Lang, Translation> = {
         "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
       ctaPrimary: "Prinzipien entdecken",
       ctaSecondary: "Mehr erfahren",
+      byline: "Eine Einführung von Daniel Buttadauro · Stand Oktober 2026",
     },
     mission: {
       label: "Unser Leitbild",
@@ -766,6 +771,9 @@ export const translations: Record<Lang, Translation> = {
       sourceLink: "Quellcode (GitHub)",
       copyright: "Eine Einführung in den säkularen Humanismus.",
       madeWith: "Mit Vernunft & Mitgefühl gestaltet.",
+      colophonLabel: "Kolophon",
+      colophon:
+        "Gesetzt in Source Serif 4, Fraunces und Inter, alle selbst gehostet. Geschrieben von Daniel Buttadauro, mit KI-Unterstützung (Lovable, Claude) entstanden und redigiert; Zitate, Jahreszahlen und Daten sind einzeln an den verlinkten Quellen geprüft. Fehler gefunden? Über das Kontaktformular oder auf GitHub melden.",
     },
     ui: {
       showMore: "Mehr erfahren",
@@ -779,6 +787,7 @@ export const translations: Record<Lang, Translation> = {
       sourceLabel: "Quelle",
       sourceLinkLabel: "Weiterlesen",
       skipToContent: "Zum Inhalt springen",
+      contents: "Inhalt",
     },
     legal: {
       impressumLabel: "Impressum",
@@ -879,6 +888,7 @@ export const translations: Record<Lang, Translation> = {
       subtitle: "A worldview based on human dignity, science, critical thinking and compassion.",
       ctaPrimary: "Explore the principles",
       ctaSecondary: "Learn more",
+      byline: "An introduction by Daniel Buttadauro · Updated October 2026",
     },
     mission: {
       label: "Our mission",
@@ -1436,6 +1446,9 @@ export const translations: Record<Lang, Translation> = {
       sourceLink: "Source code (GitHub)",
       copyright: "An introduction to secular humanism.",
       madeWith: "Crafted with reason & compassion.",
+      colophonLabel: "Colophon",
+      colophon:
+        "Set in Source Serif 4, Fraunces and Inter, all self-hosted. Written by Daniel Buttadauro, drafted with AI assistance (Lovable, Claude) and edited; quotes, dates and figures are checked individually against the linked sources. Found a mistake? Report it via the contact form or on GitHub.",
     },
     ui: {
       showMore: "Show more",
@@ -1449,6 +1462,7 @@ export const translations: Record<Lang, Translation> = {
       sourceLabel: "Source",
       sourceLinkLabel: "Read more",
       skipToContent: "Skip to content",
+      contents: "Contents",
     },
     legal: {
       impressumLabel: "Imprint",
@@ -1491,7 +1505,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Analytics",
-            body: "We use Umami for anonymous traffic measurement, self-hosted on our own infrastructure (analytics.oli-vera.eu). The tool sets no cookies, creates no persistent user identifier, and does not store your IP address — it is only processed for the duration of the page view to derive a rough location (country) and then discarded. No profile that can be linked to you is created. The legal basis is our legitimate interest in anonymised usage statistics (Art. 6(1)(f) GDPR). You can object to this processing at any time (Art. 21 GDPR) — reach out via the contact form. A \"Do Not Track\" signal sent by your browser is respected.",
+            body: 'We use Umami for anonymous traffic measurement, self-hosted on our own infrastructure (analytics.oli-vera.eu). The tool sets no cookies, creates no persistent user identifier, and does not store your IP address — it is only processed for the duration of the page view to derive a rough location (country) and then discarded. No profile that can be linked to you is created. The legal basis is our legitimate interest in anonymised usage statistics (Art. 6(1)(f) GDPR). You can object to this processing at any time (Art. 21 GDPR) — reach out via the contact form. A "Do Not Track" signal sent by your browser is respected.',
           },
           {
             title: "Contact form",
@@ -1550,6 +1564,7 @@ export const translations: Record<Lang, Translation> = {
         "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
       ctaPrimary: "Scopri i principi",
       ctaSecondary: "Scopri di più",
+      byline: "Un'introduzione di Daniel Buttadauro · Aggiornato a ottobre 2026",
     },
     mission: {
       label: "La nostra missione",
@@ -2112,6 +2127,9 @@ export const translations: Record<Lang, Translation> = {
       sourceLink: "Codice sorgente (GitHub)",
       copyright: "Un'introduzione all'umanesimo laico.",
       madeWith: "Realizzato con ragione e compassione.",
+      colophonLabel: "Colophon",
+      colophon:
+        "Composto in Source Serif 4, Fraunces e Inter, tutti ospitati in proprio. Scritto da Daniel Buttadauro, con il supporto dell'IA (Lovable, Claude) e poi rivisto; citazioni, date e dati sono verificati singolarmente sulle fonti collegate. Hai trovato un errore? Segnalalo con il modulo di contatto o su GitHub.",
     },
     ui: {
       showMore: "Scopri di più",
@@ -2125,6 +2143,7 @@ export const translations: Record<Lang, Translation> = {
       sourceLabel: "Fonte",
       sourceLinkLabel: "Approfondisci",
       skipToContent: "Vai al contenuto",
+      contents: "Indice",
     },
     legal: {
       impressumLabel: "Note legali",
@@ -2167,7 +2186,7 @@ export const translations: Record<Lang, Translation> = {
           },
           {
             title: "Strumento di analisi",
-            body: "Utilizziamo Umami per la misurazione anonima del traffico, ospitato autonomamente sulla nostra infrastruttura (analytics.oli-vera.eu). Lo strumento non imposta cookie, non crea un identificativo utente permanente e non memorizza il tuo indirizzo IP — viene elaborato solo per la durata della visualizzazione della pagina per determinare una posizione approssimativa (paese) e poi scartato. Non viene creato alcun profilo riconducibile a te. La base giuridica è il nostro legittimo interesse a statistiche di utilizzo anonime (Art. 6 par. 1 lett. f RGPD). Puoi opporti a questo trattamento in qualsiasi momento (Art. 21 RGPD) — scrivici tramite il modulo di contatto. Un segnale \"Do Not Track\" inviato dal tuo browser viene rispettato.",
+            body: 'Utilizziamo Umami per la misurazione anonima del traffico, ospitato autonomamente sulla nostra infrastruttura (analytics.oli-vera.eu). Lo strumento non imposta cookie, non crea un identificativo utente permanente e non memorizza il tuo indirizzo IP — viene elaborato solo per la durata della visualizzazione della pagina per determinare una posizione approssimativa (paese) e poi scartato. Non viene creato alcun profilo riconducibile a te. La base giuridica è il nostro legittimo interesse a statistiche di utilizzo anonime (Art. 6 par. 1 lett. f RGPD). Puoi opporti a questo trattamento in qualsiasi momento (Art. 21 RGPD) — scrivici tramite il modulo di contatto. Un segnale "Do Not Track" inviato dal tuo browser viene rispettato.',
           },
           {
             title: "Modulo di contatto",

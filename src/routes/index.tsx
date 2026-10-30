@@ -1,25 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import {
-  Brain,
-  FlaskConical,
-  HeartHandshake,
-  Scale,
-  Globe2,
-  Sparkles,
-  ArrowRight,
-  Plus,
-  Moon,
-  Sun,
-  ExternalLink,
-  RotateCw,
-  Check,
-  Eye,
-  Heart,
-  X,
-  BookOpen,
-  Menu,
-} from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { ArrowRight, Check, Menu, Moon, Plus, RotateCw, Sun, X } from "lucide-react";
 import {
   LANGUAGES,
   LANGUAGE_LABELS,
@@ -34,12 +15,6 @@ import {
 import { LogoMark } from "@/lib/brand";
 
 const GITHUB_URL = "https://github.com/DanielEnki420/humanism";
-
-// Icons in der Reihenfolge der Prinzipien aus i18n.ts.
-const PRINCIPLE_ICONS = [Brain, FlaskConical, HeartHandshake, Scale, Globe2, Sparkles];
-
-// Icons für die drei Grundlage-Säulen (Reihenfolge = foundation.cards).
-const FOUNDATION_ICONS = [Brain, Eye, Heart];
 
 // Anteil religiös Ungebundener je Land (Reihenfolge = data.regions), gerundet.
 // Quelle: Pew Research Center, „How the Global Religious Landscape Changed, 2010–2020"
@@ -211,32 +186,76 @@ function RichText({ segments, em = "text-primary" }: { segments: Segment[]; em?:
   );
 }
 
-/** Kleine Überschrift + Titel für einen Abschnitt. */
-function SectionHead({
+// Römische Kapitelziffern für Inhaltsverzeichnis & Randspalte.
+const ROMAN = [
+  "I",
+  "II",
+  "III",
+  "IV",
+  "V",
+  "VI",
+  "VII",
+  "VIII",
+  "IX",
+  "X",
+  "XI",
+  "XII",
+  "XIII",
+  "XIV",
+  "XV",
+  "XVI",
+];
+
+// Lesetext in Listen/Spalten: Buchschrift, Vordergrundfarbe, etwas kleiner als der Haupttext.
+const ITEM_TEXT = "mt-2 font-text text-[1.0625rem] leading-relaxed text-foreground/80";
+
+/**
+ * Ein Kapitel im Buch-Raster: links schmale Randspalte mit Ziffer & Kapitelname,
+ * rechts Überschrift, Einleitung und Inhalt. Mobil stehen Ziffer & Name in einer Zeile darüber.
+ */
+function Chapter({
+  id,
+  num,
   label,
   heading,
   intro,
-  center = false,
+  children,
 }: {
+  id: string;
+  num?: string;
   label: string;
-  heading: string;
+  heading: ReactNode;
   intro?: string;
-  center?: boolean;
+  children?: ReactNode;
 }) {
   return (
-    <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <p
-        className={`mb-4 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground ${
-          center ? "justify-center" : ""
-        }`}
-      >
-        <span aria-hidden className="h-px w-8 bg-gold" />
-        {label}
-        {center && <span aria-hidden className="h-px w-8 bg-gold" />}
-      </p>
-      <h2 className="font-serif text-3xl font-medium leading-tight sm:text-4xl">{heading}</h2>
-      {intro && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>}
-    </div>
+    <section id={id} className="scroll-mt-20 border-t border-border">
+      <div className="mx-auto grid max-w-6xl gap-x-12 gap-y-4 px-6 py-16 sm:py-20 md:grid-cols-[9rem_minmax(0,1fr)]">
+        <div className="flex items-baseline gap-3 md:block md:pt-2">
+          {num && <p className="font-serif text-xl text-gold tabular-nums md:text-2xl">{num}</p>}
+          <p className="text-sm text-muted-foreground md:mt-1">{label}</p>
+        </div>
+        <div className="min-w-0">
+          <h2 className="max-w-[26ch] font-serif text-3xl font-medium leading-tight sm:text-[2.25rem]">
+            {heading}
+          </h2>
+          {intro && <p className="prose-text mt-5 max-w-[62ch] text-foreground/85">{intro}</p>}
+          {children}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Zitat im Lesefluss: eingerückt, mit Haarlinie links und Namen darunter. */
+function PullQuote({ text, author }: { text: string; author: string }) {
+  return (
+    <figure className="mt-14 max-w-[56ch] border-l border-foreground/25 pl-6">
+      <blockquote className="font-text text-2xl italic leading-snug text-foreground">
+        {text}
+      </blockquote>
+      <figcaption className="mt-3 text-sm text-muted-foreground">{author}</figcaption>
+    </figure>
   );
 }
 
@@ -253,7 +272,7 @@ function SourceNote({
   linkLabel?: string;
 }) {
   return (
-    <p className="mt-8 border-l-2 border-primary/30 pl-4 text-xs leading-relaxed text-muted-foreground">
+    <p className="mt-10 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
       <span className="font-medium text-foreground/70">{label}:</span> {text}
       {linkUrl && (
         <>
@@ -275,198 +294,6 @@ function SourceNote({
 /** Markenzeichen in Kopf- und Fußzeile: Logo „Mensch und Buch" (Pendant zur Favicon). */
 function BrandMark() {
   return <LogoMark className="h-7 w-7 text-primary" strokeWidth={2.6} />;
-}
-
-/** Ornament-Trenner: Linie – Raute – Linie in Gold. */
-function Ornament({ className = "" }: { className?: string }) {
-  return (
-    <div aria-hidden className={`flex items-center justify-center gap-3 ${className}`}>
-      <span className="h-px w-12 bg-linear-to-r from-transparent to-gold/70" />
-      <span className="h-1.5 w-1.5 rotate-45 bg-gold" />
-      <span className="h-px w-12 bg-linear-to-l from-transparent to-gold/70" />
-    </div>
-  );
-}
-
-// Strahlenkranz im Hero: 48 Strahlen, abwechselnd lang/kurz (Licht der Aufklärung).
-const HERO_RAYS = Array.from({ length: 48 }, (_, i) => {
-  const a = (i / 48) * Math.PI * 2;
-  const r0 = 50;
-  const r1 = i % 2 === 0 ? 66 : 60;
-  return {
-    x1: (100 + r0 * Math.cos(a)).toFixed(2),
-    y1: (100 + r0 * Math.sin(a)).toFixed(2),
-    x2: (100 + r1 * Math.cos(a)).toFixed(2),
-    y2: (100 + r1 * Math.sin(a)).toFixed(2),
-  };
-});
-
-// Hexagon-Positionen (Prozent) der sechs Hub-Knoten um das Zentrum.
-const HUB_POSITIONS = [
-  { left: "50%", top: "7%" },
-  { left: "87%", top: "29%" },
-  { left: "87%", top: "71%" },
-  { left: "50%", top: "93%" },
-  { left: "13%", top: "71%" },
-  { left: "13%", top: "29%" },
-];
-
-/** Prinzipien-Hub: der Mensch im Zentrum, sechs Werte mit Icons ringsum (klickbar). */
-function PrinciplesHub({
-  items,
-  center,
-}: {
-  items: { title: string; Icon: (typeof PRINCIPLE_ICONS)[number] }[];
-  center: string;
-}) {
-  return (
-    <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
-      <svg
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        aria-hidden
-        className="absolute inset-0 h-full w-full text-primary/25"
-      >
-        {HUB_POSITIONS.map((p, i) => (
-          <line
-            key={i}
-            x1="50"
-            y1="50"
-            x2={parseFloat(p.left)}
-            y2={parseFloat(p.top)}
-            stroke="currentColor"
-            strokeWidth="0.4"
-            strokeDasharray="1.2 1.2"
-          />
-        ))}
-      </svg>
-
-      <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-primary px-2 text-center font-serif text-sm font-medium leading-tight text-primary-foreground shadow-xl shadow-primary/25 ring-8 ring-gold/15">
-        <LogoMark
-          className="mb-1 h-5 w-5 text-gold dark:text-primary-foreground/70"
-          strokeWidth={2.8}
-        />
-        {center}
-      </div>
-
-      {items.map((item, i) => {
-        const Icon = item.Icon;
-        return (
-          <a
-            key={item.title}
-            href={`#principle-${i}`}
-            className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-            style={{ left: HUB_POSITIONS[i].left, top: HUB_POSITIONS[i].top }}
-          >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-sm ring-1 ring-border transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-gold/60">
-              <Icon className="h-6 w-6" strokeWidth={1.5} />
-            </span>
-            <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
-              {item.title}
-            </span>
-          </a>
-        );
-      })}
-    </div>
-  );
-}
-
-// Pentagon-Positionen (Prozent) der fünf Zyklus-Knoten um das Zentrum.
-const CYCLE_POSITIONS = [
-  { left: "50%", top: "11%" },
-  { left: "86%", top: "39%" },
-  { left: "72%", top: "82%" },
-  { left: "28%", top: "82%" },
-  { left: "14%", top: "39%" },
-];
-
-/** Wissenschafts-Kreislauf: fünf Methoden-Schritte als selbst-korrigierender Zyklus. */
-function ScienceCycle({ titles }: { titles: string[] }) {
-  // Geometrie: fünf Knoten gleichmäßig auf einem Kreis (r=39), Start oben (-90°).
-  // Zwischen je zwei Knoten ein Bogen mit Pfeilspitze – zeigt die Fluss-Richtung
-  // des Zyklus (im Uhrzeigersinn) und macht die Selbst-Korrektur sichtbar.
-  const R = 39;
-  const C = 50;
-  const step = 360 / titles.length;
-  const gap = 17; // Grad-Lücke an jedem Knoten, damit Bögen nicht unter den Kreisen liegen
-  const toXY = (deg: number): [number, number] => {
-    const r = (deg * Math.PI) / 180;
-    return [C + R * Math.cos(r), C + R * Math.sin(r)];
-  };
-  const arcs = titles.map((_, i) => {
-    const [x0, y0] = toXY(-90 + step * i + gap);
-    const [x1, y1] = toXY(-90 + step * (i + 1) - gap);
-    return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${R} ${R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-  });
-
-  return (
-    <div className="relative mx-auto mt-12 hidden aspect-square max-w-xl sm:block">
-      <svg
-        viewBox="0 0 100 100"
-        aria-hidden
-        className="absolute inset-0 h-full w-full text-primary"
-      >
-        <defs>
-          <marker
-            id="cycle-arrow"
-            viewBox="0 0 10 10"
-            refX="7"
-            refY="5"
-            markerWidth="4"
-            markerHeight="4"
-            markerUnits="userSpaceOnUse"
-            orient="auto"
-          >
-            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
-          </marker>
-        </defs>
-        {/* Leit-Kreis (dezent) */}
-        <circle
-          cx="50"
-          cy="50"
-          r="39"
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity="0.18"
-          strokeWidth="0.5"
-          strokeDasharray="2 2"
-        />
-        {/* Fluss-Bögen mit Pfeilspitzen (im Uhrzeigersinn) */}
-        {arcs.map((d, i) => (
-          <path
-            key={i}
-            d={d}
-            fill="none"
-            stroke="currentColor"
-            strokeOpacity="0.5"
-            strokeWidth="0.9"
-            strokeLinecap="round"
-            markerEnd="url(#cycle-arrow)"
-          />
-        ))}
-      </svg>
-
-      <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground">
-        <RotateCw className="h-7 w-7" strokeWidth={1.5} />
-      </div>
-
-      {titles.map((title, i) => (
-        <a
-          key={title}
-          href={`#science-${i}`}
-          className="group absolute flex w-28 -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-          style={{ left: CYCLE_POSITIONS[i].left, top: CYCLE_POSITIONS[i].top }}
-        >
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-card font-serif text-sm font-medium text-primary shadow-sm ring-1 ring-border transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-gold/60">
-            {`0${i + 1}`}
-          </span>
-          <span className="mt-2 text-center text-xs font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
-            {title}
-          </span>
-        </a>
-      ))}
-    </div>
-  );
 }
 
 // Sektions-IDs in Nav-Reihenfolge – auch für den Scroll-Spy.
@@ -506,6 +333,27 @@ function Index() {
     { id: "daten", label: t.nav.data },
     { id: "faq", label: t.nav.faq },
   ];
+
+  // Kapitel in Lesereihenfolge – Quelle für Inhaltsverzeichnis und Randziffern.
+  const chapters = [
+    { id: "was-ist", label: t.idea.label },
+    { id: "prinzipien", label: t.principles.label },
+    { id: "grundlage", label: t.foundation.label },
+    { id: "wissenschaft", label: t.science.label },
+    { id: "ethik", label: t.ethics.label },
+    { id: "abgrenzung", label: t.distinctions.label },
+    { id: "streitpunkte", label: t.disputes.label },
+    { id: "geschichte", label: t.history.label },
+    { id: "dokumente", label: t.documents.label },
+    { id: "daten", label: t.data.label },
+    { id: "faq", label: t.faq.label },
+    { id: "quiz", label: t.quiz.label },
+    { id: "glossar", label: t.glossary.label },
+    { id: "weiterlesen", label: t.reading.label },
+    { id: "quellen", label: t.sources.label },
+    { id: "kontakt", label: t.contact.label },
+  ];
+  const num = (id: string) => ROMAN[chapters.findIndex((c) => c.id === id)];
 
   // Menü schließen, sobald der Viewport wieder Desktop-Breite erreicht.
   useEffect(() => {
@@ -568,30 +416,6 @@ function Index() {
     return () => obs.disconnect();
   }, []);
 
-  // Scroll-Reveal: Abschnitte blenden beim Scrollen sanft ein (außer Hero).
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = Array.from(document.querySelectorAll<HTMLElement>("section[id]")).filter(
-      (el) => el.id !== "top",
-    );
-    if (!targets.length) return;
-    targets.forEach((el) => el.setAttribute("data-reveal", ""));
-    document.documentElement.classList.add("reveal-ready");
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-visible");
-            obs.unobserve(e.target);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.06 },
-    );
-    targets.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
   const toggleTheme = () => {
     setDark((prev) => {
       const next = !prev;
@@ -613,7 +437,7 @@ function Index() {
   };
 
   return (
-    <div className="paper min-h-screen text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -622,14 +446,14 @@ function Index() {
       {/* Skip-to-content – per Fokus eingeblendet, bleibt für Screenreader erreichbar */}
       <a
         href="#inhalt"
-        className="fixed left-4 -top-20 z-[60] rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all focus:top-4"
+        className="fixed left-4 -top-20 z-[60] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all focus:top-4"
       >
         {t.ui.skipToContent}
       </a>
 
-      {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      {/* Kopfzeile */}
+      <header className="sticky top-0 z-40 border-b border-border bg-background">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
           <a
             href="#top"
             className="flex shrink-0 items-center gap-2 font-serif text-lg font-semibold tracking-tight sm:gap-2.5"
@@ -637,17 +461,17 @@ function Index() {
             <BrandMark />
             <span>Humanitas</span>
           </a>
-          <div className="flex items-center gap-3 lg:gap-6">
-            <nav className="hidden gap-7 text-sm lg:flex">
+          <div className="flex items-center gap-4 lg:gap-7">
+            <nav className="hidden gap-6 text-sm lg:flex">
               {navItems.map((item) => (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
                   aria-current={activeId === item.id ? "true" : undefined}
-                  className={`underline decoration-2 underline-offset-[10px] transition-colors ${
+                  className={`underline underline-offset-[6px] transition-colors ${
                     activeId === item.id
-                      ? "font-medium text-foreground decoration-gold"
-                      : "text-muted-foreground decoration-transparent hover:text-foreground hover:decoration-gold/40"
+                      ? "text-foreground decoration-foreground/60"
+                      : "text-muted-foreground decoration-transparent hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -657,7 +481,7 @@ function Index() {
 
             {/* Sprachumschalter */}
             <div
-              className="flex items-center gap-0.5 rounded-full border border-border bg-card/60 p-0.5 backdrop-blur"
+              className="flex items-center gap-2.5 text-xs"
               role="group"
               aria-label={t.ui.toggleLanguage}
             >
@@ -667,10 +491,10 @@ function Index() {
                   type="button"
                   onClick={() => setLang(l)}
                   aria-pressed={l === lang}
-                  className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
+                  className={`underline underline-offset-4 transition-colors ${
                     l === lang
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "font-semibold text-foreground decoration-foreground/60"
+                      : "text-muted-foreground decoration-transparent hover:text-foreground"
                   }`}
                 >
                   {LANGUAGE_LABELS[l]}
@@ -683,7 +507,7 @@ function Index() {
               type="button"
               onClick={toggleTheme}
               aria-label={t.ui.toggleTheme}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 text-foreground backdrop-blur transition-colors hover:bg-secondary"
+              className="inline-flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
             >
               {dark ? (
                 <Sun className="h-4 w-4" strokeWidth={1.5} />
@@ -699,7 +523,7 @@ function Index() {
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               aria-label={menuOpen ? t.ui.menuClose : t.ui.menuOpen}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 text-foreground backdrop-blur transition-colors hover:bg-secondary lg:hidden"
+              className="inline-flex h-8 w-8 items-center justify-center text-foreground lg:hidden"
             >
               {menuOpen ? (
                 <X className="h-4 w-4" strokeWidth={1.5} />
@@ -710,251 +534,166 @@ function Index() {
           </div>
         </div>
 
-        {/* Mobile-Nav-Panel */}
+        {/* Mobile-Nav-Panel: das Inhaltsverzeichnis */}
         {menuOpen && (
           <nav
             id="mobile-nav"
-            className="border-t border-border/60 bg-background/95 backdrop-blur lg:hidden"
+            className="max-h-[70vh] overflow-y-auto border-t border-border bg-background lg:hidden"
             aria-label={t.ui.navLabel}
           >
-            <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4 text-sm">
-              {navItems.map((item) => (
-                <li key={item.id}>
+            <ol className="mx-auto flex max-w-6xl flex-col px-6 py-3">
+              {chapters.map((c, i) => (
+                <li key={c.id}>
                   <a
-                    href={`#${item.id}`}
+                    href={`#${c.id}`}
                     onClick={() => setMenuOpen(false)}
-                    aria-current={activeId === item.id ? "true" : undefined}
-                    className={`block rounded-lg px-3 py-2 transition-colors ${
-                      activeId === item.id
-                        ? "bg-secondary font-medium text-foreground"
-                        : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
-                    }`}
+                    className="flex items-baseline gap-3 py-2 text-foreground"
                   >
-                    {item.label}
+                    <span className="w-8 shrink-0 font-serif text-sm text-gold tabular-nums">
+                      {ROMAN[i]}
+                    </span>
+                    <span className="font-text text-base">{c.label}</span>
                   </a>
                 </li>
               ))}
-            </ul>
+            </ol>
           </nav>
         )}
       </header>
 
       <main id="inhalt">
-        {/* Hero */}
-        <section id="top" className="relative overflow-hidden">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
-            style={{
-              background: "radial-gradient(closest-side, var(--sage), transparent 70%)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-40 right-[-10%] h-[520px] w-[720px] rounded-full opacity-40 blur-3xl dark:opacity-15"
-            style={{
-              background:
-                "radial-gradient(closest-side, color-mix(in oklch, var(--gold) 45%, transparent), transparent 70%)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[46%] h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 text-gold opacity-[0.28] sm:h-[680px] sm:w-[680px] dark:opacity-[0.16]"
-          >
-            <svg
-              viewBox="0 0 200 200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.35"
-              strokeLinecap="round"
-              className="globe-spin h-full w-full"
-            >
-              <circle cx="100" cy="100" r="96" />
-              <circle cx="100" cy="100" r="82" strokeDasharray="0.6 2.4" />
-              <circle cx="100" cy="100" r="44" />
-              {HERO_RAYS.map((r, i) => (
-                <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} />
-              ))}
-            </svg>
+        {/* Titelseite */}
+        <section id="top" className="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pb-20 sm:pt-24">
+          <div className="md:grid md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-12">
+            <div aria-hidden className="hidden md:block" />
+            <div>
+              <p className="text-sm text-muted-foreground">{t.hero.badge}</p>
+              <h1 className="mt-5 max-w-[17ch] font-serif text-[2.6rem] font-medium leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+                <RichText segments={t.hero.title} em="" />
+              </h1>
+              <p className="prose-text mt-8 max-w-[48ch] text-[1.3rem] text-foreground/85">
+                {t.hero.subtitle}
+              </p>
+              <p className="mt-8 text-sm text-muted-foreground">{t.hero.byline}</p>
+            </div>
           </div>
-          <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-20 text-center sm:pb-28 sm:pt-32">
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/70 py-1 pl-2 pr-3.5 text-xs text-muted-foreground shadow-sm backdrop-blur">
-              <LogoMark className="h-4 w-4 text-gold" strokeWidth={3} />
-              {t.hero.badge}
-            </div>
-            <h1 className="font-serif text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
-              <RichText segments={t.hero.title} em="italic text-primary" />
-            </h1>
-            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {t.hero.subtitle}
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="#prinzipien"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:gap-3 hover:opacity-90"
-              >
-                {t.hero.ctaPrimary}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="#was-ist"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-medium text-foreground backdrop-blur transition-colors hover:bg-secondary"
-              >
-                {t.hero.ctaSecondary}
-              </a>
-            </div>
 
-            {/* Drei Säulen als ruhige Zeile unter den CTAs */}
-            <ul className="mt-16 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-serif text-sm italic text-muted-foreground sm:gap-x-5 sm:text-base">
-              {t.foundation.cards.map((c, i) => (
-                <li key={c.k} className="flex items-center gap-3 sm:gap-5">
-                  {i > 0 && <span aria-hidden className="h-1.5 w-1.5 rotate-45 bg-gold" />}
-                  {c.k}
+          <nav
+            aria-label={t.ui.contents}
+            className="mt-16 border-t border-border pt-8 md:grid md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-12"
+          >
+            <p className="mb-5 text-sm text-muted-foreground md:pt-1">{t.ui.contents}</p>
+            <ol className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+              {chapters.map((c, i) => (
+                <li key={c.id}>
+                  <a href={`#${c.id}`} className="group flex items-baseline gap-3 py-1.5">
+                    <span className="w-8 shrink-0 font-serif text-sm text-gold tabular-nums">
+                      {ROMAN[i]}
+                    </span>
+                    <span className="font-text text-lg decoration-foreground/40 underline-offset-4 group-hover:underline">
+                      {c.label}
+                    </span>
+                  </a>
                 </li>
               ))}
-            </ul>
-          </div>
+            </ol>
+          </nav>
         </section>
 
-        {/* Leitbild / Mission */}
-        <section id="leitbild" className="scroll-mt-20 border-y border-border/60 bg-secondary/30">
-          <div className="mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
-            <LogoMark className="mx-auto mb-6 h-10 w-10 text-gold" strokeWidth={1.8} />
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              {t.mission.label}
+        {/* Die Idee */}
+        <Chapter id="was-ist" num={num("was-ist")} label={t.idea.label} heading={t.idea.heading}>
+          <div className="prose-text mt-6 max-w-[62ch]">
+            <p className="text-[1.3rem] leading-relaxed">
+              <RichText segments={t.idea.lead} em="" />
             </p>
-            <p className="mx-auto mt-6 max-w-3xl font-serif text-3xl font-medium leading-[1.15] text-foreground sm:text-4xl md:text-5xl">
-              <RichText segments={t.mission.statement} />
-            </p>
-            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {t.mission.note}
-            </p>
+            <p className="text-foreground/85">{t.idea.body}</p>
           </div>
-        </section>
-
-        {/* Was ist */}
-        <section id="was-ist" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <div className="grid gap-16 md:grid-cols-12 md:gap-12">
-            <div className="md:col-span-5">
-              <SectionHead label={t.idea.label} heading={t.idea.heading} />
-            </div>
-            <div className="md:col-span-7">
-              <p className="text-xl leading-relaxed text-foreground/90">
-                <RichText segments={t.idea.lead} />
-              </p>
-              <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t.idea.body}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Zitat-Break: Menschlichkeit / Offenheit */}
-        <QuoteBreak text={t.quotes[0].text} author={t.quotes[0].author} />
+          <PullQuote text={t.quotes[0].text} author={t.quotes[0].author} />
+        </Chapter>
 
         {/* Prinzipien */}
-        <section id="prinzipien" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-6xl px-6 py-24">
-            <SectionHead label={t.principles.label} heading={t.principles.heading} center />
-
-            <PrinciplesHub
-              center={t.principles.center}
-              items={t.principles.items.map((p, i) => ({
-                title: p.title,
-                Icon: PRINCIPLE_ICONS[i],
-              }))}
-            />
-
-            <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-              {t.principles.items.map((p, i) => (
-                <PrincipleCard
-                  key={p.title}
-                  id={`principle-${i}`}
-                  principle={p}
-                  Icon={PRINCIPLE_ICONS[i]}
-                  showMore={t.ui.showMore}
-                  showLess={t.ui.showLess}
-                  exampleLabel={t.ui.exampleLabel}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        <Chapter
+          id="prinzipien"
+          num={num("prinzipien")}
+          label={t.principles.label}
+          heading={t.principles.heading}
+        >
+          <ol className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+            {t.principles.items.map((p, i) => (
+              <PrincipleCard
+                key={p.title}
+                id={`principle-${i}`}
+                index={i}
+                principle={p}
+                showMore={t.ui.showMore}
+                showLess={t.ui.showLess}
+                exampleLabel={t.ui.exampleLabel}
+              />
+            ))}
+          </ol>
+        </Chapter>
 
         {/* Grundlage */}
-        <section id="grundlage" className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-28">
-          <div className="grid gap-12 md:grid-cols-12">
-            <div className="md:col-span-12">
-              <p className="mb-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                {t.foundation.label}
-              </p>
-              <blockquote className="font-serif text-3xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl">
-                <RichText segments={t.foundation.quote} em="italic text-primary" />
-              </blockquote>
-            </div>
-            <div className="mt-12 md:col-span-12">
-              <div className="h-px bg-linear-to-r from-transparent via-gold/60 to-transparent" />
-              <div className="grid gap-4 py-6 sm:grid-cols-3">
-                {t.foundation.cards.map((b, i) => {
-                  const Icon = FOUNDATION_ICONS[i];
-                  return (
-                    <div
-                      key={b.k}
-                      className="card-lift flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center"
-                    >
-                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10">
-                        <Icon className="h-5 w-5" strokeWidth={1.5} />
-                      </span>
-                      <p className="mt-4 font-serif text-lg font-medium text-primary">{b.k}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.v}</p>
-                    </div>
-                  );
-                })}
+        <Chapter
+          id="grundlage"
+          num={num("grundlage")}
+          label={t.foundation.label}
+          heading={<RichText segments={t.foundation.quote} em="" />}
+        >
+          <dl className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-3">
+            {t.foundation.cards.map((b) => (
+              <div key={b.k} className="border-t border-border pt-4">
+                <dt className="font-serif text-xl font-medium">{b.k}</dt>
+                <dd className={ITEM_TEXT}>{b.v}</dd>
               </div>
-              <div className="h-px bg-linear-to-r from-transparent via-gold/60 to-transparent" />
-            </div>
-          </div>
-        </section>
+            ))}
+          </dl>
+        </Chapter>
 
         {/* Wissenschafts-1x1 */}
-        <section id="wissenschaft" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-6xl px-6 py-24">
-            <SectionHead
-              label={t.science.label}
-              heading={t.science.heading}
-              intro={t.science.intro}
-            />
-
-            <ScienceCycle titles={t.science.items.map((it) => it.title)} />
-
-            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {t.science.items.map((item, i) => (
-                <div
-                  key={item.title}
-                  id={`science-${i}`}
-                  className="card-lift scroll-mt-24 rounded-xl border border-border bg-card p-6"
-                >
-                  <span className="font-serif text-sm font-medium text-gold">{`0${i + 1}`}</span>
-                  <h3 className="mt-2 font-serif text-lg font-medium">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-                </div>
-              ))}
-            </div>
-            <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
-          </div>
-        </section>
-
-        {/* Zitat-Break: wissenschaftliches Denken */}
-        <QuoteBreak text={t.quotes[1].text} author={t.quotes[1].author} />
+        <Chapter
+          id="wissenschaft"
+          num={num("wissenschaft")}
+          label={t.science.label}
+          heading={t.science.heading}
+          intro={t.science.intro}
+        >
+          <ol className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            {t.science.items.map((item, i) => (
+              <li
+                key={item.title}
+                id={`science-${i}`}
+                className="scroll-mt-24 border-t border-border pt-4"
+              >
+                <h3 className="font-serif text-xl font-medium">
+                  <span className="mr-2 text-muted-foreground tabular-nums">{i + 1}.</span>
+                  {item.title}
+                </h3>
+                <p className={ITEM_TEXT}>{item.text}</p>
+              </li>
+            ))}
+          </ol>
+          <SourceNote label={t.ui.sourceLabel} text={t.science.source} />
+          <PullQuote text={t.quotes[1].text} author={t.quotes[1].author} />
+        </Chapter>
 
         {/* Ethik */}
-        <section id="ethik" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead label={t.ethics.label} heading={t.ethics.heading} intro={t.ethics.intro} />
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
+        <Chapter
+          id="ethik"
+          num={num("ethik")}
+          label={t.ethics.label}
+          heading={t.ethics.heading}
+          intro={t.ethics.intro}
+        >
+          <div className="mt-10 grid gap-x-10 gap-y-10 md:grid-cols-3">
             {t.ethics.items.map((item: EthicsItem, i: number) => (
-              <div key={item.title} className="border-t-2 border-gold/50 pt-6">
-                <span className="font-serif text-sm font-medium text-gold">{`0${i + 1}`}</span>
-                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-                <p className="mt-4 rounded-md bg-secondary/60 px-4 py-3 text-xs italic leading-relaxed text-muted-foreground">
+              <div key={item.title} className="border-t border-border pt-4">
+                <h3 className="font-serif text-xl font-medium">
+                  <span className="mr-2 text-muted-foreground tabular-nums">{i + 1}.</span>
+                  {item.title}
+                </h3>
+                <p className={ITEM_TEXT}>{item.text}</p>
+                <p className="mt-3 font-text text-base italic leading-relaxed text-muted-foreground">
                   {item.example}
                 </p>
               </div>
@@ -966,487 +705,293 @@ function Index() {
             linkUrl={SOURCE_LINKS[2].url}
             linkLabel={t.ui.sourceLinkLabel}
           />
-        </section>
+        </Chapter>
 
         {/* Abgrenzung */}
-        <section id="abgrenzung" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-4xl px-6 py-24">
-            <SectionHead
-              label={t.distinctions.label}
-              heading={t.distinctions.heading}
-              intro={t.distinctions.intro}
-              center
-            />
-            <div className="mt-12 grid gap-6 md:grid-cols-5">
-              {/* Was es IST */}
-              <div className="flex flex-col justify-center rounded-2xl bg-primary p-6 text-primary-foreground md:col-span-2">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
-                  <Check className="h-5 w-5" strokeWidth={2} />
-                </span>
-                <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/70">
-                  {t.distinctions.affirmLabel}
-                </p>
-                <p className="mt-1 font-serif text-xl font-medium leading-snug">
-                  {t.distinctions.affirmText}
-                </p>
-              </div>
-
-              {/* Was es NICHT ist */}
-              <div className="grid gap-3 sm:grid-cols-2 md:col-span-3">
-                {t.distinctions.items.map((item) => (
-                  <div
-                    key={item.title}
-                    className="card-lift rounded-xl border border-border bg-card p-4"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-secondary font-serif text-base text-muted-foreground">
-                        ≠
-                      </span>
-                      <span className="font-serif text-base font-medium text-foreground">
-                        {item.title}
-                      </span>
-                    </div>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                      {item.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Was strittig ist */}
-        <section id="streitpunkte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead
-            label={t.disputes.label}
-            heading={t.disputes.heading}
-            intro={t.disputes.intro}
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            {t.disputes.items.map((item) => (
-              <div
-                key={item.title}
-                className="card-lift rounded-xl border border-border bg-card p-5"
-              >
-                <h3 className="font-serif text-base font-medium text-foreground">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Geschichte / Zeitstrahl */}
-        <section id="geschichte" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead
-            label={t.history.label}
-            heading={t.history.heading}
-            intro={t.history.intro}
-          />
-          <ol className="mt-16 space-y-10 border-l border-gold/40 pl-6 sm:pl-8">
-            {t.history.items.map((item) => (
-              <li key={item.title} className="relative">
-                <span
-                  aria-hidden
-                  className="absolute -left-[31px] top-1.5 h-3 w-3 rotate-45 border-2 border-background bg-gold ring-1 ring-gold/40 sm:-left-[39px]"
-                />
-                <p className="font-serif text-sm font-medium text-primary">{item.year}</p>
-                <h3 className="mt-1 font-serif text-xl font-medium">{item.title}</h3>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  {item.text}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* Zitat-Break: Zweifel / Vernunft */}
-        <QuoteBreak text={t.quotes[2].text} author={t.quotes[2].author} />
-
-        {/* Schlüsseldokumente */}
-        <section id="dokumente" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-6xl px-6 py-24">
-            <SectionHead
-              label={t.documents.label}
-              heading={t.documents.heading}
-              intro={t.documents.intro}
-            />
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {t.documents.items.map((item, i) => (
-                <a
-                  key={DOCUMENT_LINKS[i].name}
-                  href={DOCUMENT_LINKS[i].url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="card-lift group rounded-xl border border-border bg-card p-5"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-serif text-xs font-medium text-primary">
-                      {DOCUMENT_LINKS[i].year}
-                    </span>
-                    <ExternalLink
-                      className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <h3 className="mt-2 font-serif text-lg font-medium leading-snug">
-                    {item.name ?? DOCUMENT_LINKS[i].name}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Daten & Fakten */}
-        <section id="daten" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <div className="grid gap-12 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-5">
-              <SectionHead label={t.data.label} heading={t.data.heading} intro={t.data.intro} />
-              <p className="mt-6 rounded-xl bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85">
-                {t.data.worldNote}
-              </p>
-            </div>
-            <div className="md:col-span-7">
-              <DataChart
-                regions={t.data.regions}
-                caption={t.data.chartCaption}
-                source={t.data.chartSource}
-                chooseYear={t.data.chooseYear}
-                changeLabel={t.data.changeLabel}
-                unit={t.data.unit}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section id="faq" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-3xl px-6 py-24">
-            <SectionHead label={t.faq.label} heading={t.faq.heading} center />
-            <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-              {t.faq.items.map((item) => (
-                <FaqRow key={item.q} item={item} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Quiz */}
-        <section id="quiz" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead label={t.quiz.label} heading={t.quiz.heading} intro={t.quiz.intro} center />
-          <FallacyQuiz quiz={t.quiz} />
-        </section>
-
-        {/* Glossar */}
-        <section id="glossar" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead
-            label={t.glossary.label}
-            heading={t.glossary.heading}
-            intro={t.glossary.intro}
-          />
-          <dl className="mt-12 grid gap-x-12 gap-y-6 sm:grid-cols-2">
-            {t.glossary.items.map((item) => (
-              <div key={item.term} className="border-t border-border pt-4">
-                <dt className="font-serif text-lg font-medium text-primary">{item.term}</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.def}</dd>
+        <Chapter
+          id="abgrenzung"
+          num={num("abgrenzung")}
+          label={t.distinctions.label}
+          heading={t.distinctions.heading}
+          intro={t.distinctions.intro}
+        >
+          <p className="prose-text mt-8 max-w-[62ch] border-l border-foreground/25 pl-6">
+            <span className="font-semibold">{t.distinctions.affirmLabel}:</span>{" "}
+            {t.distinctions.affirmText}
+          </p>
+          <dl className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            {t.distinctions.items.map((item) => (
+              <div key={item.title} className="border-t border-border pt-4">
+                <dt className="font-serif text-xl font-medium">
+                  <span aria-hidden className="mr-2 text-muted-foreground">
+                    ≠
+                  </span>
+                  {item.title}
+                </dt>
+                <dd className={ITEM_TEXT}>{item.text}</dd>
               </div>
             ))}
           </dl>
-        </section>
+        </Chapter>
 
-        {/* Weiterlesen */}
-        <section id="weiterlesen" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <SectionHead
-            label={t.reading.label}
-            heading={t.reading.heading}
-            intro={t.reading.intro}
-          />
-          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {t.reading.items.map((b) => (
+        {/* Was strittig ist */}
+        <Chapter
+          id="streitpunkte"
+          num={num("streitpunkte")}
+          label={t.disputes.label}
+          heading={t.disputes.heading}
+          intro={t.disputes.intro}
+        >
+          <div className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            {t.disputes.items.map((item) => (
+              <div key={item.title} className="border-t border-border pt-4">
+                <h3 className="font-serif text-xl font-medium">{item.title}</h3>
+                <p className={ITEM_TEXT}>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </Chapter>
+
+        {/* Geschichte / Zeittafel */}
+        <Chapter
+          id="geschichte"
+          num={num("geschichte")}
+          label={t.history.label}
+          heading={t.history.heading}
+          intro={t.history.intro}
+        >
+          <ol className="mt-10 max-w-[70ch] border-b border-border">
+            {t.history.items.map((item) => (
               <li
-                key={b.author + b.title}
-                className="card-lift flex gap-4 rounded-xl border border-border bg-card p-5"
+                key={item.title}
+                className="grid gap-x-6 border-t border-border py-5 sm:grid-cols-[8rem_minmax(0,1fr)]"
               >
-                <BookOpen
-                  className="mt-1 h-5 w-5 shrink-0 text-primary"
-                  strokeWidth={1.5}
-                  aria-hidden
-                />
+                <p className="font-serif text-base text-muted-foreground tabular-nums sm:pt-0.5">
+                  {item.year}
+                </p>
                 <div>
-                  <p className="font-serif text-lg font-medium leading-snug">{b.title}</p>
-                  <p className="mt-0.5 text-sm text-muted-foreground">
-                    {b.author} · {b.year}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.note}</p>
+                  <h3 className="font-serif text-xl font-medium">{item.title}</h3>
+                  <p className={ITEM_TEXT}>{item.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <PullQuote text={t.quotes[2].text} author={t.quotes[2].author} />
+        </Chapter>
+
+        {/* Schlüsseldokumente */}
+        <Chapter
+          id="dokumente"
+          num={num("dokumente")}
+          label={t.documents.label}
+          heading={t.documents.heading}
+          intro={t.documents.intro}
+        >
+          <ul className="mt-10 max-w-[70ch] border-b border-border">
+            {t.documents.items.map((item, i) => (
+              <li
+                key={DOCUMENT_LINKS[i].name}
+                className="grid gap-x-6 border-t border-border py-5 sm:grid-cols-[8rem_minmax(0,1fr)]"
+              >
+                <p className="font-serif text-base text-muted-foreground tabular-nums sm:pt-0.5">
+                  {DOCUMENT_LINKS[i].year}
+                </p>
+                <div>
+                  <a
+                    href={DOCUMENT_LINKS[i].url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
+                  >
+                    {item.name ?? DOCUMENT_LINKS[i].name} ↗
+                  </a>
+                  <p className={ITEM_TEXT}>{item.desc}</p>
                 </div>
               </li>
             ))}
           </ul>
-        </section>
+        </Chapter>
+
+        {/* Daten & Fakten */}
+        <Chapter
+          id="daten"
+          num={num("daten")}
+          label={t.data.label}
+          heading={t.data.heading}
+          intro={t.data.intro}
+        >
+          <p className="prose-text mt-5 max-w-[62ch] text-foreground/85">{t.data.worldNote}</p>
+          <div className="mt-10 max-w-3xl">
+            <DataChart
+              regions={t.data.regions}
+              caption={t.data.chartCaption}
+              source={t.data.chartSource}
+              chooseYear={t.data.chooseYear}
+              changeLabel={t.data.changeLabel}
+              unit={t.data.unit}
+            />
+          </div>
+        </Chapter>
+
+        {/* FAQ */}
+        <Chapter id="faq" num={num("faq")} label={t.faq.label} heading={t.faq.heading}>
+          <div className="mt-10 max-w-[70ch] divide-y divide-border border-y border-border">
+            {t.faq.items.map((item) => (
+              <FaqRow key={item.q} item={item} />
+            ))}
+          </div>
+        </Chapter>
+
+        {/* Quiz */}
+        <Chapter
+          id="quiz"
+          num={num("quiz")}
+          label={t.quiz.label}
+          heading={t.quiz.heading}
+          intro={t.quiz.intro}
+        >
+          <FallacyQuiz quiz={t.quiz} />
+        </Chapter>
+
+        {/* Glossar */}
+        <Chapter
+          id="glossar"
+          num={num("glossar")}
+          label={t.glossary.label}
+          heading={t.glossary.heading}
+          intro={t.glossary.intro}
+        >
+          <dl className="mt-10 grid gap-x-12 gap-y-6 sm:grid-cols-2">
+            {t.glossary.items.map((item) => (
+              <div key={item.term} className="border-t border-border pt-4">
+                <dt className="font-serif text-lg font-medium">{item.term}</dt>
+                <dd className={ITEM_TEXT}>{item.def}</dd>
+              </div>
+            ))}
+          </dl>
+        </Chapter>
+
+        {/* Weiterlesen */}
+        <Chapter
+          id="weiterlesen"
+          num={num("weiterlesen")}
+          label={t.reading.label}
+          heading={t.reading.heading}
+          intro={t.reading.intro}
+        >
+          <ul className="mt-10 max-w-[70ch] border-b border-border">
+            {t.reading.items.map((b) => (
+              <li key={b.author + b.title} className="border-t border-border py-5">
+                <p className="font-text text-lg leading-snug">
+                  {b.author}: <cite className="font-medium">{b.title}</cite> ({b.year})
+                </p>
+                <p className={ITEM_TEXT}>{b.note}</p>
+              </li>
+            ))}
+          </ul>
+        </Chapter>
 
         {/* Quellen */}
-        <section id="quellen" className="scroll-mt-20 bg-secondary/40">
-          <div className="mx-auto max-w-6xl px-6 py-24">
-            <SectionHead
-              label={t.sources.label}
-              heading={t.sources.heading}
-              intro={t.sources.intro}
-            />
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {t.sources.items.map((item, i) => (
+        <Chapter
+          id="quellen"
+          num={num("quellen")}
+          label={t.sources.label}
+          heading={t.sources.heading}
+          intro={t.sources.intro}
+        >
+          <ul className="mt-10 max-w-[70ch] border-b border-border">
+            {t.sources.items.map((item, i) => (
+              <li key={SOURCE_LINKS[i].name} className="border-t border-border py-5">
                 <a
-                  key={SOURCE_LINKS[i].name}
                   href={SOURCE_LINKS[i].url}
                   target="_blank"
                   rel="noreferrer"
-                  className="card-lift group rounded-xl border border-border bg-card p-5"
+                  className="font-serif text-xl font-medium underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-serif text-lg font-medium">
-                      {item.name ?? SOURCE_LINKS[i].name}
-                    </span>
-                    <ExternalLink
-                      className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+                  {item.name ?? SOURCE_LINKS[i].name} ↗
                 </a>
-              ))}
-            </div>
-          </div>
-        </section>
+                <p className={ITEM_TEXT}>{item.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </Chapter>
 
         {/* Kontakt */}
-        <section id="kontakt" className="scroll-mt-20">
-          <div className="mx-auto max-w-3xl px-6 py-24">
-            <SectionHead
-              label={t.contact.label}
-              heading={t.contact.heading}
-              intro={t.contact.intro}
-              center
-            />
-            <ContactForm c={t.contact} />
-          </div>
-        </section>
+        <Chapter
+          id="kontakt"
+          num={num("kontakt")}
+          label={t.contact.label}
+          heading={t.contact.heading}
+          intro={t.contact.intro}
+        >
+          <ContactForm c={t.contact} />
+        </Chapter>
 
         {/* Impressum */}
-        <section id="impressum" className="scroll-mt-20 border-t border-border bg-secondary/40">
-          <div className="mx-auto max-w-3xl px-6 py-20">
-            <h2 className="font-serif text-2xl font-medium">{t.legal.impressum.heading}</h2>
-            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              {t.legal.disclaimer}
-            </p>
-            <div className="mt-8 space-y-6">
-              {t.legal.impressum.blocks.map((b) => (
-                <div key={b.title}>
-                  <p className="text-sm font-medium text-foreground">{b.title}</p>
-                  {b.lines.map((line) => (
-                    <p key={line} className="text-sm leading-relaxed text-muted-foreground">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </div>
+        <Chapter id="impressum" label={t.legal.impressumLabel} heading={t.legal.impressum.heading}>
+          <p className="mt-4 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
+            {t.legal.disclaimer}
+          </p>
+          <div className="mt-8 space-y-6">
+            {t.legal.impressum.blocks.map((b) => (
+              <div key={b.title}>
+                <p className="text-sm font-medium text-foreground">{b.title}</p>
+                {b.lines.map((line) => (
+                  <p key={line} className="text-sm leading-relaxed text-muted-foreground">
+                    {line}
+                  </p>
+                ))}
+              </div>
+            ))}
           </div>
-        </section>
+        </Chapter>
 
         {/* Datenschutz */}
-        <section id="datenschutz" className="scroll-mt-20">
-          <div className="mx-auto max-w-3xl px-6 py-20">
-            <h2 className="font-serif text-2xl font-medium">{t.legal.privacy.heading}</h2>
-            <p className="mt-1 text-xs text-muted-foreground">{t.legal.privacy.updated}</p>
-            <div className="mt-8 space-y-6">
-              {t.legal.privacy.blocks.map((b) => (
-                <div key={b.title}>
-                  <p className="text-sm font-medium text-foreground">{b.title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
-                </div>
-              ))}
-            </div>
+        <Chapter id="datenschutz" label={t.legal.privacyLabel} heading={t.legal.privacy.heading}>
+          <p className="mt-2 text-xs text-muted-foreground">{t.legal.privacy.updated}</p>
+          <div className="mt-8 max-w-[70ch] space-y-6">
+            {t.legal.privacy.blocks.map((b) => (
+              <div key={b.title}>
+                <p className="text-sm font-medium text-foreground">{b.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+              </div>
+            ))}
           </div>
-        </section>
+        </Chapter>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card/40">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="grid gap-12 md:grid-cols-12">
-            <div className="md:col-span-6">
-              <div className="flex items-center gap-2.5 font-serif text-xl font-semibold tracking-tight">
-                <BrandMark />
-                Humanitas
-              </div>
-              <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                {t.footer.tagline}
-              </p>
-            </div>
-            <div className="md:col-span-6 grid grid-cols-2 gap-8 sm:grid-cols-3">
-              <div>
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {t.footer.topicsLabel}
-                </p>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <a
-                      href="#leitbild"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.mission.label}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#was-ist"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.idea}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#prinzipien"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.principles}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#grundlage"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.foundation}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#wissenschaft"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.science}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#ethik"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.ethics}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {t.footer.referenceLabel}
-                </p>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <a
-                      href="#abgrenzung"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.distinctions}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#geschichte"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.history}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#dokumente"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.documents}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#daten"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.data}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#glossar"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.glossary}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {t.footer.projectLabel}
-                </p>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <a
-                      href="#faq"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.nav.faq}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#quiz"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.quiz.heading}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#quellen"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.sources.label}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href={GITHUB_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {t.footer.sourceLink}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+      {/* Kolophon */}
+      <footer className="border-t border-border">
+        <div className="mx-auto grid max-w-6xl gap-x-12 gap-y-6 px-6 py-14 md:grid-cols-[9rem_minmax(0,1fr)]">
+          <div className="flex items-center gap-2 font-serif text-lg font-semibold tracking-tight md:items-start">
+            <BrandMark />
+            Humanitas
           </div>
-          <div className="mt-16 flex flex-col items-start gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              © {new Date().getFullYear()} Humanitas. {t.footer.copyright}
+          <div className="max-w-[62ch]">
+            <p className="text-sm text-muted-foreground">{t.footer.colophonLabel}</p>
+            <p className="mt-2 font-text text-base leading-relaxed text-foreground/80">
+              {t.footer.colophon}
             </p>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <a href="#kontakt" className="transition-colors hover:text-primary">
+            <p className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+              <span>© {new Date().getFullYear()} Humanitas</span>
+              <a href="#kontakt" className="hover:text-foreground">
                 {t.contact.label}
               </a>
-              <a href="#impressum" className="transition-colors hover:text-primary">
+              <a href="#impressum" className="hover:text-foreground">
                 {t.legal.impressumLabel}
               </a>
-              <a href="#datenschutz" className="transition-colors hover:text-primary">
+              <a href="#datenschutz" className="hover:text-foreground">
                 {t.legal.privacyLabel}
               </a>
-              <span className="text-border">·</span>
-              <span>{t.footer.madeWith}</span>
-            </div>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-foreground"
+              >
+                {t.footer.sourceLink}
+              </a>
+            </p>
           </div>
         </div>
       </footer>
@@ -1528,24 +1073,20 @@ function DataChart({
   };
 
   return (
-    <figure ref={ref} className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+    <figure ref={ref} className="border-y border-border py-6">
       <figcaption className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <span className="text-sm font-medium text-foreground">{caption}</span>
-        <div
-          role="group"
-          aria-label={chooseYear}
-          className="flex items-center gap-0.5 rounded-full border border-border bg-secondary/50 p-0.5"
-        >
+        <span className="font-text text-base text-foreground">{caption}</span>
+        <div role="group" aria-label={chooseYear} className="flex items-center gap-3">
           {DATA_YEARS.map((y) => (
             <button
               key={y}
               type="button"
               onClick={() => selectYear(y)}
               aria-pressed={y === year}
-              className={`rounded-full px-3 py-1 text-xs font-medium tabular-nums transition-colors ${
+              className={`text-sm tabular-nums underline underline-offset-4 transition-colors ${
                 y === year
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "font-semibold text-foreground decoration-foreground/60"
+                  : "text-muted-foreground decoration-transparent hover:text-foreground"
               }`}
             >
               {y}
@@ -1568,17 +1109,16 @@ function DataChart({
               className="grid grid-cols-[6rem_1fr_2.2rem_2.4rem] items-center gap-2 sm:grid-cols-[8rem_1fr_2.6rem_2.8rem] sm:gap-3"
             >
               <span className="truncate text-sm text-muted-foreground">{region}</span>
-              <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
-                <div
-                  className="h-full rounded-full bg-linear-to-r from-primary/60 to-primary"
-                  style={{ width: `${v}%` }}
-                />
+              <div className="h-2 bg-secondary">
+                <div className="h-full bg-primary" style={{ width: `${v}%` }} />
               </div>
               <span className="text-right font-serif text-sm tabular-nums text-foreground">
                 {Math.round(v)}
                 {unit}
               </span>
-              <span className="text-right text-xs tabular-nums text-primary">+{delta}</span>
+              <span className="text-right text-xs tabular-nums text-muted-foreground">
+                +{delta}
+              </span>
             </div>
           );
         })}
@@ -1594,17 +1134,17 @@ function FaqRow({ item }: { item: FaqItem }) {
   const panelId = `faq-${item.q.replace(/[^\p{L}\p{N}]+/gu, "-").toLowerCase()}`;
 
   return (
-    <div className="bg-card">
+    <div>
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-secondary/50"
+        className="flex w-full items-baseline justify-between gap-4 py-5 text-left"
       >
-        <span className="font-serif text-base font-medium">{item.q}</span>
+        <span className="font-serif text-lg font-medium">{item.q}</span>
         <Plus
-          className={`h-4 w-4 shrink-0 text-primary transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+          className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${open ? "rotate-45" : ""}`}
           strokeWidth={2}
         />
       </button>
@@ -1615,7 +1155,7 @@ function FaqRow({ item }: { item: FaqItem }) {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+          <p className="prose-text pb-6 text-[1.0625rem] text-foreground/80">{item.a}</p>
         </div>
       </div>
     </div>
@@ -1653,7 +1193,7 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
 
   if (finished) {
     return (
-      <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-border bg-card p-8 text-center">
+      <div className="mt-10 max-w-xl border-y border-border py-8">
         <p className="font-serif text-5xl font-medium text-primary">
           {score}
           <span className="text-muted-foreground">/{total}</span>
@@ -1662,7 +1202,7 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
         <button
           type="button"
           onClick={restart}
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-foreground/40 underline-offset-4 hover:decoration-foreground"
         >
           <RotateCw className="h-4 w-4" strokeWidth={1.8} />
           {quiz.restart}
@@ -1672,13 +1212,11 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-border bg-card p-6 sm:p-8">
-      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+    <div className="mt-10 max-w-xl border-y border-border py-8">
+      <p className="text-sm text-muted-foreground">
         {quiz.questionLabel} {index + 1}/{total}
       </p>
-      <p className="mt-3 font-serif text-xl font-medium leading-snug text-foreground">
-        {item.statement}
-      </p>
+      <p className="mt-3 font-text text-xl leading-snug text-foreground">{item.statement}</p>
 
       <div className="mt-6 space-y-2.5">
         {item.options.map((opt, i) => {
@@ -1696,7 +1234,7 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
               type="button"
               onClick={() => choose(i)}
               disabled={selected !== null}
-              className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm text-foreground transition-colors ${cls}`}
+              className={`flex w-full items-center justify-between gap-3 border px-4 py-3 text-left text-[0.95rem] text-foreground transition-colors ${cls}`}
             >
               <span>{opt}</span>
               {selected !== null && isCorrect && (
@@ -1715,14 +1253,14 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
           <p
             role="status"
             aria-live="polite"
-            className="rounded-lg bg-secondary/60 p-4 text-sm leading-relaxed text-foreground/85"
+            className="border-l border-foreground/25 pl-4 font-text text-base leading-relaxed text-foreground/85"
           >
             {item.explanation}
           </p>
           <button
             type="button"
             onClick={next}
-            className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-foreground/40 underline-offset-4 hover:decoration-foreground"
           >
             {quiz.next}
             <ArrowRight className="h-4 w-4" strokeWidth={1.8} />
@@ -1733,28 +1271,11 @@ function FallacyQuiz({ quiz }: { quiz: Translation["quiz"] }) {
   );
 }
 
-/** Ganzseitiger Zitat-Break zwischen Sektionen – visuelle Atempause. */
-function QuoteBreak({ text, author }: { text: string; author: string }) {
-  return (
-    <section className="border-y border-border/60 bg-primary/5 px-6 py-20">
-      <figure className="mx-auto max-w-3xl text-center">
-        <Ornament className="mb-8" />
-        <blockquote className="font-serif text-2xl font-medium italic leading-snug text-foreground sm:text-3xl">
-          {text}
-        </blockquote>
-        <figcaption className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-          {author}
-        </figcaption>
-      </figure>
-    </section>
-  );
-}
-
 function ContactForm({ c }: { c: Translation["contact"] }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const configured = !CONTACT_ACCESS_KEY.startsWith("DEIN-");
   const field =
-    "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/50 focus:ring-2 focus:ring-primary/20";
+    "w-full border border-border bg-background px-4 py-3 font-text text-base text-foreground outline-none transition-colors focus:border-foreground/50";
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -1778,7 +1299,7 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="mx-auto mt-10 max-w-xl space-y-4 text-left">
+    <form onSubmit={onSubmit} className="mt-10 max-w-xl space-y-4">
       <input
         type="text"
         name="name"
@@ -1826,7 +1347,7 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
       <button
         type="submit"
         disabled={status === "sending" || !configured}
-        className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="inline-flex items-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {status === "sending" ? c.sending : c.submit}
       </button>
@@ -1847,15 +1368,15 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
 
 function PrincipleCard({
   id,
+  index,
   principle,
-  Icon,
   showMore,
   showLess,
   exampleLabel,
 }: {
   id: string;
+  index: number;
   principle: PrincipleText;
-  Icon: (typeof PRINCIPLE_ICONS)[number];
   showMore: string;
   showLess: string;
   exampleLabel: string;
@@ -1882,22 +1403,19 @@ function PrincipleCard({
   };
 
   return (
-    <article
-      id={id}
-      className="card-accent group scroll-mt-24 bg-card p-8 transition-colors hover:bg-card/70"
-    >
-      <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/5 text-primary ring-1 ring-primary/10 transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-        <Icon className="h-5 w-5" strokeWidth={1.5} />
-      </div>
-      <h3 className="font-serif text-xl font-medium">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
+    <li id={id} className="scroll-mt-24 border-t border-border pt-4">
+      <h3 className="font-serif text-xl font-medium">
+        <span className="mr-2 text-muted-foreground tabular-nums">{index + 1}.</span>
+        {title}
+      </h3>
+      <p className={ITEM_TEXT}>{text}</p>
 
       <button
         type="button"
         onClick={handleToggle}
         aria-expanded={open}
         aria-controls={panelId}
-        className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-primary transition-opacity hover:opacity-70"
+        className="mt-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground underline decoration-transparent underline-offset-4 hover:text-foreground hover:decoration-foreground/40"
       >
         <span>{open ? showLess : showMore}</span>
         <Plus
@@ -1913,21 +1431,21 @@ function PrincipleCard({
         }`}
       >
         <div className="overflow-hidden">
-          <ul className="space-y-2 border-l border-primary/20 pl-4 text-sm text-foreground/80">
+          <ul className="list-disc space-y-1.5 pl-5 font-text text-base text-foreground/80 marker:text-muted-foreground">
             {points.map((pt) => (
               <li key={pt} className="leading-relaxed">
                 {pt}
               </li>
             ))}
           </ul>
-          <div ref={exampleRef} className="mt-5 scroll-mt-24 rounded-lg bg-secondary/60 p-4">
-            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              {exampleLabel}
+          <div ref={exampleRef} className="mt-5 scroll-mt-24 border-l border-foreground/25 pl-4">
+            <p className="text-sm text-muted-foreground">{exampleLabel}</p>
+            <p className="mt-1 font-text text-base italic leading-relaxed text-foreground/85">
+              {example}
             </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">{example}</p>
           </div>
         </div>
       </div>
-    </article>
+    </li>
   );
 }
