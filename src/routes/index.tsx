@@ -8,7 +8,6 @@ import {
   type EthicsItem,
   type FaqItem,
   type Lang,
-  type PrincipleText,
   type Segment,
   type Translation,
 } from "@/lib/i18n";
@@ -666,18 +665,16 @@ function Index() {
           num={num("prinzipien")}
           label={t.principles.label}
           heading={t.principles.heading}
+          intro={t.principles.intro}
         >
-          <ol className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+          <ol className="mt-10 max-w-[62ch] space-y-10">
             {t.principles.items.map((p, i) => (
-              <PrincipleCard
-                key={p.title}
-                id={`principle-${i}`}
-                index={i}
-                principle={p}
-                showMore={t.ui.showMore}
-                showLess={t.ui.showLess}
-                exampleLabel={t.ui.exampleLabel}
-              />
+              <li key={p.title} id={`principle-${i}`} className="scroll-mt-24">
+                <h3 className="font-serif text-xl font-medium">
+                  <span className="tabular-nums text-muted-foreground">{i + 1}.</span> {p.title}
+                </h3>
+                <p className="prose-text mt-2">{p.text}</p>
+              </li>
             ))}
           </ol>
         </Chapter>
@@ -1370,89 +1367,5 @@ function ContactForm({ c }: { c: Translation["contact"] }) {
       )}
       {!configured && <p className="text-xs text-muted-foreground">{c.notConfigured}</p>}
     </form>
-  );
-}
-
-function PrincipleCard({
-  id,
-  index,
-  principle,
-  showMore,
-  showLess,
-  exampleLabel,
-}: {
-  id: string;
-  index: number;
-  principle: PrincipleText;
-  showMore: string;
-  showLess: string;
-  exampleLabel: string;
-}) {
-  const { title, text, points, example } = principle;
-  const [open, setOpen] = useState(false);
-  const panelId = `principle-${title.replace(/\s+/g, "-").toLowerCase()}`;
-  const exampleRef = useRef<HTMLDivElement | null>(null);
-
-  const handleToggle = () => {
-    setOpen((prev) => {
-      const next = !prev;
-      if (next) {
-        // Warten bis die Ausklapp-Animation gestartet hat, dann die Beispiel-Box sanft sichtbar machen.
-        window.setTimeout(() => {
-          exampleRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
-        }, 320);
-      }
-      return next;
-    });
-  };
-
-  return (
-    <li id={id} className="scroll-mt-24 border-t border-border pt-4">
-      <h3 className="font-serif text-xl font-medium">
-        <span className="mr-2 text-muted-foreground tabular-nums">{index + 1}.</span>
-        {title}
-      </h3>
-      <p className={ITEM_TEXT}>{text}</p>
-
-      <button
-        type="button"
-        onClick={handleToggle}
-        aria-expanded={open}
-        aria-controls={panelId}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground underline decoration-transparent underline-offset-4 hover:text-foreground hover:decoration-foreground/40"
-      >
-        <span>{open ? showLess : showMore}</span>
-        <Plus
-          className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
-          strokeWidth={2}
-        />
-      </button>
-
-      <div
-        id={panelId}
-        className={`grid transition-all duration-300 ease-out ${
-          open ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <ul className="list-disc space-y-1.5 pl-5 font-text text-base text-foreground/80 marker:text-muted-foreground">
-            {points.map((pt) => (
-              <li key={pt} className="leading-relaxed">
-                {pt}
-              </li>
-            ))}
-          </ul>
-          <div ref={exampleRef} className="mt-5 scroll-mt-24 border-l border-foreground/25 pl-4">
-            <p className="text-sm text-muted-foreground">{exampleLabel}</p>
-            <p className="mt-1 font-text text-base italic leading-relaxed text-foreground/85">
-              {example}
-            </p>
-          </div>
-        </div>
-      </div>
-    </li>
   );
 }

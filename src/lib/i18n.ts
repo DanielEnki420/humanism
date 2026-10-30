@@ -14,12 +14,7 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
 /** Textsegment – `em: true` markiert ein hervorgehobenes Wort. */
 export type Segment = { t: string; em?: boolean };
 
-export type PrincipleText = {
-  title: string;
-  text: string;
-  points: string[];
-  example: string;
-};
+export type PrincipleText = { title: string; text: string };
 
 export type TimelineItem = {
   year: string;
@@ -64,7 +59,7 @@ export type Translation = {
   };
   mission: { label: string; statement: Segment[]; note: string };
   idea: { label: string; heading: string; lead: Segment[]; body: string };
-  principles: { label: string; heading: string; center: string; items: PrincipleText[] };
+  principles: { label: string; heading: string; intro: string; items: PrincipleText[] };
   foundation: {
     label: string;
     quote: Segment[];
@@ -144,9 +139,6 @@ export type Translation = {
     colophon: string;
   };
   ui: {
-    showMore: string;
-    showLess: string;
-    exampleLabel: string;
     toggleTheme: string;
     toggleLanguage: string;
     menuOpen: string;
@@ -202,13 +194,9 @@ export const translations: Record<Lang, Translation> = {
     },
     hero: {
       badge: "Eine Einführung in eine moderne Weltanschauung",
-      title: [
-        { t: "Säkularer Humanismus – " },
-        { t: "Menschlichkeit", em: true },
-        { t: " durch Vernunft und Verantwortung" },
-      ],
+      title: [{ t: "Säkularer Humanismus" }],
       subtitle:
-        "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+        "Was Humanisten für richtig halten, worauf sie sich berufen und worüber sie streiten.",
       ctaPrimary: "Prinzipien entdecken",
       ctaSecondary: "Mehr erfahren",
       byline: "Eine Einführung von Daniel Buttadauro · Stand Oktober 2026",
@@ -235,74 +223,34 @@ export const translations: Record<Lang, Translation> = {
       body: "Es ist eine lebensbejahende Haltung, die sich an dem orientiert, was wir gemeinsam beobachten, verstehen und gestalten können – getragen von Empathie, Neugier und dem Vertrauen in die menschliche Fähigkeit, die Welt besser zu machen.",
     },
     principles: {
-      label: "Sechs Prinzipien",
-      heading: "Werte, die uns verbinden",
-      center: "Der Mensch",
+      label: "Prinzipien",
+      heading: "Sechs Prinzipien",
+      intro:
+        "Der Humanismus hat kein Glaubensbekenntnis, aber Überzeugungen, die fast alle Humanisten teilen. Die folgenden sechs sind keine offizielle Liste, sondern eine Zusammenfassung; ähnlich fasst sie die Amsterdam-Deklaration von Humanists International.",
       items: [
         {
           title: "Kritisches Denken",
-          text: "Entscheidungen entstehen durch Logik, Fakten und offene Diskussion.",
-          points: [
-            "Argumente prüfen, statt Autoritäten zu folgen",
-            "Eigene Annahmen hinterfragen",
-            "Widersprüche aushalten und auflösen",
-          ],
-          example:
-            "Bevor eine Behauptung übernommen wird, werden Quellen, Belege und mögliche Gegenargumente geprüft.",
+          text: "Eine Behauptung ist nicht deshalb wahr, weil eine Autorität sie vertritt, eine Tradition sie überliefert oder viele Menschen sie teilen. Humanisten fragen nach Gründen: Welche Belege gibt es, was spräche dagegen, und woran würde man merken, dass man sich irrt? Das gilt ausdrücklich auch für die eigenen Überzeugungen. Kritisch zu denken heißt nicht, alles abzulehnen, sondern die eigene Zustimmung von der Qualität der Argumente abhängig zu machen.",
         },
         {
           title: "Wissenschaftliche Erkenntnis",
-          text: "Wissen wächst durch Forschung und überprüfbare Beweise.",
-          points: [
-            "Hypothesen testen und revidieren",
-            "Methoden transparent machen",
-            "Konsens als vorläufig verstehen",
-          ],
-          example:
-            "Medizinische Entscheidungen orientieren sich an Studien mit überprüfbaren Ergebnissen, nicht an Tradition.",
+          text: "Die bisher verlässlichste Methode, etwas über die Welt herauszufinden, ist die wissenschaftliche: Vermutungen so formulieren, dass sie scheitern können, sie an der Erfahrung prüfen und die Ergebnisse offenlegen, damit andere sie nachprüfen können. Wissenschaftliches Wissen ist deshalb immer vorläufig, und gerade darin liegt seine Stärke, denn es lässt sich korrigieren. Wenn die Medizin eine Behandlung empfiehlt, sollte das auf kontrollierten Studien beruhen, nicht auf Gewohnheit oder Überlieferung.",
         },
         {
-          title: "Menschliche Werte",
-          text: "Empathie, Zusammenarbeit und Respekt im Miteinander.",
-          points: [
-            "Andere Perspektiven ernst nehmen",
-            "Konflikte im Dialog lösen",
-            "Vielfalt als Bereicherung erleben",
-          ],
-          example:
-            "In einer Nachbarschaftsinitiative bringen Menschen unterschiedlicher Herkunft ihre Fähigkeiten zusammen.",
+          title: "Mitgefühl",
+          text: "Moral braucht nach humanistischer Auffassung keine übernatürliche Begründung. Sie entsteht daraus, dass Menschen verletzlich sind, aufeinander angewiesen und fähig, sich in andere hineinzuversetzen. Empathie allein reicht dabei nicht, weil sie meist den Nahestehenden gilt; sie muss durch Überlegung ergänzt werden, die auch Fremde und noch nicht Geborene einbezieht. Konflikte werden im Gespräch gelöst, nicht durch Berufung auf eine Autorität, die sich jeder Prüfung entzieht.",
         },
         {
           title: "Menschenrechte",
-          text: "Würde und Freiheit für alle Menschen – ohne Ausnahme.",
-          points: [
-            "Gleiche Rechte unabhängig von Herkunft",
-            "Schutz von Minderheiten",
-            "Meinungs- und Glaubensfreiheit",
-          ],
-          example:
-            "Die Allgemeine Erklärung der Menschenrechte als gemeinsamer Maßstab für Gesellschaft und Politik.",
+          text: "Jeder Mensch hat dieselbe Würde, unabhängig von Herkunft, Geschlecht, sexueller Orientierung oder Glauben. Die Allgemeine Erklärung der Menschenrechte von 1948 hat diesen Gedanken in einen Text gefasst, an dem sich Staaten messen lassen müssen. Für Humanisten gehört ausdrücklich die Religionsfreiheit dazu: das Recht, eine Religion zu haben, keine zu haben oder sie zu wechseln (vgl. Art. 18). Rechte zählen gerade dann, wenn eine Mehrheit sie einer Minderheit lieber verweigern würde.",
         },
         {
           title: "Verantwortung",
-          text: "Gemeinsame Lösungen für globale Herausforderungen.",
-          points: [
-            "Klima und Umwelt schützen",
-            "Solidarität über Grenzen hinweg",
-            "Zukünftige Generationen mitdenken",
-          ],
-          example: "Beim Konsum bewusst auf Herkunft, Ressourcen und Arbeitsbedingungen achten.",
+          text: "Wer nicht auf ein Jenseits oder auf göttliches Eingreifen setzt, sieht die Verantwortung für den Zustand der Welt bei den Menschen selbst. Das betrifft das eigene Handeln, etwa beim Einkaufen, aber auch Aufgaben, die sich nur gemeinsam lösen lassen: Klimawandel, Armut, Pandemien. Humanistische Ethik bezieht dabei Menschen ein, die noch nicht geboren sind. Was heute verbraucht wird, fehlt ihnen morgen.",
         },
         {
           title: "Freies Denken",
-          text: "Fragen stellen und eigene Überzeugungen entwickeln.",
-          points: [
-            "Neugier als Lebenshaltung",
-            "Sich von guten Argumenten überzeugen lassen",
-            "Meinungen weiterentwickeln dürfen",
-          ],
-          example:
-            "Ein Buchclub, in dem alle frei ihre Sicht teilen und gemeinsam Neues entdecken.",
+          text: "Niemand muss die Weltanschauung übernehmen, in die man hineingeboren wurde. Der Humanismus ermutigt dazu, Fragen zu stellen, auch unbequeme, und sich eine eigene Überzeugung zu bilden. Dazu gehört die Bereitschaft, sie zu ändern, wenn ein besseres Argument auftaucht. Freies Denken braucht freie Rede: Wo Kritik an Ideen bestraft wird, auch an religiösen, kann sich keine Überzeugung bewähren.",
         },
       ],
     },
@@ -440,7 +388,7 @@ export const translations: Record<Lang, Translation> = {
     },
     history: {
       label: "Ideengeschichte",
-      heading: "Eine lange Linie des Denkens",
+      heading: "Von Charvaka bis heute",
       intro:
         "Humanistische Ideen sind keine Erfindung der Moderne – sie ziehen sich quer durch Kulturen und Jahrtausende.",
       items: [
@@ -552,7 +500,7 @@ export const translations: Record<Lang, Translation> = {
     },
     data: {
       label: "Daten & Fakten",
-      heading: "Ein Blick auf die Zahlen",
+      heading: "Religiös Ungebundene in Zahlen",
       intro:
         "Wie viele Menschen verstehen sich als religiös ungebunden? Die Anteile unterscheiden sich stark zwischen Ländern.",
       chartCaption: "Anteil religiös ungebundener Menschen",
@@ -567,7 +515,7 @@ export const translations: Record<Lang, Translation> = {
     },
     faq: {
       label: "Häufige Fragen",
-      heading: "Klarheit statt Missverständnis",
+      heading: "Häufige Fragen",
       items: [
         {
           q: "Ist Humanismus dasselbe wie Atheismus?",
@@ -774,7 +722,7 @@ export const translations: Record<Lang, Translation> = {
     },
     sources: {
       label: "Quellen & Weiterlesen",
-      heading: "Vertiefen & nachprüfen",
+      heading: "Quellen",
       intro:
         "Diese Organisationen und Dokumente bilden die Grundlage – ideal zum Weiterlesen und Faktenprüfen.",
       items: [
@@ -802,9 +750,6 @@ export const translations: Record<Lang, Translation> = {
         "Gesetzt in Source Serif 4, Fraunces und Inter, alle selbst gehostet. Geschrieben von Daniel Buttadauro, mit KI-Unterstützung (Lovable, Claude) entstanden und redigiert; Zitate, Jahreszahlen und Daten sind einzeln an den verlinkten Quellen geprüft. Fehler gefunden? Über das Kontaktformular oder auf GitHub melden.",
     },
     ui: {
-      showMore: "Mehr erfahren",
-      showLess: "Weniger anzeigen",
-      exampleLabel: "Beispiel",
       toggleTheme: "Farbschema wechseln",
       toggleLanguage: "Sprache wählen",
       menuOpen: "Menü öffnen",
@@ -906,12 +851,8 @@ export const translations: Record<Lang, Translation> = {
     },
     hero: {
       badge: "An introduction to a modern worldview",
-      title: [
-        { t: "Secular Humanism – " },
-        { t: "Humanity", em: true },
-        { t: " through Reason and Responsibility" },
-      ],
-      subtitle: "A worldview based on human dignity, science, critical thinking and compassion.",
+      title: [{ t: "Secular Humanism" }],
+      subtitle: "What humanists hold to be right, what they draw on, and what they disagree about.",
       ctaPrimary: "Explore the principles",
       ctaSecondary: "Learn more",
       byline: "An introduction by Daniel Buttadauro · Updated October 2026",
@@ -936,75 +877,34 @@ export const translations: Record<Lang, Translation> = {
       body: "It is a life-affirming attitude oriented towards what we can observe, understand and shape together – carried by empathy, curiosity and trust in the human ability to make the world better.",
     },
     principles: {
-      label: "Six Principles",
-      heading: "Values that connect us",
-      center: "The human",
+      label: "Principles",
+      heading: "Six principles",
+      intro:
+        "Humanism has no creed, but it has convictions almost all humanists share. The six below are not an official list but a summary; the Amsterdam Declaration of Humanists International puts them in similar terms.",
       items: [
         {
-          title: "Critical Thinking",
-          text: "Decisions arise from logic, facts and open discussion.",
-          points: [
-            "Examine arguments instead of following authorities",
-            "Question your own assumptions",
-            "Endure and resolve contradictions",
-          ],
-          example:
-            "Before a claim is accepted, its sources, evidence and possible counterarguments are examined.",
+          title: "Critical thinking",
+          text: "A claim is not true because an authority asserts it, a tradition hands it down or many people share it. Humanists ask for reasons: what is the evidence, what speaks against it, and how would we notice if we were wrong? That explicitly applies to one's own convictions too. Thinking critically does not mean rejecting everything; it means making one's agreement depend on the quality of the arguments.",
         },
         {
-          title: "Scientific Knowledge",
-          text: "Knowledge grows through research and verifiable evidence.",
-          points: [
-            "Test and revise hypotheses",
-            "Make methods transparent",
-            "Understand consensus as provisional",
-          ],
-          example:
-            "Medical decisions are based on studies with verifiable results, not on tradition.",
+          title: "Scientific knowledge",
+          text: "So far the most reliable way to find things out about the world is the scientific one: state conjectures so that they can fail, test them against experience, and publish the results so that others can check them. Scientific knowledge is therefore always provisional, and that is precisely its strength, because it can be corrected. When medicine recommends a treatment, the recommendation should rest on controlled trials, not on habit or tradition.",
         },
         {
-          title: "Human Values",
-          text: "Empathy, cooperation and respect in how we treat one another.",
-          points: [
-            "Take other perspectives seriously",
-            "Resolve conflicts through dialogue",
-            "Experience diversity as enrichment",
-          ],
-          example:
-            "In a neighbourhood initiative, people of different backgrounds combine their skills.",
+          title: "Compassion",
+          text: "In the humanist view, morality needs no supernatural foundation. It arises because people are vulnerable, depend on one another and are able to put themselves in someone else's place. Empathy alone is not enough, since it tends to favour those close to us; it has to be extended by reflection that includes strangers and people not yet born. Conflicts are settled by talking, not by appeal to an authority that cannot be questioned.",
         },
         {
-          title: "Human Rights",
-          text: "Dignity and freedom for all people – without exception.",
-          points: [
-            "Equal rights regardless of origin",
-            "Protection of minorities",
-            "Freedom of opinion and belief",
-          ],
-          example:
-            "The Universal Declaration of Human Rights as a shared standard for society and politics.",
+          title: "Human rights",
+          text: "Every person has the same dignity, regardless of origin, sex, sexual orientation or belief. The Universal Declaration of Human Rights of 1948 put this idea into a text that states can be held to. For humanists it explicitly includes freedom of religion: the right to have a religion, to have none, or to change it (cf. Art. 18). Rights matter most precisely when a majority would rather deny them to a minority.",
         },
         {
           title: "Responsibility",
-          text: "Shared solutions to global challenges.",
-          points: [
-            "Protect the climate and environment",
-            "Solidarity across borders",
-            "Keep future generations in mind",
-          ],
-          example:
-            "When consuming, pay conscious attention to origin, resources and working conditions.",
+          text: "Whoever does not count on an afterlife or on divine intervention sees responsibility for the state of the world as lying with people themselves. That concerns one's own conduct, for instance when shopping, but also problems that can only be solved together: climate change, poverty, pandemics. Humanist ethics also takes in people who are not yet born. What is used up today will be missing for them tomorrow.",
         },
         {
-          title: "Free Thought",
-          text: "Ask questions and develop your own convictions.",
-          points: [
-            "Curiosity as a way of life",
-            "Letting good arguments change your mind",
-            "Being allowed to evolve your views",
-          ],
-          example:
-            "A book club where everyone freely shares their view and discovers new things together.",
+          title: "Free thought",
+          text: "No one has to adopt the worldview they were born into. Humanism encourages asking questions, including uncomfortable ones, and forming one's own convictions. That includes being willing to change them when a better argument comes along. Free thought needs free speech: where criticism of ideas, religious ones included, is punished, no conviction can prove itself.",
         },
       ],
     },
@@ -1141,7 +1041,7 @@ export const translations: Record<Lang, Translation> = {
     },
     history: {
       label: "History of Ideas",
-      heading: "A long line of thought",
+      heading: "From Charvaka to the present",
       intro: "Humanist ideas are not a modern invention – they run across cultures and millennia.",
       items: [
         {
@@ -1252,7 +1152,7 @@ export const translations: Record<Lang, Translation> = {
     },
     data: {
       label: "Data & Facts",
-      heading: "A look at the numbers",
+      heading: "The religiously unaffiliated in numbers",
       intro:
         "How many people identify as religiously unaffiliated? The shares vary widely between countries.",
       chartCaption: "Share of religiously unaffiliated people",
@@ -1267,7 +1167,7 @@ export const translations: Record<Lang, Translation> = {
     },
     faq: {
       label: "Frequent Questions",
-      heading: "Clarity instead of confusion",
+      heading: "Frequent questions",
       items: [
         {
           q: "Is humanism the same as atheism?",
@@ -1471,7 +1371,7 @@ export const translations: Record<Lang, Translation> = {
     },
     sources: {
       label: "Sources & Further Reading",
-      heading: "Go deeper & verify",
+      heading: "Sources",
       intro:
         "These organisations and documents form the basis – ideal for further reading and fact-checking.",
       items: [
@@ -1498,9 +1398,6 @@ export const translations: Record<Lang, Translation> = {
         "Set in Source Serif 4, Fraunces and Inter, all self-hosted. Written by Daniel Buttadauro, drafted with AI assistance (Lovable, Claude) and edited; quotes, dates and figures are checked individually against the linked sources. Found a mistake? Report it via the contact form or on GitHub.",
     },
     ui: {
-      showMore: "Show more",
-      showLess: "Show less",
-      exampleLabel: "Example",
       toggleTheme: "Toggle colour scheme",
       toggleLanguage: "Choose language",
       menuOpen: "Open menu",
@@ -1602,13 +1499,9 @@ export const translations: Record<Lang, Translation> = {
     },
     hero: {
       badge: "Un'introduzione a una visione del mondo moderna",
-      title: [
-        { t: "Umanesimo laico – " },
-        { t: "Umanità", em: true },
-        { t: " attraverso ragione e responsabilità" },
-      ],
+      title: [{ t: "Umanesimo laico" }],
       subtitle:
-        "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
+        "Che cosa gli umanisti ritengono giusto, a che cosa si richiamano e su che cosa discutono.",
       ctaPrimary: "Scopri i principi",
       ctaSecondary: "Scopri di più",
       byline: "Un'introduzione di Daniel Buttadauro · Aggiornato a ottobre 2026",
@@ -1633,75 +1526,34 @@ export const translations: Record<Lang, Translation> = {
       body: "È un atteggiamento che afferma la vita, orientato a ciò che possiamo osservare, comprendere e plasmare insieme – sostenuto da empatia, curiosità e fiducia nella capacità umana di rendere il mondo migliore.",
     },
     principles: {
-      label: "Sei principi",
-      heading: "Valori che ci uniscono",
-      center: "L'essere umano",
+      label: "Principi",
+      heading: "Sei principi",
+      intro:
+        "L'umanesimo non ha un credo, ma ha convinzioni condivise da quasi tutti gli umanisti. Le sei che seguono non sono un elenco ufficiale, bensì una sintesi; la Dichiarazione di Amsterdam di Humanists International le formula in termini simili.",
       items: [
         {
           title: "Pensiero critico",
-          text: "Le decisioni nascono da logica, fatti e discussione aperta.",
-          points: [
-            "Esaminare gli argomenti invece di seguire le autorità",
-            "Mettere in discussione le proprie supposizioni",
-            "Sostenere e risolvere le contraddizioni",
-          ],
-          example:
-            "Prima di accettare un'affermazione si esaminano fonti, prove e possibili controargomentazioni.",
+          text: "Un'affermazione non è vera perché la sostiene un'autorità, la tramanda una tradizione o la condividono in molti. Gli umanisti chiedono ragioni: quali prove ci sono, che cosa parla contro, e come ci accorgeremmo di sbagliare? Questo vale espressamente anche per le proprie convinzioni. Pensare criticamente non significa rifiutare tutto, ma far dipendere il proprio assenso dalla qualità degli argomenti.",
         },
         {
           title: "Conoscenza scientifica",
-          text: "La conoscenza cresce attraverso la ricerca e prove verificabili.",
-          points: [
-            "Testare e rivedere le ipotesi",
-            "Rendere trasparenti i metodi",
-            "Intendere il consenso come provvisorio",
-          ],
-          example:
-            "Le decisioni mediche si basano su studi con risultati verificabili, non sulla tradizione.",
+          text: "Finora il modo più affidabile per conoscere il mondo è quello scientifico: formulare ipotesi in modo che possano fallire, metterle alla prova dell'esperienza e rendere pubblici i risultati perché altri possano verificarli. La conoscenza scientifica è quindi sempre provvisoria, ed è proprio questa la sua forza, perché può essere corretta. Quando la medicina raccomanda una terapia, la raccomandazione dovrebbe basarsi su studi controllati, non sull'abitudine o sulla tradizione.",
         },
         {
-          title: "Valori umani",
-          text: "Empatia, collaborazione e rispetto reciproco.",
-          points: [
-            "Prendere sul serio le altre prospettive",
-            "Risolvere i conflitti con il dialogo",
-            "Vivere la diversità come arricchimento",
-          ],
-          example:
-            "In un'iniziativa di quartiere, persone di origini diverse mettono insieme le proprie capacità.",
+          title: "Compassione",
+          text: "Per l'umanesimo la morale non ha bisogno di un fondamento soprannaturale. Nasce dal fatto che le persone sono vulnerabili, dipendono le une dalle altre e sanno mettersi nei panni altrui. L'empatia da sola non basta, perché tende a favorire chi ci è vicino; va estesa con una riflessione che includa gli estranei e chi non è ancora nato. I conflitti si risolvono parlando, non appellandosi a un'autorità che non si lascia mettere in discussione.",
         },
         {
           title: "Diritti umani",
-          text: "Dignità e libertà per tutti gli esseri umani – senza eccezioni.",
-          points: [
-            "Pari diritti indipendentemente dall'origine",
-            "Tutela delle minoranze",
-            "Libertà di opinione e di credo",
-          ],
-          example:
-            "La Dichiarazione universale dei diritti umani come criterio comune per società e politica.",
+          text: "Ogni persona ha la stessa dignità, indipendentemente da origine, sesso, orientamento sessuale o fede. La Dichiarazione universale dei diritti umani del 1948 ha tradotto questa idea in un testo a cui gli Stati possono essere richiamati. Per gli umanisti ne fa parte espressamente la libertà religiosa: il diritto di avere una religione, di non averne o di cambiarla (cfr. art. 18). I diritti contano soprattutto quando una maggioranza preferirebbe negarli a una minoranza.",
         },
         {
           title: "Responsabilità",
-          text: "Soluzioni condivise per le sfide globali.",
-          points: [
-            "Proteggere il clima e l'ambiente",
-            "Solidarietà oltre i confini",
-            "Pensare alle generazioni future",
-          ],
-          example:
-            "Nei consumi, prestare attenzione consapevole a origine, risorse e condizioni di lavoro.",
+          text: "Chi non conta su un aldilà o su un intervento divino vede la responsabilità per lo stato del mondo negli esseri umani stessi. Riguarda il proprio comportamento, per esempio quando si fa la spesa, ma anche problemi che si risolvono solo insieme: cambiamento climatico, povertà, pandemie. L'etica umanista include anche chi non è ancora nato. Ciò che si consuma oggi, domani mancherà a loro.",
         },
         {
           title: "Libero pensiero",
-          text: "Porre domande e sviluppare le proprie convinzioni.",
-          points: [
-            "La curiosità come stile di vita",
-            "Lasciarsi convincere dai buoni argomenti",
-            "Poter evolvere le proprie opinioni",
-          ],
-          example:
-            "Un club del libro in cui tutti condividono liberamente la propria visione e scoprono cose nuove insieme.",
+          text: "Nessuno è obbligato ad adottare la visione del mondo in cui è nato. L'umanesimo incoraggia a porre domande, anche scomode, e a formarsi convinzioni proprie. Ne fa parte la disponibilità a cambiarle quando arriva un argomento migliore. Il libero pensiero ha bisogno della libertà di parola: dove la critica delle idee, comprese quelle religiose, viene punita, nessuna convinzione può dare prova di sé.",
         },
       ],
     },
@@ -1839,7 +1691,7 @@ export const translations: Record<Lang, Translation> = {
     },
     history: {
       label: "Storia delle idee",
-      heading: "Una lunga linea di pensiero",
+      heading: "Da Charvaka a oggi",
       intro: "Le idee umaniste non sono un'invenzione moderna – attraversano culture e millenni.",
       items: [
         {
@@ -1950,7 +1802,7 @@ export const translations: Record<Lang, Translation> = {
     },
     data: {
       label: "Dati e fatti",
-      heading: "Uno sguardo ai numeri",
+      heading: "I non affiliati religiosi in cifre",
       intro:
         "Quante persone si dichiarano senza affiliazione religiosa? Le quote variano molto tra i paesi.",
       chartCaption: "Quota di persone senza affiliazione religiosa",
@@ -1965,7 +1817,7 @@ export const translations: Record<Lang, Translation> = {
     },
     faq: {
       label: "Domande frequenti",
-      heading: "Chiarezza invece di malintesi",
+      heading: "Domande frequenti",
       items: [
         {
           q: "L'umanesimo è lo stesso dell'ateismo?",
@@ -2173,7 +2025,7 @@ export const translations: Record<Lang, Translation> = {
     },
     sources: {
       label: "Fonti e approfondimenti",
-      heading: "Approfondire e verificare",
+      heading: "Fonti",
       intro:
         "Queste organizzazioni e documenti costituiscono la base – ideali per approfondire e verificare i fatti.",
       items: [
@@ -2200,9 +2052,6 @@ export const translations: Record<Lang, Translation> = {
         "Composto in Source Serif 4, Fraunces e Inter, tutti ospitati in proprio. Scritto da Daniel Buttadauro, con il supporto dell'IA (Lovable, Claude) e poi rivisto; citazioni, date e dati sono verificati singolarmente sulle fonti collegate. Hai trovato un errore? Segnalalo con il modulo di contatto o su GitHub.",
     },
     ui: {
-      showMore: "Scopri di più",
-      showLess: "Mostra meno",
-      exampleLabel: "Esempio",
       toggleTheme: "Cambia combinazione di colori",
       toggleLanguage: "Scegli la lingua",
       menuOpen: "Apri il menu",
