@@ -109,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Eine Einführung in den säkularen Humanismus: Prinzipien, Ethik ohne Gott, Ideengeschichte und Zahlen, mit geprüften Quellen.",
       },
-      { name: "author", content: "Daniel Enki" },
+      { name: "author", content: "Daniel Buttadauro" },
       { property: "og:title", content: "Säkularer Humanismus" },
       {
         property: "og:description",
