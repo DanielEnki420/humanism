@@ -103,11 +103,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "color-scheme", content: "light dark" },
-      { title: "Säkularer Humanismus – Menschlichkeit durch Vernunft" },
+      { title: "Säkularer Humanismus – eine Einführung" },
       {
         name: "description",
         content:
-          "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+          "Eine Einführung in den säkularen Humanismus: Prinzipien, Ethik ohne Gott, Ideengeschichte und Zahlen, mit geprüften Quellen.",
       },
       { name: "author", content: "Daniel Enki" },
       { property: "og:title", content: "Säkularer Humanismus" },

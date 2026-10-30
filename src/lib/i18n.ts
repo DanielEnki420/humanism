@@ -175,9 +175,9 @@ export type Translation = {
 export const translations: Record<Lang, Translation> = {
   de: {
     meta: {
-      title: "Säkularer Humanismus – Menschlichkeit durch Vernunft",
+      title: "Säkularer Humanismus – eine Einführung",
       description:
-        "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+        "Eine Einführung in den säkularen Humanismus: Prinzipien, Ethik ohne Gott, Ideengeschichte und Zahlen, mit geprüften Quellen.",
     },
     nav: {
       idea: "Idee",
@@ -281,7 +281,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     science: {
-      label: "Wissenschafts-1×1",
+      label: "Wissenschaft",
       heading: "Wie wir verlässlich Wissen gewinnen",
       intro:
         "Prinzip 2 konkret: Wissenschaft ist kein Glaube, sondern eine Methode, die sich selbst korrigiert.",
@@ -363,7 +363,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     disputes: {
-      label: "Innerer Diskurs",
+      label: "Streitpunkte",
       heading: "Was strittig ist",
       intro:
         "Humanismus ist keine geschlossene Lehre. Diese vier Fragen werden innerhalb der humanistischen Tradition selbst kontrovers diskutiert.",
@@ -833,8 +833,9 @@ export const translations: Record<Lang, Translation> = {
 
   en: {
     meta: {
-      title: "Secular Humanism – Humanity through Reason",
-      description: "A worldview based on human dignity, science, critical thinking and compassion.",
+      title: "Secular Humanism – An Introduction",
+      description:
+        "An introduction to secular humanism: principles, ethics without God, the history of ideas and the numbers, with checked sources.",
     },
     nav: {
       idea: "Idea",
@@ -935,7 +936,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     science: {
-      label: "Science 101",
+      label: "Science",
       heading: "How we gain reliable knowledge",
       intro: "Principle 2 in practice: science is not a belief but a self-correcting method.",
       items: [
@@ -1016,7 +1017,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     disputes: {
-      label: "Internal Debate",
+      label: "Disputes",
       heading: "What's Disputed",
       intro:
         "Humanism is not a closed doctrine. These four questions are genuinely contested within the humanist tradition itself.",
@@ -1480,9 +1481,9 @@ export const translations: Record<Lang, Translation> = {
 
   it: {
     meta: {
-      title: "Umanesimo laico – Umanità attraverso la ragione",
+      title: "Umanesimo laico – un'introduzione",
       description:
-        "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
+        "Un'introduzione all'umanesimo laico: principi, etica senza Dio, storia delle idee e numeri, con fonti verificate.",
     },
     nav: {
       idea: "Idea",
@@ -1584,7 +1585,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     science: {
-      label: "ABC della scienza",
+      label: "Scienza",
       heading: "Come otteniamo conoscenza affidabile",
       intro:
         "Il principio 2 in pratica: la scienza non è una fede, ma un metodo che si autocorregge.",
@@ -1666,7 +1667,7 @@ export const translations: Record<Lang, Translation> = {
       ],
     },
     disputes: {
-      label: "Discussione interna",
+      label: "Controversie",
       heading: "Cosa è controverso",
       intro:
         "L'umanesimo non è una dottrina chiusa. Queste quattro domande sono discusse in modo controverso all'interno della stessa tradizione umanista.",

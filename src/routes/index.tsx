@@ -86,32 +86,34 @@ const LOCALIZED_META: Record<
   }
 > = {
   de: {
-    title: "Säkularer Humanismus – Menschlichkeit durch Vernunft",
+    title: "Säkularer Humanismus – eine Einführung",
     description:
-      "Eine Weltanschauung basierend auf Menschenwürde, Wissenschaft, kritischem Denken und Mitgefühl.",
+      "Eine Einführung in den säkularen Humanismus: Prinzipien, Ethik ohne Gott, Ideengeschichte und Zahlen, mit geprüften Quellen.",
     ogTitle: "Säkularer Humanismus",
     ogDescription:
-      "Werte, Vernunft und Verantwortung – eine Einführung in den säkularen Humanismus.",
+      "Eine Einführung in den säkularen Humanismus: Prinzipien, Ethik ohne Gott, Ideengeschichte und Zahlen, mit geprüften Quellen.",
     ogLocale: "de_DE",
     image: "/og-image-de.png",
     imageAlt: "Humanitas – Säkularer Humanismus: Vernunft, Wissenschaft, Mitgefühl",
   },
   en: {
-    title: "Secular Humanism – Humanity through Reason",
+    title: "Secular Humanism – An Introduction",
     description:
-      "A worldview grounded in human dignity, science, critical thinking and compassion.",
+      "An introduction to secular humanism: principles, ethics without God, the history of ideas and the numbers, with checked sources.",
     ogTitle: "Secular Humanism",
-    ogDescription: "Values, reason and responsibility – an introduction to secular humanism.",
+    ogDescription:
+      "An introduction to secular humanism: principles, ethics without God, the history of ideas and the numbers, with checked sources.",
     ogLocale: "en_US",
     image: "/og-image-en.png",
     imageAlt: "Humanitas – Secular Humanism: Reason, Science, Compassion",
   },
   it: {
-    title: "Umanesimo Laico – Umanità attraverso la ragione",
+    title: "Umanesimo laico – un'introduzione",
     description:
-      "Una visione del mondo basata su dignità umana, scienza, pensiero critico e compassione.",
+      "Un'introduzione all'umanesimo laico: principi, etica senza Dio, storia delle idee e numeri, con fonti verificate.",
     ogTitle: "Umanesimo Laico",
-    ogDescription: "Valori, ragione e responsabilità – un'introduzione all'umanesimo laico.",
+    ogDescription:
+      "Un'introduzione all'umanesimo laico: principi, etica senza Dio, storia delle idee e numeri, con fonti verificate.",
     ogLocale: "it_IT",
     image: "/og-image-it.png",
     imageAlt: "Humanitas – Umanesimo Laico: Ragione, Scienza, Compassione",
@@ -679,7 +681,7 @@ function Index() {
           </ol>
         </Chapter>
 
-        {/* Wissenschafts-1x1 */}
+        {/* Wissenschaft */}
         <Chapter
           id="wissenschaft"
           num={num("wissenschaft")}
