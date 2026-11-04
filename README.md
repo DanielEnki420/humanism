@@ -60,7 +60,13 @@ Sprache hinzufügen = einen weiteren Eintrag im `translations`-Objekt anlegen.
 
 ## Lizenz
 
-MIT
+Code und Texte: [MIT](LICENSE) © 2026 Daniel Enki.
+
+Ausgenommen, weil nicht von mir:
+
+- Schriften in `public/fonts/` (Fraunces, Inter, Source Serif 4): SIL Open Font License 1.1
+- Faksimiles in `public/faksimiles/`: gemeinfrei bzw. CC0 (Quelle steht jeweils in der Bildunterschrift)
+- Zitate gehören ihren jeweiligen Urheberinnen und Urhebern
 
 ---
 
